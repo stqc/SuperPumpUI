@@ -1,0 +1,31 @@
+.mobile-menu{
+    background-color: #3f3e3bf8;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    z-index: 4;
+    align-items: center;
+}
+.mobile-menu>p{
+    font-weight: 900;
+    font-size: 2rem;
+    align-self: flex-end;
+    margin-right: 20px;
+}
+.connect-btn-mob{
+    display: flex;
+    padding: 2%;
+    align-items: center;
+    color: white;
+    font-weight: 400;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    background-color: #69501D;
+}
+@media (min-width:900px) {
+    .mobile-menu{
+        display: none;
+    }
+}

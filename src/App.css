@@ -1,0 +1,23 @@
+html,body{
+  /* orange1 */
+
+  background: radial-gradient(65.04% 92.14% at 96.28% 92.63%, rgba(59, 170, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(177.08% 194.24% at -110.38% -98.45%, rgba(255, 171, 0, 1) 0%, rgba(0, 0, 0, 0.5) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #000000;
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 100%;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+} 
+.App{
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 1300px) {
+  body{
+    padding: 0% 10%;
+  }
+}
