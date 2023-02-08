@@ -22,6 +22,7 @@ changeMobMen=changeMob;
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
                 ManageVisibility("grid");
+                changeMob('none')
             }}>
                 MANAGE TOKEN
             </div>

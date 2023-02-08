@@ -14,7 +14,7 @@
     align-items: stretch;
     justify-items: stretch; 
     right: 0;
-    box-shadow: -30px 0px 30px rgba(0, 0, 0, 0.9) ;
+    box-shadow: -20px 0px 30px rgba(71, 41, 1, 0.9) ;
 }
 
 .instructions{
@@ -46,14 +46,8 @@
 }
 
 .token-form{
-    overflow: scroll;
     padding: 2%;
-    border-top:1px solid white;
-    border-bottom: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
     border-radius: 15px;
-    max-height: fit-content;
     margin-left: 1%;
     margin-right: 1%;
 }
