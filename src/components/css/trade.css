@@ -21,7 +21,7 @@
 }
 
 .title{
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.5rem;
@@ -65,7 +65,7 @@
 
 .selector-btn,.selector-btn-buy,.selector-btn-sell{
     width: 100%;
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;
@@ -86,7 +86,7 @@
 }
 
 .buy-sell>input{
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.5rem;
@@ -109,7 +109,7 @@
     display: flex;
     text-align: center;
     margin-top: 2%;
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.2rem;

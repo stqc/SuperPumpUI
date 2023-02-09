@@ -3,6 +3,8 @@ import "./css/trade.css";
 
 const Trade=()=>{
 
+    const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
+    const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
     return(
         <div className="trade-main">
             <div className="chart" id="chrt">
@@ -48,10 +50,16 @@ const Trade=()=>{
             </div>
             <div className="execution">
                 <div className="buy-sell">
-                    <div className="selector-btn-buy">
+                    <div className={buyBtnClass} onClick={()=>{
+                        changeBuyClass('selector-btn-buy');
+                        changeSellClass('selector-btn')
+                    }}>
                         Buy
                     </div>
-                    <div className="selector-btn">
+                    <div className={sellBtnClass} onClick={()=>{
+                        changeBuyClass('selector-btn');
+                        changeSellClass('selector-btn-sell')
+                    }}>
                         Sell
                     </div>
                 </div>

@@ -1,11 +1,15 @@
 import React from "react";
-import { CreateVisibility } from "./Create";
 import "./css/mob.css";
 import Wallet from "./images/wallet2.png";
 import { ManageVisibility } from "./Manage";
 
 export var changeMobMen;
-
+function s(){
+    document.getElementById("crt").style.width="100vw";
+}
+function s1(){
+    document.getElementById("mng").style.width="100vw";
+}
 const MobMenu= ()=>{
 const [MobMen,changeMob]=React.useState('none');
 changeMobMen=changeMob;
@@ -15,14 +19,15 @@ changeMobMen=changeMob;
                 changeMob('none');
             }}>X</p>
             <div style={{margin:"5%", fontWeight:900,cursor:"pointer", color:"white", fontSize:"1.8rem"}} onClick={()=>{
-                CreateVisibility("grid");
+                s();
                 changeMob('none')
             }}>
                 CREATE TOKEN
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
-                ManageVisibility("grid");
+                s1();
                 changeMob('none')
+                
             }}>
                 MANAGE TOKEN
             </div>

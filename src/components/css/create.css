@@ -5,7 +5,7 @@
     background-size:contain;
     border-radius: 15px;
     height: 100%;
-    width: 70vw;
+    width: 0vw;
     display: grid;
     grid-template-columns: 1fr;
     color: white;
@@ -15,8 +15,14 @@
     justify-items: stretch; 
     right: 0;
     box-shadow: -20px 0px 30px rgba(71, 41, 1, 0.9) ;
+    overflow-y: scroll;
+    transition: all 0.5s;
 }
 
+.manage-slider-active{
+  transform: translateX(-300px);
+  transition: all 0.4s;
+}
 .instructions{
     background: transparent;
     padding: 2%;
@@ -27,18 +33,24 @@
 
     line-height: 30px;
 }
-
+.form-options{
+  width:100%;
+  display:flex;
+  flex-direction: column;
+}
 .form-options>input{
+    flex-basis: 100%;
     background-color: #69501D;
     border: 0px;
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-size: 1.3rem;
     color: #828282;
     padding: 1%;
     border-radius: 15px;
-    width: 100%;
-
+    max-width: inherit;
+    min-width: 0;
+    
     
 }
 .form-options>input:focus{
@@ -78,7 +90,7 @@
 
   @media screen and (max-width: 900px) {
     .manage-slider{
-        width: 100%;
+        width: 0;
         border-radius: 0px;
         overflow-y: scroll;
     }

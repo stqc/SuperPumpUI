@@ -9,7 +9,7 @@ nav{
 
 .option{
     color: #828282;
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -27,7 +27,7 @@ nav{
 }
 
 .search-bar>input{
-    font-family: 'Cousine';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.3rem;
@@ -51,7 +51,7 @@ nav{
     display: inherit;
 }
 .connect-btn{
-    margin-left: 2%;
+    margin-left: auto;
     color: #DD8500;
     font-size: 1.3rem;
     background-color: #69501d54;
@@ -62,6 +62,7 @@ nav{
     display: flex;
     gap: 10px;
     cursor: pointer;
+    font-family: 'Roboto', sans-serif;
 }
 @media screen and (max-width:900px) {
     nav{

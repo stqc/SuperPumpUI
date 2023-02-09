@@ -4,22 +4,25 @@ import Logo from "./images/logo.png";
 import Search from "./images/search.png"
 import Wallet from "./images/wallet.png";
 import Menu from "./images/menu.png";
-import { CreateVisibility } from "./Create";
 import { changeMobMen } from "./MobMenu";
-import { ManageVisibility } from "./Manage";
 const Nav=()=>{
-
+    function s(){
+        document.getElementById("crt").style.width="70vw";
+    }
+    function s1(){
+        document.getElementById("mng").style.width="70vw";
+    }
     return(
        <nav>
         <img src={Logo} alt="logo"/>
         
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
-            CreateVisibility('grid');
+            s();
         }}>
             Create Token
         </div>
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
-            ManageVisibility("grid")
+            s1();
         }}>
             Manage Token
         </div>
