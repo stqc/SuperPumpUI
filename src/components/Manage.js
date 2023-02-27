@@ -1,11 +1,19 @@
 import React from "react";
 import "./css/create.css";
+import { ApproveUSD,pool,ApproveToken,addLiquidity,requestRemovalVote} from "./connection.js";
+
 export var ManageVisibility; 
+export var tradeStatus;
 const Manage = ()=>{
     const [isVisible,updateVisible]=React.useState('none');
     ManageVisibility=updateVisible;
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
+    const [tradingEnabled,updateTradeStatus]=React.useState(false);
+    tradeStatus=updateTradeStatus;
+    var USDamount = React.createRef();
+    var tokenAmount = React.createRef();
+
     function s(){
         document.getElementById("mng").style.width="0";
     }
@@ -17,11 +25,11 @@ const Manage = ()=>{
                         s();
                     }}>X</p></div>
                 <div className="instructions" >
-                    <span id="heading" style={{fontWeight:"300"}}> Manage Token</span>
-                    <p>FreshSwap allows you to manage your token's liquidity and taxes all in one place!</p>
+                    <span id="heading" style={{fontWeight:"300"}}> Manage Liquidity</span>
+                    <p>Easily manage your token liquidity with FreshSwap!</p>
                 </div>
                 <div style={{padding:"2%"}}>
-                        <div className="form-options">
+                        {/* <div className="form-options">
                             <p>So you have just created a token and want to launch with FreshSwap? Go ahead and fill these two fields, once done click on Set DAO Threshold and finally Set Pool Address</p>
                             <p>Token Address</p>
                             <input placeholder="Enter Your Token Address Here" min="0"></input>
@@ -31,14 +39,10 @@ const Manage = ()=>{
                         <div className="confirmation">
                             <div>Set DAO Threshold</div>
                             <div>Set Pool Address</div>
-                        </div>
-                        {/* <div className="confirmation">
-                            <div>Manage Liquidity</div>
-                            <div>Update Buy Tax</div>
-                            <div>Update Sale Tax</div>
                         </div> */}
+                        
                         <div className="execution" style={{padding:"2%", width:"inherit"}}>
-                           {/*LP adding starts here */} {/* <div className="buy-sell">
+                           <div className="buy-sell">
                                 <div className={buyBtnClass} onClick={()=>{
                                     changeBuyClass('selector-btn-buy');
                                     changeSellClass('selector-btn')
@@ -52,38 +56,46 @@ const Manage = ()=>{
                                     Remove Liquidity
                                 </div>
                             </div>
+                            {sellBtnClass==='selector-btn' && <>
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                                <input placeholder="Enter USD Amount" type="number" min="0"></input>
+                                <input placeholder="Enter USD Amount" ref={USDamount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
                                     <span id="balance">Wallet Balance: $2,000</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                                <input placeholder="Enter Token Amount" type="number" min="0"></input>
+                                <input placeholder="Enter Token Amount" ref={tokenAmount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
                                     <span id="balance">Wallet Balance: 2,000</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
                                 <div className="confirmation" style={{justifyContent:"space-evenly"}}>
-                                    <div>Approve USD</div>
-                                    <div>Approve Token</div>
-                                    <div>Add Liquidity</div>
-                                </div> */} {/*LP adding ends here */}
-                         {/*Tax management starts here*/}   <div className="tax-update">
-                                <div className="form-options">
-                                    <p>Auto Liquidity Tax %</p>
-                                    <input placeholder="Enter New Value or Leave Blank For No Change"></input>
-                                    <p>Burn Tax %</p>
-                                    <input placeholder="Enter New Value or Leave Blank For No Change"></input>
-                                    <p>Additional Tax %</p>
-                                    <input placeholder="Enter New Value or Leave Blank For No Change"></input>
+                                    <div onClick={()=>{
+                                        ApproveUSD(pool._address,USDamount.current.value);
+                                    }}>Approve USD</div>
+                                    <div onClick={()=>{
+                                        ApproveToken(pool._address,tokenAmount.current.value);
+                                    }}>Approve Token</div>
+                                     <div onClick={()=>{
+                                        addLiquidity(USDamount.current.value,tokenAmount.current.value);
+                                     }}
+                                    >Add Liquidity</div>
+                                </div>
+                            </>}{
+                                sellBtnClass!=="selector-btn" && <>
                                     <div className="confirmation">
-                                        <div>Update Taxes</div>
+                                        <div onClick={()=>{
+                                            requestRemovalVote();
+                                        }}>
+                                            {tradingEnabled? "Request Liquidity Removal":"Remove Liquidity"}
+                                        </div>
                                     </div>
-                                </div>{/* Tax management ends here */}
-                            </div>
+                                
+                                </>
+                            }
+                         {/*Tax management starts here*/}   
                         </div>
 
                 </div>

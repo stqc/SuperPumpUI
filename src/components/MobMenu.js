@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/mob.css";
 import Wallet from "./images/wallet2.png";
-import { ManageVisibility } from "./Manage";
+import { connect } from "./connection.js";
 
 export var changeMobMen;
 function s(){
@@ -29,9 +29,11 @@ changeMobMen=changeMob;
                 changeMob('none')
                 
             }}>
-                MANAGE TOKEN
+                MANAGE LIQUIDITY
             </div>
-            <div className="connect-btn-mob">
+            <div className="connect-btn-mob" onClick={()=>{
+                connect();
+            }}>
                 <img src={Wallet} style={{marginRight:"20px"}}></img>
                 <div>Connect Wallet</div>
             </div>

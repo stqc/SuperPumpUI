@@ -1,10 +1,15 @@
 import React from "react";
 import "./css/trade.css";
+import { ApproveToken, ApproveUSD, swapToken } from "./connection.js";
 
+export var updateTable;
 const Trade=()=>{
-
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
+    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null}     );
+    updateTable = changeTableData;
+    var TradeAmount = React.createRef();
+    
     return(
         <div className="trade-main">
             <div className="chart" id="chrt">
@@ -13,15 +18,15 @@ const Trade=()=>{
             <div className="token-info">
                 <span className="title">Token Information Summary</span>
                 <div className="sub-info">
-                    <div className="opt">Token Name:</div><div className="ans">Name</div>
-                    <div className="opt">Total Supply:</div><div className="ans">1,000,000</div>
-                    <div className="opt">Tokens/USDC:</div><div className="ans">10</div>
-                    <div className="opt">USDC/Token:</div><div className="ans">0.5</div>
-                    <div className="opt">USD In Pool:</div><div className="ans">50,000</div>
-                    <div className="opt">Token In Pool:</div><div className="ans">100,000</div>
-                    <div className="opt">Buy Tax:</div><div className="ans">4%</div>
-                    <div className="opt">Sale Tax:</div><div className="ans">8%</div>
-                    <div className="opt">DAO Threshold</div><div className="ans">35000</div>
+                    <div className="opt">Token Name:</div><div className="ans">{tableData.name}</div>
+                    <div className="opt">Total Supply:</div><div className="ans">{tableData.supply}</div>
+                    <div className="opt">Tokens/USDC:</div><div className="ans">{tableData.tokenperusdc}</div>
+                    <div className="opt">USDC/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
+                    <div className="opt">USD In Pool:</div><div className="ans">{tableData.usdinpool}</div>
+                    <div className="opt">Token In Pool:</div><div className="ans">{tableData.tokeninpool}</div>
+                    <div className="opt">Buy Tax:</div><div className="ans">{tableData.buytax}</div>
+                    <div className="opt">Sale Tax:</div><div className="ans">{tableData.saletax}</div>
+                    <div className="opt">DAO Threshold</div><div className="ans">{tableData.dao}</div>
                 </div>
             </div>
             <div className="footer">
@@ -64,17 +69,21 @@ const Trade=()=>{
                     </div>
                 </div>
                 <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                    <input placeholder="Enter Amount" type="number" min="0"></input>
+                    <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        <span id="balance">Wallet Balance: $2,000</span>
+                        <span id="balance">Wallet Balance: </span>
                         <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                     </div>
                 </div>
                 <div className="confirmation">
-                    <div>
+                    <div onClick={()=>{
+                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(tableData.poolad,TradeAmount.current.value);
+                    }}>
                         Approve
                     </div>
-                    <div>
+                    <div onClick={()=>{
+                        sellBtnClass!=="selector-btn"? swapToken(TradeAmount.current.value,1):swapToken(TradeAmount.current.value,0);
+                    }}>
                         Confirm
                     </div>
                 </div>

@@ -2,7 +2,7 @@
     background-color: #3f3e3bf8;
     position: fixed;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     flex-direction: column;
     text-align: center;
     z-index: 4;
@@ -23,6 +23,7 @@
     font-size: 1.5rem;
     border-radius: 15px;
     background-color: #69501D;
+    cursor: pointer;
 }
 @media (min-width:900px) {
     .mobile-menu{
