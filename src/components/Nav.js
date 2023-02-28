@@ -6,7 +6,7 @@ import Wallet from "./images/wallet.png";
 import Menu from "./images/menu.png";
 import { changeMobMen } from "./MobMenu";
 import { connect } from "./connection.js";
-import { searchToken } from "./connection.js";
+import { searchToken, f } from "./connection.js";
 export var buttonName;
 
 const Nav=()=>{
@@ -36,8 +36,9 @@ const Nav=()=>{
             Manage Liquidity
         </div>
         <div className="search-bar">
-            <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={()=>{
-                searchToken(searchBarRef.current.value);
+            <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
+                await searchToken(searchBarRef.current.value);
+                f();
             }}>
                 <img src={Search}/>
             </div>

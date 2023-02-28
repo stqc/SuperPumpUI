@@ -1,6 +1,7 @@
 import React from "react";
 import "./css/trade.css";
-import { ApproveToken, ApproveUSD, swapToken } from "./connection.js";
+import { ApproveToken, ApproveUSD, swapToken, searchToken,f } from "./connection.js";
+import Search from "./images/search.png"
 
 export var updateTable;
 const Trade=()=>{
@@ -9,9 +10,24 @@ const Trade=()=>{
     const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null}     );
     updateTable = changeTableData;
     var TradeAmount = React.createRef();
+    var searchBarRef = React.createRef();
+
+    React.useEffect(()=>{
+    },[])
     
     return(
+        <>
+        <div className="search-bar-m">
+                <div style={{padding:"0% 5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
+                    await searchToken(searchBarRef.current.value);
+                    f();
+                }}>
+                    <img style={{margin:"100% 0%"}} src={Search}/>
+            </div>
+            <input style={{height:"48px" ,width:"100%"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
+        </div>
         <div className="trade-main">
+            
             <div className="chart" id="chrt">
 
             </div>
@@ -90,6 +106,7 @@ const Trade=()=>{
             </div>
             
         </div>
+        </>
     )
 
 }

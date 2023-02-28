@@ -9,6 +9,7 @@
 .chart{
     background-color: #5c523938;
     border-radius: 15px;
+    padding: 2%;
 }
 
 .token-info{
@@ -183,5 +184,8 @@ input[type="number"] {
     }
     .links{
         justify-content: center;
+    }
+    .chart{
+        min-height: 350px;
     }
 }

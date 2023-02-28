@@ -19,14 +19,19 @@ nav{
     cursor: pointer;
 }
 
-.search-bar{
+.search-bar,.search-bar-m{
     display: flex;
     flex-direction: row;
-    box-shadow: 0px 4px 0px #000000;
-    margin-left: auto;
 }
+.search-bar{
+    margin-left: auto;
+    box-shadow: 0px 4px 0px #000000;
 
-.search-bar>input{
+}
+.search-bar-m{
+    display: none;
+}
+.search-bar-m>input,.search-bar>input{
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -37,10 +42,10 @@ nav{
     border-color: transparent;
     
 }
-.search-bar>input::placeholder{
+.search-bar-m>input,.search-bar>input::placeholder{
     color:#DD8500;
 }
-.search-bar>input:focus{
+.search-bar-m>input,.search-bar>input:focus{
     outline: none;
 }
 
@@ -75,5 +80,12 @@ nav{
     }
     .search-bar,.connect-btn,.option{
         display: none;
+    }
+    .search-bar-m{
+        display: flex;
+        flex-direction: row;
+        padding: 2%;
+        flex-basis: 0px;
+        flex-grow: 1;
     }
 }
