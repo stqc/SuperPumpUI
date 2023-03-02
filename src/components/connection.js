@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { buttonName } from "./Nav";
-import { updateTable } from "./Trade";
-import { tradeStatus } from "./Manage";
+import { updateTable,changeToken,changeUSD } from "./Trade";
+import { tradeStatus,foundPool, updateBal } from "./Manage";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -15,27 +15,47 @@ const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3('https://
 
 var connectedAccounts;
 var poolAddress;
-
+var sub;
 const IBEP20 = require("./ABI/IBEP20.json");
 const TokenCreator = require("./ABI/TokenCreator.json");
 const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const USD = new web3Handler.eth.Contract(IBEP20,"0x787D83593389bC1e827fB92D41071856908E1141");
-
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x93643117727259381320804E485a849B9D9409Db");
 export const connect= async ()=>{
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
     buttonName(connectedAccounts[0].slice(0,10)+"...");
     console.log(connectedAccounts);
+
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
         async (err, result) => {
+            changeUSD("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+            updateBal[0]("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
             if(searchedAddress!=null){ 
                 await updatePool();  
+                changeToken(await getBalance(searchedAddress));
+                updateBal[1](await getBalance(searchedAddress))
+                var data = await pool.methods.showTradeData().call();
+                var newd=[]
+                for(var i=1; i<data.length; i++){
+                newd.push({
+                    time:Number(data[i][0])*1000,
+                    open:Number(data[i][1])/1e18,
+                    high:Number(data[i][3])/1e18,
+                    low:Number(data[i][2])/1e18,
+                    close:Number(data[i][4])/1e18,
+                    volume:Number(data[i][5])/1e18,
+                })
+            }
+                newd.reverse();
+                sub(newd[0]);
             }
              }
        );
+    
 }   
 
 export const ApproveUSD = async(addressToApprove,amount)=>{
@@ -59,7 +79,7 @@ export const createToken = async(name,symbol,supply,additionalTaxes,wallets,LPta
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x62a5D5FA34E6b7EC05d4EE7367dF7F48645366A5");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0");
         console.log(wallets)
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
@@ -77,39 +97,40 @@ export const createToken = async(name,symbol,supply,additionalTaxes,wallets,LPta
 
 export const getBalance = async(address)=>{
     var token = new web3Handler.eth.Contract(IBEP20,address);
-    return (Number(await token.balanceOf(connectedAccounts[0]).call())/1e18).toLocaleString();
+    return (Number(await token.methods.balanceOf(connectedAccounts[0]).call())/10**await token.methods.decimals().call()).toLocaleString();
 }
 
 export const searchToken = async(address)=>{
     searchedAddress = address;
     poolAddress=null;
-    var Factory = new web3Handler.eth.Contract(FactoryABI,"0x4E8a54e0e8Ef3153480E69D279BF4356B42CB2F1");
     poolAddress = await Factory.methods.showPoolAddress(address).call();
     pool=null;
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         alert("Token Pool Doesn't Exist Yet");
+        foundPool(false);
     }
     else{
-        
+        foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
-        var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/1e18).toLocaleString();
+        var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
         var data = {
             poolad:pool._address,
             name: await token.methods.name().call(),
-            supply: (Number(await token.methods.totalSupply().call())/1e18).toLocaleString(),
+            supply: (Number(await token.methods.totalSupply().call())/10**await token.methods.decimals().call()).toLocaleString(),
             tokeninpool: tkinpool,
             usdinpool: USDinpool,
             tokenperusdc: tkinpool=="0"?"Not Set":await pool.methods.tokenPerUSD().call()/1e18,
             usdcpertoken:USDinpool=="0"?"Not Set":await pool.methods.USDPerToken().call()/1e18,
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
-            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString()
+            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
+            trade: await pool.methods.tradingEnabled().call()
         }
         tokenName=data.name;
         updateTable(data);
-        tradeStatus(await pool.methods.tradingEnabled().call());
+        tradeStatus(data.trade);
 }
 
 
@@ -117,35 +138,46 @@ export const searchToken = async(address)=>{
 
 const updatePool=async()=>{
 
+    poolAddress = await Factory.methods.showPoolAddress(searchedAddress).call();
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         console.log("Token Pool Doesn't Exist Yet");
+        foundPool(false);
     }
     else{
-        //pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
+        foundPool(true);
+        pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
-        var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/1e18).toLocaleString();
+        var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
         var data = {
             poolad:pool._address,
             name: await token.methods.name().call(),
-            supply: (Number(await token.methods.totalSupply().call())/1e18).toLocaleString(),
+            supply: (Number(await token.methods.totalSupply().call())/10**await token.methods.decimals().call()).toLocaleString(),
             tokeninpool: tkinpool,
             usdinpool: USDinpool,
             tokenperusdc: tkinpool=="0"?"Not Set":await pool.methods.tokenPerUSD().call()/1e18,
             usdcpertoken:USDinpool=="0"?"Not Set":await pool.methods.USDPerToken().call()/1e18,
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
-            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString()
+            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
+            trade: await pool.methods.tradingEnabled().call()
         }
         tokenName=data.name;
         updateTable(data);
-        tradeStatus(await pool.methods.tradingEnabled().call());
+        tradeStatus(data.trade);
 
     }
 }
 
 export const addLiquidity =async(usd,token)=>{
-    await pool.methods.addLiquidity(Web3.utils.toWei(token),Web3.utils.toWei(usd)).send({from:connectedAccounts[0]});
+    var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
+    console.log(token)
+    var decimals=await tok.methods.decimals().call();
+    console.log(decimals)
+    token=Number(token)*10**decimals;
+    console.log(token)
+    token=String(token);
+    await pool.methods.addLiquidity(token,Web3.utils.toWei(usd)).send({from:connectedAccounts[0]});
     alert("LP added Successfully")
 }
 
@@ -163,13 +195,37 @@ export const swapToken= async(amount,action)=>{
     if(action===0){
         await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
     }else{
-        await pool.methods.sellToken_qLx(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
+        var decimals=await tok.methods.decimals().call();
+        amount=Number(amount)*10**decimals
+        await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
     }
 }
 
+export const claimBounty=async()=>{
+    var bountyAddress = await pool.methods.not().call();
+    console.log(bountyAddress);
+    var bountyContract = new web3Handler.eth.Contract(BountyABI,bountyAddress);
+    await bountyContract.methods.onTradeCompletion().send({from:connectedAccounts[0]});
+}
 
-
-
+export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
+    if(!connectedAccounts){
+        alert("Please Connect Your Wallet First!");
+    }else{
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0");
+        console.log(wallets)
+        if(additionalTaxes.length>0){
+            for(var i=0; i<additionalTaxes.length; i++){
+                additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;
+                wallets[i]=wallets[i].current.value;
+            }
+        }
+        console.log(wallets);
+        ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
+        await TokenCr.methods.createPool(token,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+    }
+}
 export const f=()=>{
     Datafeed={
         /* mandatory methods for realtime chart */
@@ -224,8 +280,15 @@ export const f=()=>{
 
 
          }
-         ,subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {console.log("sub")},unsubscribeBars: subscriberUID => {console.log("unsub")}}
+         ,subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => 
+         {
+        sub=onRealtimeCallback;
+    },
+         unsubscribeBars: subscriberUID => {console.log("unsub")}
+        }
     
+        
+
     const options={
             debug:false,
             symbol: tokenName+'/USDC',
@@ -248,4 +311,5 @@ export const f=()=>{
                }
         }
     const widget= new window.TradingView.widget(options);
+        
 }

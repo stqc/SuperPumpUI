@@ -7,6 +7,7 @@
     text-align: center;
     z-index: 4;
     align-items: center;
+    left: 0;
 }
 .mobile-menu>p{
     font-weight: 900;

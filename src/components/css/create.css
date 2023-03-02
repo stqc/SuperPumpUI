@@ -26,8 +26,6 @@
 .instructions{
     background: transparent;
     padding: 2%;
-    scrollbar-gutter: stable both-edges;
-    overflow-y: scroll;
 }
 .instructions>ul>li{
 

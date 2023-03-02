@@ -3,12 +3,18 @@ import "./css/trade.css";
 import { ApproveToken, ApproveUSD, swapToken, searchToken,f } from "./connection.js";
 import Search from "./images/search.png"
 
+export var changeUSD;
+export var changeToken;
 export var updateTable;
 const Trade=()=>{
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
+    const [usdBal,updateUSDbal]=React.useState("$0");
+    const [tokenBal,updateTokenBal]=React.useState("0");
     const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null}     );
     updateTable = changeTableData;
+    changeUSD=updateUSDbal;
+    changeToken=updateTokenBal;
     var TradeAmount = React.createRef();
     var searchBarRef = React.createRef();
 
@@ -87,7 +93,7 @@ const Trade=()=>{
                 <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        <span id="balance">Wallet Balance: </span>
+                        <span id="balance">Wallet Balance: {buyBtnClass==="selector-btn-buy"?usdBal:tokenBal}</span>
                         <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                     </div>
                 </div>

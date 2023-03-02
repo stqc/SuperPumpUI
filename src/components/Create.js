@@ -21,6 +21,8 @@ const Create = ()=>{
             <div className="manage-slider" id="crt"style={{display:'grid'}}>
                  <div style={{ display:"flex",justifyContent:"flex-start", padding:"0% 2% ",fontWeight:"900",fontSize:"1.5rem"}}><p style={{cursor:"pointer", marginLeft:"1%"}} onClick={()=>{
                         updateAddtx([]);
+                        addMoreTax([]);
+                        addMoreWallets([]);
                         s();
                     }}>X</p></div>
                 
@@ -65,7 +67,7 @@ const Create = ()=>{
                         </div>
                         <div className="confirmation" style={{marginTop:"auto"}}>
                         <div onClick={()=>{
-                            ApproveUSD("0x62a5D5FA34E6b7EC05d4EE7367dF7F48645366A5","100");
+                            ApproveUSD("0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0","100");
                         }}>
                             Approve
                         </div>
