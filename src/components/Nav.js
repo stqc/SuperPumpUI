@@ -33,10 +33,7 @@ const Nav=()=>{
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
             s1();
         }}>
-            Manage Liquidity
-        </div>
-        <div className="option">
-            Bounties
+            Manage Token
         </div>
         <div className="search-bar">
             <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{

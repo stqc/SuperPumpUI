@@ -29,7 +29,7 @@ changeMobMen=changeMob;
                 changeMob('none')
                 
             }}>
-                MANAGE LIQUIDITY
+                MANAGE TOKEN
             </div>
             <div className="connect-btn-mob" onClick={()=>{
                 connect();
