@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/trade.css";
-import { ApproveToken, ApproveUSD, swapToken, searchToken,f } from "./connection.js";
+import { ApproveToken, ApproveUSD, swapToken, searchToken,f,castVote } from "./connection.js";
 import Search from "./images/search.png"
 
 export var changeUSD;
@@ -11,7 +11,7 @@ const Trade=()=>{
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
     const [usdBal,updateUSDbal]=React.useState("$0");
     const [tokenBal,updateTokenBal]=React.useState("0");
-    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null}     );
+    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,Trade:true}     );
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
@@ -42,9 +42,9 @@ const Trade=()=>{
                 <div className="sub-info">
                     <div className="opt">Token Name:</div><div className="ans">{tableData.name}</div>
                     <div className="opt">Total Supply:</div><div className="ans">{tableData.supply}</div>
-                    <div className="opt">Tokens/USDC:</div><div className="ans">{tableData.tokenperusdc}</div>
-                    <div className="opt">USDC/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
-                    <div className="opt">USD In Pool:</div><div className="ans">{tableData.usdinpool}</div>
+                    <div className="opt">Tokens/BNB:</div><div className="ans">{tableData.tokenperusdc}</div>
+                    <div className="opt">BNB/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
+                    <div className="opt">BNB In Pool:</div><div className="ans">{tableData.usdinpool}</div>
                     <div className="opt">Token In Pool:</div><div className="ans">{tableData.tokeninpool}</div>
                     <div className="opt">Buy Tax:</div><div className="ans">{tableData.buytax}</div>
                     <div className="opt">Sale Tax:</div><div className="ans">{tableData.saletax}</div>
@@ -66,17 +66,17 @@ const Trade=()=>{
                             particular purpose. They are not intended to be and does not constitute financial advice, investment advice, trading advice or any other advice.
                             All Information is general in nature and is not specific to you the User or anyone else. </p>
                             <div className="links">
-                                <a href="#">Whitepaper</a>|
-                                <a href="#">Discord</a>|
-                                <a href="#">Twitter</a>|
-                                <a href="#">Telegram</a>
+                                <a href="https://docs.freshswap.app" target="_blank">Documentation</a>|
+                                <a href="https://discord.com/invite/Nm99mrsjHA" target="_blank">Discord</a>|
+                                <a href="https://twitter.com/freshswap_" target="_blank">Twitter</a>|
+                                <a href="https://t.me/freshswap" target="_blank">Telegram</a>
                             </div>
                             <p style={{margin:"auto", justifySelf:"flex-end", fontSize:"0.8rem"}}> &copy; FreshSwap 2023 | All rights reserved</p>
                     </div>
                 </span>
             </div>
             <div className="execution">
-                <div className="buy-sell">
+                {tableData.Trade && <div className="buy-sell">
                     <div className={buyBtnClass} onClick={()=>{
                         changeBuyClass('selector-btn-buy');
                         changeSellClass('selector-btn')
@@ -89,15 +89,15 @@ const Trade=()=>{
                     }}>
                         Sell
                     </div>
-                </div>
-                <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
+                </div>}
+                {tableData.Trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
                         <span id="balance">Wallet Balance: {buyBtnClass==="selector-btn-buy"?usdBal:tokenBal}</span>
                         <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                     </div>
-                </div>
-                <div className="confirmation">
+                </div>}
+                {tableData.Trade && <div className="confirmation">
                     <div onClick={()=>{
                         sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(tableData.poolad,TradeAmount.current.value);
                     }}>
@@ -108,7 +108,23 @@ const Trade=()=>{
                     }}>
                         Confirm
                     </div>
-                </div>
+                </div>}
+                {!tableData.Trade && <>
+                        <div className="title" style={{color:"white", fontSize:"1.3rem"}}>
+                            Liquidity Removal Vote Started, If you hold a DAO token please cast your vote below            
+                        </div>
+                    <div className="confirmation" style={{alignItems:"center"}} >
+                        <div onClick={()=>{
+                            castVote(0);
+                        }}>
+                            Vote in Favour
+                        </div>
+                        <div onClick={()=>{
+                            castVote(1);
+                        }}>
+                            Vote Against
+                        </div>
+                    </div></>}
             </div>
             
         </div>

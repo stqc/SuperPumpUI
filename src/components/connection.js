@@ -226,6 +226,11 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
         await TokenCr.methods.createPool(token,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
     }
 }
+
+export const castVote= async (vote)=>{
+    await pool.methods.vote(vote).send({from:connectedAccounts[0]});
+}
+
 export const f=()=>{
     Datafeed={
         /* mandatory methods for realtime chart */
@@ -291,7 +296,7 @@ export const f=()=>{
 
     const options={
             debug:false,
-            symbol: tokenName+'/USDC',
+            symbol: tokenName+'/BNB',
             autosize:true,
             container_id:"chrt", 
             library_path: '/charting_library/',
