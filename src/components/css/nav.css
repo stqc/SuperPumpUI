@@ -69,6 +69,16 @@ nav{
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
 }
+.notif{
+    width: 100%;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    z-index: 10;
+    margin-top: 8%;
+    text-align: center;
+    
+}
 @media screen and (max-width:1424px) {
     nav{
         padding: 4% 2%;
@@ -87,5 +97,16 @@ nav{
         padding: 2%;
         flex-basis: 0px;
         flex-grow: 1;
+    }
+    .notif{
+        margin-top: 20%;
+    }
+}
+
+@media screen and (max-width:900px) {
+    .notif{
+        flex-direction: column;
+        text-align: center;
+        
     }
 }

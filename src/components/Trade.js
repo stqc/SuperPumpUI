@@ -11,7 +11,7 @@ const Trade=()=>{
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
     const [usdBal,updateUSDbal]=React.useState("$0");
     const [tokenBal,updateTokenBal]=React.useState("0");
-    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,Trade:true}     );
+    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true}     );
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
@@ -76,7 +76,7 @@ const Trade=()=>{
                 </span>
             </div>
             <div className="execution">
-                {tableData.Trade && <div className="buy-sell">
+                {tableData.trade && <div className="buy-sell">
                     <div className={buyBtnClass} onClick={()=>{
                         changeBuyClass('selector-btn-buy');
                         changeSellClass('selector-btn')
@@ -90,14 +90,14 @@ const Trade=()=>{
                         Sell
                     </div>
                 </div>}
-                {tableData.Trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
+                {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
                         <span id="balance">Wallet Balance: {buyBtnClass==="selector-btn-buy"?usdBal:tokenBal}</span>
                         <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                     </div>
                 </div>}
-                {tableData.Trade && <div className="confirmation">
+                {tableData.trade && <div className="confirmation">
                     <div onClick={()=>{
                         sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(tableData.poolad,TradeAmount.current.value);
                     }}>
@@ -109,7 +109,7 @@ const Trade=()=>{
                         Confirm
                     </div>
                 </div>}
-                {!tableData.Trade && <>
+                {!tableData.trade && <>
                         <div className="title" style={{color:"white", fontSize:"1.3rem"}}>
                             Liquidity Removal Vote Started, If you hold a DAO token please cast your vote below            
                         </div>

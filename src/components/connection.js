@@ -174,9 +174,8 @@ export const addLiquidity =async(usd,token)=>{
     console.log(token)
     var decimals=await tok.methods.decimals().call();
     console.log(decimals)
-    token=Number(token)*10**decimals;
+    token=(Number(token)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
     console.log(token)
-    token=String(token);
     await pool.methods.addLiquidity(token,Web3.utils.toWei(usd)).send({from:connectedAccounts[0]});
     alert("LP added Successfully")
 }
@@ -197,7 +196,8 @@ export const swapToken= async(amount,action)=>{
     }else{
         var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var decimals=await tok.methods.decimals().call();
-        amount=Number(amount)*10**decimals
+        amount=(Number(amount)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
+        console.log(amount);
         await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
     }
 }
