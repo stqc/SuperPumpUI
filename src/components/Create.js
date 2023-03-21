@@ -73,7 +73,7 @@ const Create = ()=>{
                         </div>
                         <div onClick={()=>{
                             console.log(wallets,Taxes)
-                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value);
+                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0");
                         }}>
                             Create Token
                         </div>
