@@ -72,7 +72,7 @@ const Manage = ()=>{
                             </div>
                         <div className="confirmation">
                             <div onClick={()=>{
-                                createPool(Token.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value);
+                                createPool(Token.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0");
                             }}>Create Pool</div>
                         </div></>}
                         
