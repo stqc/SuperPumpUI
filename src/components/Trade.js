@@ -11,7 +11,7 @@ const Trade=()=>{
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
     const [usdBal,updateUSDbal]=React.useState("$0");
     const [tokenBal,updateTokenBal]=React.useState("0");
-    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true}     );
+    const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true, DAOSup:null, yes:null, no:null}     );
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
@@ -48,7 +48,8 @@ const Trade=()=>{
                     <div className="opt">Token In Pool:</div><div className="ans">{tableData.tokeninpool}</div>
                     <div className="opt">Buy Tax:</div><div className="ans">{tableData.buytax}</div>
                     <div className="opt">Sale Tax:</div><div className="ans">{tableData.saletax}</div>
-                    <div className="opt">DAO Threshold</div><div className="ans">{tableData.dao}</div>
+                    <div className="opt">DAO Threshold:</div><div className="ans">{tableData.dao}</div>
+                    <div className="opt">DAO Supply:</div><div className="ans">{tableData.DAOSup}</div>
                 </div>
             </div>
             <div className="footer">
@@ -94,7 +95,6 @@ const Trade=()=>{
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
                         <span id="balance">Wallet Balance: {buyBtnClass==="selector-btn-buy"?usdBal:tokenBal}</span>
-                        <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">
@@ -112,6 +112,12 @@ const Trade=()=>{
                 {!tableData.trade && <>
                         <div className="title" style={{color:"white", fontSize:"1.3rem"}}>
                             Liquidity Removal Vote Started, If you hold a DAO token please cast your vote below            
+                        </div>
+                        <div className="title" style={{color:"white" ,fontSize:"1rem"}}>
+                            Votes in Favour: {tableData.yes}            
+                        </div>
+                        <div className="title" style={{color:"white",fontSize:"1rem"}}>
+                            Votes Against: {tableData.no}            
                         </div>
                     <div className="confirmation" style={{alignItems:"center"}} >
                         <div onClick={()=>{

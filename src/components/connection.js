@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { buttonName } from "./Nav";
 import { updateTable,changeToken,changeUSD } from "./Trade";
 import { tradeStatus,foundPool, updateBal } from "./Manage";
-
+import { notifContent,notifDisplay } from "./notification";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
@@ -28,7 +28,7 @@ export const connect= async ()=>{
     connectedAccounts =await web3Handler.eth.getAccounts();
     buttonName(connectedAccounts[0].slice(0,10)+"...");
     console.log(connectedAccounts);
-
+    changeUSD("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
         async (err, result) => {
@@ -63,6 +63,10 @@ export const ApproveUSD = async(addressToApprove,amount)=>{
         alert("Please Connect Your Wallet First!");
     }else{
         await USD.methods.approve(addressToApprove,Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        notifDisplay('flex');
+        notifContent('Approval Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }
 }
 
@@ -72,6 +76,10 @@ export const ApproveToken = async(addressToApprove,amount)=>{
     }else{
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         await token.methods.approve(addressToApprove,Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        notifDisplay('flex');
+        notifContent('Approval Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }
 }
 
@@ -91,6 +99,10 @@ export const createToken = async(name,symbol,supply,additionalTaxes,wallets,LPta
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         await TokenCr.methods.createSimpleToken(name,symbol,supply,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
+        notifDisplay('flex');
+        notifContent('Token Created Successfully');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }
 
 }
@@ -126,7 +138,10 @@ export const searchToken = async(address)=>{
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
             dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
-            trade: await pool.methods.tradingEnabled().call()
+            trade: await pool.methods.tradingEnabled().call(),
+            DAOSup:await pool.methods.totalSupply().call(),
+            yes:await pool.methods.yesVotes().call(),
+            no: await pool.methods.noVotes().call()
         }
         tokenName=data.name;
         updateTable(data);
@@ -160,7 +175,10 @@ const updatePool=async()=>{
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
             dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
-            trade: await pool.methods.tradingEnabled().call()
+            trade: await pool.methods.tradingEnabled().call(),
+            DAOSup:await pool.methods.totalSupply().call(),
+            yes:await pool.methods.yesVotes().call(),
+            no: await pool.methods.noVotes().call()
         }
         tokenName=data.name;
         updateTable(data);
@@ -177,7 +195,7 @@ export const addLiquidity =async(usd,token)=>{
     token=(Number(token)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
     console.log(token)
     await pool.methods.addLiquidity(token,Web3.utils.toWei(usd)).send({from:connectedAccounts[0]});
-    alert("LP added Successfully")
+    alert("Liquidity added Successfully")
 }
 
 export const requestRemovalVote = async ()=>{
@@ -193,12 +211,20 @@ export const swapToken= async(amount,action)=>{
 
     if(action===0){
         await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        notifDisplay('flex');
+        notifContent('Transaction Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }else{
         var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var decimals=await tok.methods.decimals().call();
         amount=(Number(amount)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
         console.log(amount);
         await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
+        notifDisplay('flex');
+        notifContent('Transaction Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }
 }
 
@@ -207,6 +233,10 @@ export const claimBounty=async()=>{
     console.log(bountyAddress);
     var bountyContract = new web3Handler.eth.Contract(BountyABI,bountyAddress);
     await bountyContract.methods.onTradeCompletion().send({from:connectedAccounts[0]});
+    notifDisplay('flex');
+        notifContent('Transaction Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
 }
 
 export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
@@ -224,11 +254,19 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
         console.log(wallets);
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         await TokenCr.methods.createPool(token,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+        notifDisplay('flex');
+        notifContent('Pool Creation Successful!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
     }
 }
 
 export const castVote= async (vote)=>{
     await pool.methods.vote(vote).send({from:connectedAccounts[0]});
+    notifDisplay('flex');
+        notifContent('Vote Casted Successfully!');
+        await new Promise(r => setTimeout(r, 5000));
+        notifDisplay('none');
 }
 
 export const f=()=>{

@@ -1,15 +1,19 @@
 import React from "react";
-
+export var notifDisplay;
+export var notifContent;
 const Notifcation = ()=>{
-
+    const [display, updateDisplay] = React.useState('none');
+    const [content, updateContent] = React.useState('Notification Content');
+    notifDisplay=updateDisplay;
+    notifContent=updateContent;
     return(
-        <div className="notif" style={{display:"none"}}>
-            <div style={{color:"white", background:"rgba(105, 80, 29, 0.8)", padding:"4%", borderRadius:"15px"}}>
+        <div className="notif" style={{display:display}}>
+            <div style={{color:"white", background:"rgba(105, 80, 29, 1)", padding:"4%", borderRadius:"15px"}}>
                 <div className="title">
                     Notification
                 </div>
                 <div style={{marginTop:"9%"}}>
-                    somthing goes here oh right the tx hash and all taht stuff yaaaaaaaaaaaay
+                    {content}
                 </div>
             </div>
         </div>
