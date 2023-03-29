@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { buttonName } from "./Nav";
-import { updateTable,changeToken,changeUSD } from "./Trade";
-import { tradeStatus,foundPool, updateBal } from "./Manage";
+import { updateTable,changeToken,changeUSD, setCurrentSym } from "./Trade";
+import { tradeStatus,foundPool, updateBal, manageSymbol } from "./Manage";
 import { notifContent,notifDisplay } from "./notification";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -11,29 +11,36 @@ export var pool;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
-const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3('https://data-seed-prebsc-1-s1.binance.org:8545')
+const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://goerli-rollup.arbitrum.io/rpc")
 
 var connectedAccounts;
 var poolAddress;
 var sub;
+var currentSym;
 const IBEP20 = require("./ABI/IBEP20.json");
 const TokenCreator = require("./ABI/TokenCreator.json");
 const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
-const USD = new web3Handler.eth.Contract(IBEP20,"0x787D83593389bC1e827fB92D41071856908E1141");
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x93643117727259381320804E485a849B9D9409Db");
+var USD = new web3Handler.eth.Contract(IBEP20);
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x2AE35904E85d2C63EAB3DbCA46C17319bBcB85c4");
 export const connect= async ()=>{
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
     buttonName(connectedAccounts[0].slice(0,10)+"...");
     console.log(connectedAccounts);
-    changeUSD("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+    try{changeUSD((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+    }catch(e){}
+    try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+    try{                updateBal[1](await getBalance(searchedAddress));
+        changeToken(await getBalance(searchedAddress));
+
+    }catch(e){}
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
         async (err, result) => {
-            changeUSD("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
-            updateBal[0]("$"+(await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+            try{changeUSD((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+            try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
                 await updatePool();  
                 changeToken(await getBalance(searchedAddress));
@@ -58,10 +65,13 @@ export const connect= async ()=>{
     
 }   
 
-export const ApproveUSD = async(addressToApprove,amount)=>{
+export const ApproveUSD = async(pair,addressToApprove,amount)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
+        var pairWith;
+        pair==0?pairWith=await Factory.methods.showNative().call():pairWith=await Factory.methods.showUSD().call()
+        USD=new web3Handler.eth.Contract(IBEP20,pairWith);
         await USD.methods.approve(addressToApprove,Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Approval Successful!');
@@ -83,11 +93,11 @@ export const ApproveToken = async(addressToApprove,amount)=>{
     }
 }
 
-export const createToken = async(name,symbol,supply,additionalTaxes,wallets,LPtax,DAO)=>{
+export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets,LPtax,DAO)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0xCc2BD28B9e8571A006287bD947B1e7Fbe13bC969");
         console.log(wallets)
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
@@ -95,9 +105,8 @@ export const createToken = async(name,symbol,supply,additionalTaxes,wallets,LPta
                 wallets[i]=wallets[i].current.value;
             }
         }
-        console.log(wallets);
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        await TokenCr.methods.createSimpleToken(name,symbol,supply,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createSimpleToken(name,symbol,pair,supply,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         notifDisplay('flex');
         notifContent('Token Created Successfully');
@@ -114,6 +123,7 @@ export const getBalance = async(address)=>{
 
 export const searchToken = async(address)=>{
     searchedAddress = address;
+    try{changeToken(await getBalance(searchedAddress));}catch(e){}
     poolAddress=null;
     poolAddress = await Factory.methods.showPoolAddress(address).call();
     pool=null;
@@ -124,6 +134,11 @@ export const searchToken = async(address)=>{
     else{
         foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
+        var pairWith = await pool.methods.BaseAddress().call();
+        USD=new web3Handler.eth.Contract(IBEP20,pairWith);
+        currentSym=await USD.methods.symbol().call();
+        setCurrentSym(currentSym);
+        manageSymbol(currentSym);
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
@@ -144,6 +159,8 @@ export const searchToken = async(address)=>{
             no: await pool.methods.noVotes().call()
         }
         tokenName=data.name;
+        try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+        try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         updateTable(data);
         tradeStatus(data.trade);
 }
@@ -239,7 +256,7 @@ export const claimBounty=async()=>{
         notifDisplay('none');
 }
 
-export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
+export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
@@ -253,7 +270,7 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO)=>{
         }
         console.log(wallets);
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        await TokenCr.methods.createPool(token,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createPool(token,additionalTaxes,wallets,pair,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Pool Creation Successful!');
         await new Promise(r => setTimeout(r, 5000));
@@ -334,7 +351,7 @@ export const f=()=>{
 
     const options={
             debug:false,
-            symbol: tokenName+'/BNB',
+            symbol: tokenName+"/"+currentSym,
             autosize:true,
             container_id:"chrt", 
             library_path: '/charting_library/',

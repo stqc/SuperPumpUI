@@ -6,15 +6,18 @@ import Search from "./images/search.png"
 export var changeUSD;
 export var changeToken;
 export var updateTable;
+export var setCurrentSym;
 const Trade=()=>{
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
-    const [usdBal,updateUSDbal]=React.useState("$0");
+    const [usdBal,updateUSDbal]=React.useState("0");
     const [tokenBal,updateTokenBal]=React.useState("0");
     const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true, DAOSup:null, yes:null, no:null}     );
+    const [currentSymbol,updateSymbol] = React.useState('USDT');
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
+    setCurrentSym=updateSymbol;
     var TradeAmount = React.createRef();
     var searchBarRef = React.createRef();
 
@@ -42,9 +45,9 @@ const Trade=()=>{
                 <div className="sub-info">
                     <div className="opt">Token Name:</div><div className="ans">{tableData.name}</div>
                     <div className="opt">Total Supply:</div><div className="ans">{tableData.supply}</div>
-                    <div className="opt">Tokens/BNB:</div><div className="ans">{tableData.tokenperusdc}</div>
-                    <div className="opt">BNB/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
-                    <div className="opt">BNB In Pool:</div><div className="ans">{tableData.usdinpool}</div>
+                    <div className="opt">Tokens/{currentSymbol}:</div><div className="ans">{tableData.tokenperusdc}</div>
+                    <div className="opt">{currentSymbol}/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
+                    <div className="opt">{currentSymbol} In Pool:</div><div className="ans">{tableData.usdinpool}</div>
                     <div className="opt">Token In Pool:</div><div className="ans">{tableData.tokeninpool}</div>
                     <div className="opt">Buy Tax:</div><div className="ans">{tableData.buytax}</div>
                     <div className="opt">Sale Tax:</div><div className="ans">{tableData.saletax}</div>
@@ -94,12 +97,12 @@ const Trade=()=>{
                 {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        <span id="balance">Wallet Balance: {buyBtnClass==="selector-btn-buy"?usdBal:tokenBal}</span>
+                        {buyBtnClass==="selector-btn-buy"?<span id="balance">{currentSymbol} Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">
                     <div onClick={()=>{
-                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(tableData.poolad,TradeAmount.current.value);
+                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(currentSymbol=="USD"?1:0,tableData.poolad,TradeAmount.current.value);
                     }}>
                         Approve
                     </div>

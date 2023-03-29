@@ -6,19 +6,22 @@ export var ManageVisibility;
 export var tradeStatus;
 export var foundPool;
 export var updateBal;
+export var manageSymbol;
 const Manage = ()=>{
     const [isVisible,updateVisible]=React.useState('none');
     ManageVisibility=updateVisible;
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
     const [sellBtnClass,changeSellClass]=React.useState('selector-btn');
     const [tradingEnabled,updateTradeStatus]=React.useState(false);
-    const [usdBal,updateUSDbal]=React.useState("$0");
+    const [usdBal,updateUSDbal]=React.useState("0");
     const [tokenBal,updateTokenBal]=React.useState("0");
     const [poolFound,updateFoundStatus]=React.useState(true);
     const [adTax,updateAddtx]=React.useState([]);
     const [Taxes,addMoreTax]=React.useState([]);
     const [wallets,addMoreWallets]=React.useState([]);
+    const [currentSymbol,updateSymbol] = React.useState('USDT');
 
+    manageSymbol=updateSymbol;
     foundPool=updateFoundStatus;
     tradeStatus=updateTradeStatus;
     updateBal=[updateUSDbal,updateTokenBal];
@@ -27,6 +30,7 @@ const Manage = ()=>{
     var DAO = React.createRef();
     var LP = React.createRef();
     var Token = React.createRef();
+    var pairedWith;
 
     function s(){
         document.getElementById("mng").style.width="0";
@@ -51,6 +55,11 @@ const Manage = ()=>{
                             <input placeholder="Enter Your Token Address Here" ref={Token}min="0"></input>
                             <p>DAO Threshold</p>
                             <input type="number" ref={DAO} placeholder="DAO Threshold cannot be set to 0 or more than 2% of total supply" min="0"></input>
+                            <div className="form-options">
+                            <p>Pair With (Choose One):</p>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{pairedWith=0}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{pairedWith=1}}></input>USDT</div>
+                            </div>
                             <p>Auto Liquidity Tax % (if any)</p>
                             <input type="number" ref={LP} placeholder="0" min="0"></input>
                         </div>
@@ -72,7 +81,7 @@ const Manage = ()=>{
                             </div>
                         <div className="confirmation">
                             <div onClick={()=>{
-                                createPool(Token.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0");
+                                createPool(Token.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0",pairedWith);
                             }}>Create Pool</div>
                         </div></>}
                         
@@ -95,21 +104,21 @@ const Manage = ()=>{
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                                 <input placeholder="Enter USD Amount" ref={USDamount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
-                                    <span id="balance">Wallet Balance: {usdBal}</span>
+                                    <span id="balance">{currentSymbol} Wallet Balance: {usdBal}</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                                 <input placeholder="Enter Token Amount" ref={tokenAmount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
-                                    <span id="balance">Wallet Balance: {tokenBal}</span>
+                                    <span id="balance">Token Wallet Balance: {tokenBal}</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
                                 <div className="confirmation" style={{justifyContent:"space-evenly"}}>
                                     <div onClick={()=>{
-                                        ApproveUSD(pool._address,USDamount.current.value);
-                                    }}>Approve USD</div>
+                                        ApproveUSD(currentSymbol=="USD"?1:0,pool._address,USDamount.current.value);
+                                    }}>Approve {currentSymbol}</div>
                                     <div onClick={()=>{
                                         ApproveToken(pool._address,tokenAmount.current.value);
                                     }}>Approve Token</div>

@@ -11,7 +11,7 @@ const Create = ()=>{
     var supply = React.createRef();
     var DAO = React.createRef();
     var LP = React.createRef();
-    
+    var pairedWith;
 
     function s(){
         document.getElementById("crt").style.width="0";
@@ -41,8 +41,13 @@ const Create = ()=>{
                             <input type="number" min="1" ref={supply} placeholder="Enter Max/Total Supply"></input>
                         </div>
                         <div className="form-options">
+                            <p>Pair With (Choose One):</p>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{pairedWith=0}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{pairedWith=1}}></input>USDT</div>
+                        </div>
+                        <div className="form-options">
                             <p>DAO Threshold</p> 
-                            <input type="number" ref={DAO} placeholder="Enter DAO Threshold (Leaving Blank Would Set It Automatically)" ></input>
+                            <input type="number" ref={DAO} placeholder="Enter DAO Threshold (has to be between 0.1% and 1% of total supply)" ></input>
                         </div>
                         <div className="form-options">
                             <p>Auto liquidity Tax % (if any)</p>
@@ -67,13 +72,13 @@ const Create = ()=>{
                         </div>
                         <div className="confirmation" style={{marginTop:"auto"}}>
                         <div onClick={()=>{
-                            ApproveUSD("0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0","100");
+                            ApproveUSD(1,"0xCc2BD28B9e8571A006287bD947B1e7Fbe13bC969","100");
                         }}>
                             Approve
                         </div>
                         <div onClick={()=>{
                             console.log(wallets,Taxes)
-                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0");
+                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,pairedWith,Taxes,wallets,LP.current.value?LP.current.value:"0",DAO.current.value?DAO.current.value:"0");
                         }}>
                             Create Token
                         </div>
