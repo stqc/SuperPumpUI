@@ -4,6 +4,7 @@ import Wallet from "./images/wallet2.png";
 import { connect } from "./connection.js";
 
 export var changeMobMen;
+export var changeBTNameMob;
 function s(){
     document.getElementById("crt").style.width="100vw";
 }
@@ -12,28 +13,30 @@ function s1(){
 }
 const MobMenu= ()=>{
 const [MobMen,changeMob]=React.useState('none');
+const [btnName,setBTNname]=React.useState('Connect Wallet');
+changeBTNameMob=setBTNname;
 changeMobMen=changeMob;
     return (
-        <div className="mobile-menu" style={{display:MobMen}}>
+        <div className="mobile-menu" style={{top:MobMen}}>
             <p style={{color: "#DD8500", cursor:"pointer"}} onClick={()=>{
-                changeMob('none');
+                changeMob('-2000px');
             }}>X</p>
             <div style={{margin:"5%", fontWeight:900,cursor:"pointer", color:"white", fontSize:"1.8rem"}} onClick={()=>{
                 s();
-                changeMob('none')
+                changeMob('-2000px')
             }}>
                 Create Token
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
                 s1();
-                changeMob('none')
+                changeMob('-2000px')
                 
             }}>
                 Manage Token
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
                 s1();
-                changeMob('none')
+                changeMob('-2000px')
                 
             }}>
                 FreshStake
@@ -42,7 +45,7 @@ changeMobMen=changeMob;
                 connect();
             }}>
                 <img src={Wallet} style={{marginRight:"20px"}}></img>
-                <div>Connect Wallet</div>
+                <div>{btnName}</div>
             </div>
             <div style={{marginTop:"auto",marginBottom:"100px"}}>
                 <span id="heading" style={{ fontSize:"3rem"}} >

@@ -11,7 +11,7 @@ const Create = ()=>{
     var supply = React.createRef();
     var DAO = React.createRef();
     var LP = React.createRef();
-    var pairedWith;
+    const [pairedWith,updatePair]=React.useState(null);
 
     function s(){
         document.getElementById("crt").style.width="0";
@@ -42,8 +42,8 @@ const Create = ()=>{
                         </div>
                         <div className="form-options">
                             <p>Pair With (Choose One):</p>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{pairedWith=0}}></input> wETH</div>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{pairedWith=1}}></input>USDT</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{updatePair(1)}}></input>USDT</div>
                         </div>
                         <div className="form-options">
                             <p>DAO Threshold</p> 

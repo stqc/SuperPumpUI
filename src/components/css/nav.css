@@ -79,6 +79,25 @@ nav{
     text-align: center;
     
 }
+#main-notif-cls,#main-notif{
+    background: radial-gradient(65.04% 92.14% at 96.28% 92.63%, rgba(59, 170, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(177.08% 194.24% at -110.38% -98.45%, rgba(255, 171, 0, 1) 0%, rgba(0, 0, 0, 0.5) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #000000;
+}
+#main-notif{
+    animation: fadeIn 2.1s;
+}
+#main-notif-close{
+    animation:fadeIn-halt 2s;
+}
+@keyframes fadeIn-halt {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+@keyframes fadeIn {
+    0%,100%{opacity: 0;}
+    50%{opacity: 1;}
+    
+}
+
 @media screen and (max-width:1424px) {
     nav{
         padding: 4% 2%;
@@ -107,9 +126,10 @@ nav{
     .notif{
         flex-direction: column;
         text-align: center;
-        
     }
-    
+    #main-notif-cls,#main-notif{
+        margin:2%
+    }
 }
 
 @media screen and (max-width:1424px) {

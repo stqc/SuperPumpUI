@@ -57,7 +57,7 @@ const Nav=()=>{
             <div>{conBTNtext}</div>
         </div>
         <div className="menu-btn" onClick={()=>{
-            changeMobMen("flex");
+            changeMobMen("0");
         }}>
             <img src={Menu} alt="menu"/>
         </div>

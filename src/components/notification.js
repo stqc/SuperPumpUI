@@ -8,7 +8,7 @@ const Notifcation = ()=>{
     notifContent=updateContent;
     return(
         <div className="notif" style={{display:display}}>
-            <div style={{color:"white", background:"rgba(105, 80, 29, 1)", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 90px rgba(105, 80, 29, 1)"}}>
+            <div id="main-notif"style={{color:"white", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 90px rgba(59, 170, 0, 0.3)"}}>
                 <div className="title">
                     Notification
                 </div>
