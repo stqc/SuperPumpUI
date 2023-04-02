@@ -24,7 +24,7 @@ const Create = ()=>{
                         addMoreTax([]);
                         addMoreWallets([]);
                         s();
-                    }}>X</p></div>
+                    }}>{'< Back'}</p></div>
                 
                 <div className="token-form" >
                     <span id="heading" style={{fontWeight:"500"}}>Create A Token</span>

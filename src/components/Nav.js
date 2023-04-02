@@ -16,10 +16,10 @@ const Nav=()=>{
     buttonName = updateConBtnText;
 
     function s(){
-        document.getElementById("crt").style.width="70vw";
+        document.getElementById("crt").style.width="100vw";
     }
     function s1(){
-        document.getElementById("mng").style.width="70vw";
+        document.getElementById("mng").style.width="100vw";
     }
     return(
        <nav>
@@ -34,6 +34,11 @@ const Nav=()=>{
             s1();
         }}>
             Manage Token
+        </div>
+        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+            s1();
+        }}>
+            FreshStake
         </div>
         <div className="search-bar">
             <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{

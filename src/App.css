@@ -17,8 +17,8 @@ html,body{
   flex-direction: column;
   min-width: 100%;
 }
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 1424px) {
   body{
-    padding: 0% 10%;
+    padding: 0% 6%;
   }
 }

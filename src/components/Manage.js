@@ -44,12 +44,12 @@ const Manage = ()=>{
                         addMoreTax([]);
                         addMoreWallets([]);
                         s();
-                    }}>X</p></div>
+                    }}> {'< Back'}</p></div>
                 <div className="instructions" >
                     <span id="heading" style={{fontWeight:"300"}}> Manage Liquidity</span>
                     <p>{poolFound?"Easily manage your token liquidity with FreshSwap!":"Fill Out The Following Details To Have Your Project Trade on FreshSwap"}</p>
                 </div>
-                <div style={{padding:"2%"}}>
+                <div id="main-con-manage">
                         {!poolFound && <><div className="form-options">
                             <p>Token Address</p>
                             <input placeholder="Enter Your Token Address Here" ref={Token}min="0"></input>
@@ -127,11 +127,7 @@ const Manage = ()=>{
                                      }}
                                     >Add Liquidity</div>
                                 </div>
-                                <div className="confirmation">
-                                    <div onClick={()=>{
-                                        claimBounty();
-                                    }}>Claim Collected Taxes</div>
-                                </div>
+                                
                             </>}{
                                 sellBtnClass!=="selector-btn" && <>
                                     <div className="confirmation">
@@ -146,7 +142,11 @@ const Manage = ()=>{
                             }
                          {/*Tax management starts here*/}   
                         </div>}
-
+                        <div className="confirmation">
+                                    <div onClick={()=>{
+                                        claimBounty();
+                                    }}>Claim Collected Taxes</div>
+                                </div>
                 </div>
                 
             </div>

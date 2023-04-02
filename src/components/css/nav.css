@@ -1,7 +1,7 @@
 nav{
     display: flex;
     flex-direction: row;
-    padding: 4% 5%;
+    padding: 4% 0%;
     align-items: center;
     
 }
@@ -15,7 +15,7 @@ nav{
     font-size: 24px;
     line-height: 24px;
     text-align: center;
-    margin-left: 4%;
+    margin-left: 1%;
     cursor: pointer;
 }
 
@@ -94,7 +94,7 @@ nav{
     .search-bar-m{
         display: flex;
         flex-direction: row;
-        padding: 2%;
+        padding: 2% 5%;
         flex-basis: 0px;
         flex-grow: 1;
     }
@@ -108,5 +108,12 @@ nav{
         flex-direction: column;
         text-align: center;
         
+    }
+    
+}
+
+@media screen and (max-width:1424px) {
+    .search-bar-m{
+        padding: 2%;
     }
 }

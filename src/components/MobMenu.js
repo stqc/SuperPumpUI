@@ -22,14 +22,21 @@ changeMobMen=changeMob;
                 s();
                 changeMob('none')
             }}>
-                CREATE TOKEN
+                Create Token
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
                 s1();
                 changeMob('none')
                 
             }}>
-                MANAGE TOKEN
+                Manage Token
+            </div>
+            <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
+                s1();
+                changeMob('none')
+                
+            }}>
+                FreshStake
             </div>
             <div className="connect-btn-mob" onClick={()=>{
                 connect();

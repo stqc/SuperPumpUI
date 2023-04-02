@@ -1,7 +1,7 @@
 .trade-main{
     display: grid;
     grid-template-columns: 2fr 1fr;
-    padding: 1% 5%;
+    padding: 1% 2%;
     grid-gap: 2%;
     
 }
@@ -189,5 +189,11 @@ input[type="number"] {
     }
     .chart{
         min-height: 350px;
+    }
+}
+
+@media screen and (min-width:2400px) {
+    .trade-main{
+        padding: 1% 20%;
     }
 }
