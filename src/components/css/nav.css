@@ -85,8 +85,8 @@ nav{
 #main-notif{
     animation: fadeIn 2.1s;
 }
-#main-notif-close{
-    animation:fadeIn-halt 2s;
+#main-notif-cls{
+    animation: fadeIn-halt 1s;
 }
 @keyframes fadeIn-halt {
     0%{opacity: 0;}
@@ -106,6 +106,9 @@ nav{
     .menu-btn{
         display: initial;
         
+    }
+    #main-notif-cls,#main-notif{
+        margin:2%
     }
     .search-bar,.connect-btn,.option{
         display: none;
@@ -128,7 +131,8 @@ nav{
         text-align: center;
     }
     #main-notif-cls,#main-notif{
-        margin:2%
+        margin:2%;
+
     }
 }
 
@@ -136,4 +140,19 @@ nav{
     .search-bar-m{
         padding: 2%;
     }
+}
+
+@media screen and (max-width:400px) {
+    .notif{
+        padding-top: 0%;
+        
+    }
+    #main-notif-cls,#main-notif{
+        margin:2%;
+        max-height: 500px;
+        overflow-y: scroll;
+        
+    }
+
+
 }

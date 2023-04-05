@@ -5,7 +5,7 @@ import Search from "./images/search.png"
 import Wallet from "./images/wallet.png";
 import Menu from "./images/menu.png";
 import { changeMobMen } from "./MobMenu";
-import { connect } from "./connection.js";
+import { connect, showRef } from "./connection.js";
 import { searchToken, f } from "./connection.js";
 export var buttonName;
 
@@ -21,6 +21,7 @@ const Nav=()=>{
     function s1(){
         document.getElementById("mng").style.width="100vw";
     }
+
     return(
        <nav>
         <img src={Logo} alt="logo"/>
@@ -36,9 +37,9 @@ const Nav=()=>{
             Manage Token
         </div>
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
-            s1();
+            showRef();
         }}>
-            FreshStake
+            Fresh Referrals 
         </div>
         <div className="search-bar">
             <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{

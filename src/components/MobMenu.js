@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/mob.css";
 import Wallet from "./images/wallet2.png";
-import { connect } from "./connection.js";
+import { connect, showRef } from "./connection.js";
 
 export var changeMobMen;
 export var changeBTNameMob;
@@ -35,11 +35,11 @@ changeMobMen=changeMob;
                 Manage Token
             </div>
             <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
-                s1();
+                showRef();
                 changeMob('-2000px')
                 
             }}>
-                FreshStake
+                Fresh Referrals
             </div>
             <div className="connect-btn-mob" onClick={()=>{
                 connect();

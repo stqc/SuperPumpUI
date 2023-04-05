@@ -11,12 +11,11 @@ function App() {
   return (
     <div className="App">
       
-      
+      <Notifcation/>
+      <DataNotifcation/>
       <Manage/>
       <Create/>
       <MobMenu/>
-      <Notifcation/>
-      <DataNotifcation/>
       <Nav/>
       <Trade/>
     </div>
