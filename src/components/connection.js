@@ -122,6 +122,7 @@ export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         notifDisplayAd('flex');
         notifContentAd(`Token Created Successfully at Address: ${ad}`);
+        searchToken(ad);
     }
 
 }
@@ -173,6 +174,7 @@ export const searchToken = async(address)=>{
         try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         updateTable(data);
         tradeStatus(data.trade);
+        await f();
 }
 
 
@@ -240,7 +242,7 @@ export const swapToken= async(amount,action)=>{
         await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Transaction Successful!');
-        await new Promise(r => setTimeout(r, 5000));
+        await new Promise(r => setTimeout(r, 2000));
         notifDisplay('none');
     }else{
         var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
@@ -285,6 +287,8 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
         notifContent('Pool Creation Successful!');
         await new Promise(r => setTimeout(r, 2000));
         notifDisplay('none');
+        searchToken(token);
+
     }
 }
 

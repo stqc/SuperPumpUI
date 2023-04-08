@@ -15,6 +15,11 @@ const Create = ()=>{
 
     function s(){
         document.getElementById("crt").style.width="0";
+        tokenName.current.value=null;
+        symbol.current.value=null;
+        supply.current.value=null;
+        DAO.current.value=null;
+        LP.current.value=null;
     }
     return (
         
