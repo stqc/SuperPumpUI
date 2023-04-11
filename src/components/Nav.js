@@ -44,7 +44,6 @@ const Nav=()=>{
         <div className="search-bar">
             <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
-                await f();
             }}>
                 <img src={Search}/>
             </div>

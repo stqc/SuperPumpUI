@@ -20,6 +20,7 @@ const Manage = ()=>{
     const [Taxes,addMoreTax]=React.useState([]);
     const [wallets,addMoreWallets]=React.useState([]);
     const [currentSymbol,updateSymbol] = React.useState('USDT');
+    const [pairedWith,updatePair]=React.useState(null);
 
     manageSymbol=updateSymbol;
     foundPool=updateFoundStatus;
@@ -30,7 +31,7 @@ const Manage = ()=>{
     var DAO = React.createRef();
     var LP = React.createRef();
     var Token = React.createRef();
-    var pairedWith;
+    
 
     function s(){
         document.getElementById("mng").style.width="0";
@@ -57,8 +58,8 @@ const Manage = ()=>{
                             <input type="number" ref={DAO} placeholder="DAO Threshold cannot be set to 0 or more than 2% of total supply" min="0"></input>
                             <div className="form-options">
                             <p>Pair With (Choose One):</p>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{pairedWith=0}}></input> wETH</div>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{pairedWith=1}}></input>USDT</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{updatePair(1)}}></input>USDT</div>
                             </div>
                             <p>Auto Liquidity Tax % (if any)</p>
                             <input type="number" ref={LP} placeholder="0" min="0"></input>
@@ -68,6 +69,7 @@ const Manage = ()=>{
                                 <p style={{cursor:"pointer"}} onClick={()=>{
                                     var tax = React.createRef();
                                     var wallet = React.createRef();
+                                    console.log(pairedWith)
                                     updateAddtx(adTax.concat([
                                         <>
                                           <input  style={{marginTop:"2%"}} key={adTax.length+"tx"} ref ={tax} type="number"  placeholder="Enter Tax Percentage" min="0"></input>

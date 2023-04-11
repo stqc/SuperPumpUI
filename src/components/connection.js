@@ -25,7 +25,7 @@ const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 var USD = new web3Handler.eth.Contract(IBEP20);
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x2AE35904E85d2C63EAB3DbCA46C17319bBcB85c4");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x2D69DE9424A66603A6b14F4bff12eFC2e4b5c6eF");
 export const connect= async ()=>{
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
@@ -104,12 +104,13 @@ export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0xCc2BD28B9e8571A006287bD947B1e7Fbe13bC969");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5d7D62B1376E98454D6A0a7E6E4DEA0DFD5AdDbf");
         console.log(wallets,additionalTaxes,pair)
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
-                additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;
-                wallets[i]=wallets[i].current.value;
+                try{
+                additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;}catch(e){}
+                try{wallets[i]=wallets[i].current.value;}catch(e){}
             }
         }
         
@@ -272,17 +273,22 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x9b8213165792E8efFdB17C90Fa8BAA97a97376b0");
-        console.log(wallets)
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5d7D62B1376E98454D6A0a7E6E4DEA0DFD5AdDbf");
+        console.log(wallets,additionalTaxes)
+        var decimals=await new web3Handler.eth.Contract(IBEP20,token).methods.decimals().call();
+        DAO = (DAO*10**decimals).toLocaleString("fullwide",{useGrouping:false});
+        console.log(DAO/10**decimals);
+        console.log(DAO>=(await new web3Handler.eth.Contract(IBEP20,token).methods.totalSupply().call())*0.1/100);
+        console.log(pair);
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
-                additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;
-                wallets[i]=wallets[i].current.value;
+                try{additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;}catch(e){}
+                try{wallets[i]=wallets[i].current.value}catch(e){}
             }
         }
-        console.log(wallets);
+        console.log(wallets,token,additionalTaxes,pair);
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        await TokenCr.methods.createPool(token,additionalTaxes,wallets,pair,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createPool(token,additionalTaxes,wallets,pair,LPtax*10,DAO,ref).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Pool Creation Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -331,9 +337,10 @@ export const f=()=>{
                     high:Number(data[i][3])/1e18,
                     low:Number(data[i][2])/1e18,
                     close:Number(data[i][4])/1e18,
-                    volume:Number(data[i][5])/1e18,
+                    volume:Number(data[i][5]),
                 })
             }
+
          if(newd.length===periodParams.countBack){
             onHistoryCallback(newd,{noData:false});
            }else{
