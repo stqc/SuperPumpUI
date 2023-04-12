@@ -47,8 +47,8 @@ const Manage = ()=>{
                         s();
                     }}> {'< Back'}</p></div>
                 <div className="instructions" >
-                    <span id="heading" style={{fontWeight:"300"}}> Manage Liquidity</span>
-                    <p>{poolFound?"Easily manage your token liquidity with FreshSwap!":"Fill Out The Following Details To Have Your Project Trade on FreshSwap"}</p>
+                    <span id="heading" style={{fontWeight:"300"}}> Manage Token</span>
+                    <p>{poolFound?"Easily manage your token & liquidity with FreshSwap!":"Fill Out The Following Details To Have Your Project Trade on FreshSwap"}</p>
                 </div>
                 <div id="main-con-manage">
                         {!poolFound && <><div className="form-options">
