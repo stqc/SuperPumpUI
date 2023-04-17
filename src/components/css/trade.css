@@ -54,7 +54,7 @@
     border-radius: 15px;
     padding: 3% 2%;
     margin-bottom: 3%;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .buy-sell{
@@ -143,6 +143,7 @@
     border-top: 2px solid #828282;
     border-bottom: 2px solid  #828282;
     height: max-content;
+    font-weight: normal;
 }
 .links{
     display: flex;
