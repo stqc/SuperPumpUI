@@ -47,7 +47,7 @@ const Create = ()=>{
                         </div>
                         <div className="form-options">
                             <p>Pair With (Choose One):</p>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wBNB</div>
                             <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{updatePair(1)}}></input>USDT</div>
                         </div>
                         <div className="form-options">

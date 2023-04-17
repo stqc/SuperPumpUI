@@ -102,7 +102,7 @@ const Trade=()=>{
                 </div>}
                 {tableData.trade && <div className="confirmation">
                     <div onClick={()=>{
-                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(currentSymbol=="USD"?1:0,tableData.poolad,TradeAmount.current.value);
+                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(currentSymbol=="USDT"?1:0,tableData.poolad,TradeAmount.current.value);
                     }}>
                         Approve
                     </div>

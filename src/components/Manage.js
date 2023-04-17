@@ -58,7 +58,7 @@ const Manage = ()=>{
                             <input type="number" ref={DAO} placeholder="DAO Threshold cannot be set to 0 or more than 2% of total supply" min="0"></input>
                             <div className="form-options">
                             <p>Pair With (Choose One):</p>
-                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wETH</div>
+                            <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="Ethereum" onClick={()=>{updatePair(0)}}></input> wBNB</div>
                             <div style={{display:"flex"}}><input style={{alignSelf:"flex-start"}} type="checkbox" value="USDT" onClick={()=>{updatePair(1)}}></input>USDT</div>
                             </div>
                             <p>Auto Liquidity Tax % (if any)</p>
@@ -119,7 +119,7 @@ const Manage = ()=>{
                             </div>
                                 <div className="confirmation" style={{justifyContent:"space-evenly"}}>
                                     <div onClick={()=>{
-                                        ApproveUSD(currentSymbol=="USD"?1:0,pool._address,USDamount.current.value);
+                                        ApproveUSD(currentSymbol=="USDT"?1:0,pool._address,USDamount.current.value);
                                     }}>Approve {currentSymbol}</div>
                                     <div onClick={()=>{
                                         ApproveToken(pool._address,tokenAmount.current.value);

@@ -13,7 +13,7 @@ export var pool;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
-const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://goerli-rollup.arbitrum.io/rpc")
+const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://bsc-dataseed1.binance.org/")
 
 var connectedAccounts;
 var poolAddress;
@@ -27,6 +27,7 @@ const BountyABI = require("./ABI/Bounty.json");
 var USD = new web3Handler.eth.Contract(IBEP20);
 const Factory = new web3Handler.eth.Contract(FactoryABI,"0x4912d91f61b2DAAE78c987C97C05d01E0485C4dD");
 export const connect= async ()=>{
+    
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
     buttonName(connectedAccounts[0].slice(0,10)+"...");
@@ -147,6 +148,7 @@ export const searchToken = async(address)=>{
         foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
         var pairWith = await pool.methods.BaseAddress().call();
+        console.log(pairWith);
         USD=new web3Handler.eth.Contract(IBEP20,pairWith);
         currentSym=await USD.methods.symbol().call();
         setCurrentSym(currentSym);
@@ -418,5 +420,5 @@ export const showRef=()=>{
     </span>
     
     ,<br/>,<br/>
-    ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://arb.freshswap.app/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
+    ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://bsc.freshswap.app/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
 }
