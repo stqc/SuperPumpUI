@@ -25,7 +25,7 @@ const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 var USD = new web3Handler.eth.Contract(IBEP20);
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x2D69DE9424A66603A6b14F4bff12eFC2e4b5c6eF");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x4912d91f61b2DAAE78c987C97C05d01E0485C4dD");
 export const connect= async ()=>{
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
@@ -104,7 +104,7 @@ export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5d7D62B1376E98454D6A0a7E6E4DEA0DFD5AdDbf");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x4d09b60f9B764Ae6872aae373aE136642d2fe97B");
         console.log(wallets,additionalTaxes,pair)
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
@@ -273,7 +273,7 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5d7D62B1376E98454D6A0a7E6E4DEA0DFD5AdDbf");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x4d09b60f9B764Ae6872aae373aE136642d2fe97B");
         console.log(wallets,additionalTaxes)
         var decimals=await new web3Handler.eth.Contract(IBEP20,token).methods.decimals().call();
         DAO = (DAO*10**decimals).toLocaleString("fullwide",{useGrouping:false});
@@ -418,5 +418,5 @@ export const showRef=()=>{
     </span>
     
     ,<br/>,<br/>
-    ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://arb.freshswap.app/ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
+    ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://arb.freshswap.app/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
 }
