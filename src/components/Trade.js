@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/trade.css";
-import { ApproveToken, ApproveUSD, swapToken, searchToken,f,castVote } from "./connection.js";
+import { ApproveToken, ApproveRouter, ApproveUSD, swapToken, searchToken,f,castVote } from "./connection.js";
 import Search from "./images/search.png"
 
 export var changeUSD;
@@ -102,7 +102,7 @@ const Trade=()=>{
                 </div>}
                 {tableData.trade && <div className="confirmation">
                     <div onClick={()=>{
-                        sellBtnClass!=="selector-btn"? ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(currentSymbol=="USDT"?1:0,tableData.poolad,TradeAmount.current.value);
+                        sellBtnClass!=="selector-btn"? (currentSymbol==="USDT"?ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveRouter(TradeAmount.current.value)):ApproveUSD(currentSymbol=="USDT"?1:0,tableData.poolad,TradeAmount.current.value);
                     }}>
                         Approve
                     </div>

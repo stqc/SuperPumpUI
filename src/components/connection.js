@@ -24,8 +24,11 @@ const TokenCreator = require("./ABI/TokenCreator.json");
 const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
+const RouterABI = require("./ABI/router.json");
 var USD = new web3Handler.eth.Contract(IBEP20);
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x0b813254bC18c18d3647d3F81Eea1611BC0724c0");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x0fF4f9C353fE09f33651AdB4E9Eb5a28330763e2");
+const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
+
 export const connect= async ()=>{
     
     await window.ethereum.request({method:"eth_requestAccounts"});
@@ -37,7 +40,17 @@ export const connect= async ()=>{
         await new Promise(r => setTimeout(r, 2000));
         notifDisplay('none');
     console.log(connectedAccounts);
-    try{changeUSD((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+    try{
+        if(currentSym=="USDT"){
+            
+            changeUSD(
+            (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+        }else{
+            if(currentSym=="WBNB"){
+                 console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+            changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+            }    
+        }
     }catch(e){}
     try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
     try{                updateBal[1](await getBalance(searchedAddress));
@@ -47,7 +60,15 @@ export const connect= async ()=>{
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
         async (err, result) => {
-            try{changeUSD((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+            try{
+                if(currentSym=="USDT"){changeUSD(
+                    (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+                }else{
+                    if(currentSym=="WBNB"){
+                        changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+                    }    
+                }
+            }catch(e){}
             try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
                 await updatePool();  
@@ -101,11 +122,16 @@ export const ApproveToken = async(addressToApprove,amount)=>{
     }
 }
 
+export const ApproveRouter = async(amount)=>{
+    var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
+    await token.methods.approve("0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6",Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+}
+
 export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets,LPtax,DAO)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0xf5dE63e400c7aDE87441CeC5459Db07989dCDf0B");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x874ad3aec847ff885ed46164c939416979456d1e");
         console.log(wallets,additionalTaxes,pair)
         if(additionalTaxes.length>0){
             for(var i=0; i<additionalTaxes.length; i++){
@@ -242,7 +268,11 @@ export const requestRemovalVote = async ()=>{
 export const swapToken= async(amount,action)=>{
 
     if(action===0){
-        await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        if(currentSym!="USDT"){
+            await router.methods.wrapAndBuy(pool._address,searchedAddress).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
+        }else{
+            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount),connectedAccounts[0]).send({from:connectedAccounts[0]});
+        }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -252,7 +282,11 @@ export const swapToken= async(amount,action)=>{
         var decimals=await tok.methods.decimals().call();
         amount=(Number(amount)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
         console.log(amount);
-        await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
+        if(currentSym!=="USDT"){
+            await router.methods.sellAndUnwrap(pool._address,searchedAddress,amount).send({from:connectedAccounts[0]});
+        }else{
+            await pool.methods.sellToken_qLx(amount,connectedAccounts[0]).send({from:connectedAccounts[0]});
+        }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -275,7 +309,7 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0xf5dE63e400c7aDE87441CeC5459Db07989dCDf0B");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x874ad3aec847ff885ed46164c939416979456d1e");
         console.log(wallets,additionalTaxes)
         var decimals=await new web3Handler.eth.Contract(IBEP20,token).methods.decimals().call();
         DAO = (DAO*10**decimals).toLocaleString("fullwide",{useGrouping:false});

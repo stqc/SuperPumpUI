@@ -154,7 +154,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "action",
+        "type": "uint256"
+      }
+    ],
     "name": "approveEmergencyWithdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -180,13 +186,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "name": "beneficieryAddress",
     "outputs": [
       {
@@ -204,6 +204,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "rec",
+        "type": "address"
       }
     ],
     "name": "buyToken_Qdy",
@@ -341,6 +346,11 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "rec",
+        "type": "address"
       }
     ],
     "name": "sellToken_qLx",
@@ -540,7 +550,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "vote",
+        "name": "_vote",
         "type": "uint256"
       }
     ],
