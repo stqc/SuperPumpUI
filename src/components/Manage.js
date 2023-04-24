@@ -104,14 +104,14 @@ const Manage = ()=>{
                             </div>
                             {sellBtnClass==='selector-btn' && <>
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                                <input placeholder="Enter USD Amount" ref={USDamount} type="number" min="0"></input>
+                                <input placeholder="Enter Amount" ref={USDamount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
                                     <span id="balance">{currentSymbol} Wallet Balance: {usdBal}</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                                <input placeholder="Enter Token Amount" ref={tokenAmount} type="number" min="0"></input>
+                                <input placeholder="Enter Amount" ref={tokenAmount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
                                     <span id="balance">Token Wallet Balance: {tokenBal}</span>
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
