@@ -110,6 +110,7 @@ const Manage = ()=>{
                                     <span id="balance" style={{cursor:"pointer"}}>MAX</span>
                                 </div>
                             </div>
+                            {currentSymbol!=="USDT" && <div style={{cursor:"pointer"}}>Don't have WBNB? Click here to Wrap them!</div>}
                             <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                                 <input placeholder="Enter Amount" ref={tokenAmount} type="number" min="0"></input>
                                 <div style={{display:"flex", justifyContent:"space-between"}}>
