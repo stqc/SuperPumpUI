@@ -12,14 +12,14 @@ const DataNotifcation = ()=>{
     updateHeading=setHeading;
     return(
         <div className="notif" style={{display:display}}>
-            <div id="main-notif-cls" style={{color:"white", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 90px rgba(59, 170, 0, 0.3)"}}>
+            <div id="main-notif-cls" style={{color:"white", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 100px 10px #1969FF"}}>
                 <div className="title">
                     {heading}
                 </div>
                 <div style={{marginTop:"4%"}}>
                     {content}
                 </div>
-                <div className="selector-btn-sell" style={{fontSize:"1.2rem", marginTop:"5%", padding:"0"}}onClick={()=>{
+                <div className="selector-btn-sell" style={{fontSize:"1.2rem", marginTop:"5%", padding:"0", background:"#1969FF"}}onClick={()=>{
                     updateDisplay('none');
                     setHeading('Notification')
                     

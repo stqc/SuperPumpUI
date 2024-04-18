@@ -1,9 +1,10 @@
 nav{
     display: flex;
     flex-direction: row;
-    padding: 4% 0%;
+    padding: 1% 4%;
     align-items: center;
-    
+    background-color: #000000;
+    margin-bottom: 4%;
 }
 
 
@@ -36,14 +37,18 @@ nav{
     font-style: normal;
     font-weight: 400;
     font-size: 1.3rem;
-    background-color: #69501d54;
-    color: #DD8500;
+    background-color: #D3D3D3;
+    color: black;
     border-radius: 0px 15px 15px 0px;
     border-color: transparent;
     
 }
+.search-bar-m>input{
+    background-color: #000000;
+    color: #828282;
+}
 .search-bar-m>input,.search-bar>input::placeholder{
-    color:#DD8500;
+    color:#828282;
 }
 .search-bar-m>input,.search-bar>input:focus{
     outline: none;
@@ -57,9 +62,9 @@ nav{
 }
 .connect-btn{
     margin-left: auto;
-    color: #DD8500;
+    color:black;
     font-size: 1.3rem;
-    background-color: #69501d54;
+    background-color: #FAFAFA;
     border-radius: 15px;
     padding: 0.2% 1%;
     height: 48px;

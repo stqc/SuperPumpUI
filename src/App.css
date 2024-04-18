@@ -1,9 +1,10 @@
 html,body{
   /* orange1 */
 
-  background: radial-gradient(65.04% 92.14% at 96.28% 92.63%, rgba(59, 170, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(177.08% 194.24% at -110.38% -98.45%, rgba(255, 171, 0, 1) 0%, rgba(0, 0, 0, 0.5) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #000000;
+  /* background: radial-gradient(65.04% 92.14% at 96.28% 92.63%, rgba(59, 170, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) warning: gradient uses a rotation that is not supported by CSS and may not behave as expected, radial-gradient(177.08% 194.24% at -110.38% -98.45%, rgba(255, 171, 0, 1) 0%, rgba(0, 0, 0, 0.5) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
   background-repeat: no-repeat;
   background-size:cover;
+  background-color: #1c1c1c;
   height: 100%;
   background-position: center;
   -webkit-background-size: cover;
@@ -19,6 +20,6 @@ html,body{
 }
 @media screen and (min-width: 1424px) {
   body{
-    padding: 0% 6%;
+    padding: 0% 0%;
   }
 }

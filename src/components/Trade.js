@@ -13,7 +13,7 @@ const Trade=()=>{
     const [usdBal,updateUSDbal]=React.useState("0");
     const [tokenBal,updateTokenBal]=React.useState("0");
     const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true, DAOSup:null, yes:null, no:null}     );
-    const [currentSymbol,updateSymbol] = React.useState('USDT');
+    const [currentSymbol,updateSymbol] = React.useState('USDC.e');
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
@@ -27,7 +27,7 @@ const Trade=()=>{
     return(
         <>
         <div className="search-bar-m">
-                <div style={{padding:"0% 5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
+                <div style={{padding:"0% 5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                     await searchToken(searchBarRef.current.value);
                     f();
                 }}>
@@ -43,39 +43,37 @@ const Trade=()=>{
             <div className="token-info">
                 <span className="title">Token Information Summary</span>
                 <div className="sub-info">
-                    <div className="opt">Token Name:</div><div className="ans">{tableData.name}</div>
-                    <div className="opt">Total Supply:</div><div className="ans">{tableData.supply}</div>
-                    <div className="opt">Tokens/{currentSymbol}:</div><div className="ans">{tableData.tokenperusdc}</div>
-                    <div className="opt">{currentSymbol}/Token:</div><div className="ans">{tableData.usdcpertoken}</div>
-                    <div className="opt">{currentSymbol} In Pool:</div><div className="ans">{tableData.usdinpool}</div>
-                    <div className="opt">Token In Pool:</div><div className="ans">{tableData.tokeninpool}</div>
-                    <div className="opt">Buy Tax:</div><div className="ans">{tableData.buytax}</div>
-                    <div className="opt">Sale Tax:</div><div className="ans">{tableData.saletax}</div>
-                    <div className="opt">DAO Threshold:</div><div className="ans">{tableData.dao}</div>
-                    <div className="opt">DAO Supply:</div><div className="ans">{tableData.DAOSup}</div>
+                   <div className="opt-parent"> <div className="opt">Token Name</div><div className="ans">{tableData.name}</div></div>
+                   <div className="opt-parent"><div className="opt">Total Supply</div><div className="ans">{tableData.supply}</div></div>
+                   <div className="opt-parent"><div className="opt">Tokens/{currentSymbol}</div><div className="ans">{tableData.tokenperusdc}</div></div>
+                   <div className="opt-parent"><div className="opt">{currentSymbol}/Token</div><div className="ans">{tableData.usdcpertoken}</div></div>
+                   <div className="opt-parent"><div className="opt">{currentSymbol} In Pool</div><div className="ans">{tableData.usdinpool}</div></div>
+                   <div className="opt-parent"><div className="opt">Token In Pool</div><div className="ans">{tableData.tokeninpool}</div></div>
+                   <div className="opt-parent"><div className="opt">Buy Tax</div><div className="ans">{tableData.buytax}%</div></div>
+                   <div className="opt-parent"><div className="opt">Sale Tax</div><div className="ans">{tableData.saletax}%</div></div>
                 </div>
             </div>
             <div className="footer">
                 <span id="heading">
-                    <span style={{color:"#91E564"}}>
-                        Fresh
+                    <span style={{color:"#1969FF"}}>
+                        Super
                     </span>
-                    <span style={{color:"#F9C04C"}}>
-                        Swap
+                    <span style={{color:"#fafafa"}}>
+                        Pump
                     </span>
                     <div className="footer-content">
                         <span id="sub-heading">Disclaimer</span>
-                        <p style={{fontSize:"0.8rem"}}>The Information on this website, and other official FreshSwap channels such as Discord, Twitter, and Telegram, is provided for education and
+                        <p style={{fontSize:"0.8rem"}}>The Information on this website, and other official SuperPump channels such as Discord, Twitter, and Telegram, is provided for education and
                             informational purposes only, without any express or implied warranty of any kind, including warranties of accuracy, completeness, or fitness for any
                             particular purpose. They are not intended to be and does not constitute financial advice, investment advice, trading advice or any other advice.
                             All Information is general in nature and is not specific to you the User or anyone else. </p>
                             <div className="links">
-                                <a href="https://docs.freshswap.app" target="_blank">Documentation</a>|
-                                <a href="https://discord.com/invite/Nm99mrsjHA" target="_blank">Discord</a>|
-                                <a href="https://twitter.com/freshswap_" target="_blank">Twitter</a>|
-                                <a href="https://t.me/freshswap" target="_blank">Telegram</a>
+                                <a href="#" target="_blank">Documentation</a>|
+                                <a href="#" target="_blank">Discord</a>|
+                                <a href="#" target="_blank">Twitter</a>|
+                                <a href="#" target="_blank">Telegram</a>
                             </div>
-                            <p style={{margin:"auto", justifySelf:"flex-end", fontSize:"0.8rem"}}> &copy; FreshSwap 2023 | All rights reserved</p>
+                            <p style={{margin:"auto", justifySelf:"flex-end", fontSize:"0.8rem"}}> &copy; SuperPump 2024 | All rights reserved</p>
                     </div>
                 </span>
             </div>
@@ -97,12 +95,12 @@ const Trade=()=>{
                 {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        {buyBtnClass==="selector-btn-buy"?<span id="balance">{currentSymbol} Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
+                        {buyBtnClass==="selector-btn-buy"?<span id="balance">USDC.e Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">
                     <div onClick={()=>{
-                        sellBtnClass!=="selector-btn"? (currentSymbol       ==="USDT"?ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveRouter(TradeAmount.current.value)):ApproveUSD(currentSymbol=="USDT"?1:0,tableData.poolad,TradeAmount.current.value);
+                        sellBtnClass!=="selector-btn"?ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(0,tableData.poolad,TradeAmount.current.value);
                     }}>
                         Approve
                     </div>
@@ -112,7 +110,7 @@ const Trade=()=>{
                         Confirm
                     </div>
                 </div>}
-                {!tableData.trade && <>
+                {/* {!tableData.trade && <>
                         <div className="title" style={{color:"white", fontSize:"1.3rem"}}>
                             Liquidity Removal Vote Started, If you hold a DAO token please cast your vote below            
                         </div>
@@ -133,7 +131,7 @@ const Trade=()=>{
                         }}>
                             Vote Against
                         </div>
-                    </div></>}
+                    </div></>} */}
             </div>
             
         </div>

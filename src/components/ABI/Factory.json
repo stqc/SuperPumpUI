@@ -122,73 +122,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "poolAdd",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "action",
-        "type": "uint256"
-      }
-    ],
-    "name": "approveEmergencyWithdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bountyFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "bountyThresh",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "newAdmin",
         "type": "address"
       }
     ],
     "name": "changeAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "pool_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "ben",
-        "type": "address"
-      }
-    ],
-    "name": "changeBeneficieryAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -212,22 +150,17 @@
       },
       {
         "internalType": "uint256",
-        "name": "thresh",
+        "name": "buytax",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "sup",
+        "name": "saletax",
         "type": "uint256"
       },
       {
         "internalType": "address",
         "name": "ref",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "notifier",
         "type": "address"
       }
     ],
@@ -298,19 +231,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "amt",
-        "type": "uint256"
-      }
-    ],
-    "name": "setBountyThresh",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "Pfee",
         "type": "uint256"
       },
@@ -322,11 +242,6 @@
       {
         "internalType": "uint256",
         "name": "rf",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "bonty",
         "type": "uint256"
       }
     ],
@@ -357,6 +272,19 @@
       }
     ],
     "name": "setNATIVE",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "factory",
+        "type": "address"
+      }
+    ],
+    "name": "setTokenFactory",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -448,6 +376,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "tokenFactory",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -467,12 +408,12 @@
   },
   {
     "inputs": [],
-    "name": "viewBountyThresh",
+    "name": "viewFreshAddress",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "address",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -480,7 +421,7 @@
   },
   {
     "inputs": [],
-    "name": "viewFreshAddress",
+    "name": "viewTokenFactoryAddress",
     "outputs": [
       {
         "internalType": "address",

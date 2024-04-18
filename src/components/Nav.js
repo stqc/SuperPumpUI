@@ -1,8 +1,8 @@
 import React from "react";
 import "./css/nav.css";
-import Logo from "./images/logo.png";
+import Logo from "./images/superpump.jpg";
 import Search from "./images/search.png"
-import Wallet from "./images/wallet.png";
+import Wallet from "./images/wallet1.png";
 import Menu from "./images/menu.png";
 import { changeMobMen } from "./MobMenu";
 import { connect, showRef } from "./connection.js";
@@ -24,25 +24,26 @@ const Nav=()=>{
 
     return(
        <nav>
-        <img src={Logo} alt="logo"/>
-        
+        <div style={{height:"100px", width:"100px"}}>
+            <img src={Logo} alt="logo" height={"100%"} width={"100%"}/>
+        </div>
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
             s();
         }}>
             Create Token
         </div>
-        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+        {/* <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
             s1();
         }}>
             Manage Token
-        </div>
+        </div> */}
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
-            showRef();
+            // showRef();
         }}>
-            Fresh Referrals 
+            SuperPump Referrals 
         </div>
         <div className="search-bar">
-            <div style={{padding:"5%", background:"#DD8500",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
+            <div style={{padding:"5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
             }}>
                 <img src={Search}/>

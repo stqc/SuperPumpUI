@@ -13,7 +13,7 @@ function App() {
       
       <Notifcation/>
       <DataNotifcation/>
-      <Manage/>
+      {/* <Manage/> */}
       <Create/>
       <MobMenu/>
       <Nav/>

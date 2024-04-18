@@ -1,6 +1,5 @@
 .manage-slider{
-    
-    background: radial-gradient(65.04% 92.14% at 96.28% 92.63%, rgba(59, 170, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(177.08% 194.24% at -110.38% -98.45%, rgba(255, 171, 0, 1) 0%, rgba(0, 0, 0, 0.5) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #000000;
+    background-color: black;
     background-repeat: no-repeat;
     background-size:contain;
     height: 100%;
@@ -13,7 +12,7 @@
     align-items: stretch;
     justify-items: stretch; 
     right: 0;
-    box-shadow: -20px 0px 30px rgba(71, 41, 1, 0.9) ;
+    /* box-shadow: -20px 0px 30px #1969FF ; */
     overflow-y: scroll;
     transition: all 0.5s;
 }
@@ -37,7 +36,7 @@
 }
 .form-options>input{
     flex-basis: 100%;
-    background-color: #69501D;
+    background-color: #D3D3D3;
     border: 0px;
     font-family: 'Roboto', sans-serif;
     font-style: normal;

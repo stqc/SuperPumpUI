@@ -13,20 +13,20 @@ export var pool;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
-const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://bsc-dataseed1.binance.org/")
+const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://rpc.testnet.fantom.network")
 
 var connectedAccounts;
 var poolAddress;
 var sub;
-var currentSym;
+var currentSym="USDC.e";
 const IBEP20 = require("./ABI/IBEP20.json");
 const TokenCreator = require("./ABI/TokenCreator.json");
 const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
-var USD = new web3Handler.eth.Contract(IBEP20);
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x0fF4f9C353fE09f33651AdB4E9Eb5a28330763e2");
+var USD = new web3Handler.eth.Contract(IBEP20,"0x5a9A4FB36939A1dfF3C1EcaEDdDbc2424623382D");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0xA313339bB53A63833e388b382721e00A7777358E");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -41,16 +41,16 @@ export const connect= async ()=>{
         notifDisplay('none');
     console.log(connectedAccounts);
     try{
-        if(currentSym=="USDT"){
+        // if(currentSym=="USDC.e"){
             
             changeUSD(
             (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
-        }else{
-            if(currentSym=="WBNB"){
-                 console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
-            changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
-            }    
-        }
+        // }else{
+        //     if(currentSym=="WBNB"){
+        //          console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+        //     changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+        //     }    
+        
     }catch(e){}
     try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
     try{                updateBal[1](await getBalance(searchedAddress));
@@ -61,19 +61,20 @@ export const connect= async ()=>{
         "newBlockHeaders",
         async (err, result) => {
             try{
-                if(currentSym=="USDT"){changeUSD(
+                // if(currentSym=="USDT"){
+                    changeUSD(
                     (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
-                }else{
-                    if(currentSym=="WBNB"){
-                        changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
-                    }    
-                }
+                // }else{
+                //     if(currentSym=="WBNB"){
+                //         changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+                //     }    
+                // }
             }catch(e){}
             try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
                 await updatePool();  
                 changeToken(await getBalance(searchedAddress));
-                updateBal[1](await getBalance(searchedAddress))
+                // updateBal[1](await getBalance(searchedAddress))
                 var data = await pool.methods.showTradeData().call();
                 var newd=[]
                 for(var i=1; i<data.length; i++){
@@ -127,26 +128,26 @@ export const ApproveRouter = async(amount)=>{
     await token.methods.approve("0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6",Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
 }
 
-export const createToken = async(name,symbol,supply,pair,additionalTaxes,wallets,LPtax,DAO)=>{
+export const createToken = async(name,symbol,supply,buytax,selltax,LP)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x874ad3aec847ff885ed46164c939416979456d1e");
-        console.log(wallets,additionalTaxes,pair)
-        if(additionalTaxes.length>0){
-            for(var i=0; i<additionalTaxes.length; i++){
-                try{
-                additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;}catch(e){}
-                try{wallets[i]=wallets[i].current.value;}catch(e){}
-            }
-        }
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x34FeFa818e3ee8Ae2304c5396a02E11aA27C610f");
+        // console.log(wallets,additionalTaxes,pair)
+        // if(additionalTaxes.length>0){
+        //     for(var i=0; i<additionalTaxes.length; i++){
+        //         try{
+        //         additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;}catch(e){}
+        //         try{wallets[i]=wallets[i].current.value;}catch(e){}
+        //     }
+        // }
         
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        console.log(additionalTaxes,wallets,pair)
+        // console.log(additionalTaxes,wallets,pair)
         
-        await TokenCr.methods.createSimpleToken(name,symbol,pair,supply,additionalTaxes,wallets,LPtax*10,Web3.utils.toWei(String(DAO)),ref).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,buytax*10,selltax*10,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0]});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
-        console.log(additionalTaxes)
+        // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         notifDisplayAd('flex');
         notifContentAd(`Token Created Successfully at Address: ${ad}`);
@@ -168,17 +169,17 @@ export const searchToken = async(address)=>{
     pool=null;
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         alert("Token Pool Doesn't Exist Yet");
-        foundPool(false);
+        // foundPool(false);
     }
     else{
-        foundPool(true);
+        // foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
         var pairWith = await pool.methods.BaseAddress().call();
         console.log(pairWith);
         USD=new web3Handler.eth.Contract(IBEP20,pairWith);
-        currentSym=await USD.methods.symbol().call();
-        setCurrentSym(currentSym);
-        manageSymbol(currentSym);
+        // currentSym=await USD.methods.symbol().call();
+        // setCurrentSym(currentSym);
+        // manageSymbol(currentSym);
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
@@ -192,17 +193,13 @@ export const searchToken = async(address)=>{
             usdcpertoken:USDinpool=="0"?"Not Set":await pool.methods.USDPerToken().call()/1e18,
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
-            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
             trade: await pool.methods.tradingEnabled().call(),
-            DAOSup:await pool.methods.totalSupply().call(),
-            yes:await pool.methods.yesVotes().call(),
-            no: await pool.methods.noVotes().call()
         }
         tokenName=data.name;
         try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         updateTable(data);
-        tradeStatus(data.trade);
+        // tradeStatus(data.trade);
         await f();
 }
 
@@ -214,10 +211,10 @@ const updatePool=async()=>{
     poolAddress = await Factory.methods.showPoolAddress(searchedAddress).call();
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         console.log("Token Pool Doesn't Exist Yet");
-        foundPool(false);
+        // foundPool(false);
     }
     else{
-        foundPool(true);
+        // foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
@@ -232,15 +229,12 @@ const updatePool=async()=>{
             usdcpertoken:USDinpool=="0"?"Not Set":await pool.methods.USDPerToken().call()/1e18,
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
-            dao:(await pool.methods.DAOThreshold().call()/1e18).toLocaleString(),
             trade: await pool.methods.tradingEnabled().call(),
-            DAOSup:await pool.methods.totalSupply().call(),
-            yes:await pool.methods.yesVotes().call(),
-            no: await pool.methods.noVotes().call()
+      
         }
         tokenName=data.name;
         updateTable(data);
-        tradeStatus(data.trade);
+        // tradeStatus(data.trade);
 
     }
 }
@@ -268,11 +262,13 @@ export const requestRemovalVote = async ()=>{
 export const swapToken= async(amount,action)=>{
 
     if(action===0){
-        if(currentSym!="USDT"){
-            await router.methods.wrapAndBuy(pool._address,searchedAddress).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
-        }else{
-            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount),connectedAccounts[0]).send({from:connectedAccounts[0]});
-        }
+        // if(currentSym!="USDT"){
+        //     await router.methods.wrapAndBuy(pool._address,searchedAddress).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
+        // }else{
+            console.log(connectedAccounts[0])
+            
+            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        // }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -282,11 +278,11 @@ export const swapToken= async(amount,action)=>{
         var decimals=await tok.methods.decimals().call();
         amount=(Number(amount)*10**decimals).toLocaleString('fullwide', { useGrouping: false });
         console.log(amount);
-        if(currentSym!=="USDT"){
-            await router.methods.sellAndUnwrap(pool._address,searchedAddress,amount).send({from:connectedAccounts[0]});
-        }else{
-            await pool.methods.sellToken_qLx(amount,connectedAccounts[0]).send({from:connectedAccounts[0]});
-        }
+        // if(currentSym!=="USDT"){
+        //     await router.methods.sellAndUnwrap(pool._address,searchedAddress,amount).send({from:connectedAccounts[0]});
+        // }else{
+            await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
+        // }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -324,7 +320,7 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
         }
         console.log(wallets,token,additionalTaxes,pair);
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        await TokenCr.methods.createPool(token,additionalTaxes,wallets,pair,LPtax*10,DAO,ref).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createPool(token,additionalTaxes,wallets,pair,web3Handler.LPtax,DAO,ref).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Pool Creation Successful!');
         await new Promise(r => setTimeout(r, 2000));

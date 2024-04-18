@@ -7,7 +7,7 @@
 }
 
 .chart{
-    background-color: #5c523938;
+    background-color: black;
     border-radius: 15px;
     padding: 2%;
 }
@@ -15,7 +15,7 @@
 .token-info{
     text-align: center;
     color: white;
-    background-color: #5c523938;
+    background-color: black;
     border-radius: 15px;
     padding-top: 10%;
 
@@ -31,24 +31,46 @@
 .sub-info{
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
     padding: 20% 4%;
     grid-gap: 6%;
     margin-bottom: 10%;
+    gap:10px;
+    
 }
 
+.opt-parent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid white;
+    min-height: 70px;
+    border-radius: 20px;
+    padding: 10px;
+    justify-content: space-around;
+    background-color: #1c1c1c;
+}
 .opt{
-    color: #828282;
+    color: white;
     text-align: left;
+    font-weight: 900;
+    text-align: center;
+    overflow-wrap: anywhere;
+    font-size: 0.76rem;
+    
     
 }
 .ans{
-    text-align: right;
+    text-align: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+    word-break: break-all;
+    color: #0059ff;
     
 }
 
 .execution{
-    background: #5c523938;
+    background: black;
     display: grid;
     grid-template-columns: 1fr;
     border-radius: 15px;
@@ -81,11 +103,11 @@
 
 .selector-btn-buy{
     color: white;
-    background-color: #91E564;
+    background-color: #89da5e;
 }
 .selector-btn-sell{
     color: white;
-    background-color: #DD8500;
+    background-color: rgb(224, 76, 76);
 }
 
 .buy-sell>input{
@@ -123,9 +145,10 @@
     width: 100%;
     padding: 2%;
     border-radius: 15px;
-    color: #DD8500;
+    font-weight: 900;
+    color: white;
     margin: 2%;
-    background-color: #69501d54;
+    background-color: #1969FF;
 }
 
 #heading{
