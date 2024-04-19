@@ -28,6 +28,7 @@ const Trade=()=>{
         <>
         <div className="search-bar-m">
                 <div style={{padding:"0% 5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
+                    console.log(searchBarRef.current.value)
                     await searchToken(searchBarRef.current.value);
                     f();
                 }}>

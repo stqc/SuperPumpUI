@@ -59,7 +59,7 @@ const Create = ()=>{
 
                         <div className="form-options">
                             <p>Initial LP</p>
-                            <input type="number" ref={LP}  placeholder="Starting LP for the token" min="0" ></input>
+                            <input type="number" ref={LP}  placeholder="Amount of USDC.e to be added for LP" min="0" ></input>
                         </div>
                         
                         <div className="confirmation" style={{marginTop:"auto"}}>
