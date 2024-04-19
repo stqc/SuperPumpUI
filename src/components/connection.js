@@ -60,6 +60,7 @@ export const connect= async ()=>{
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
         async (err, result) => {
+            // console.log(result)
             try{
                 // if(currentSym=="USDT"){
                     changeUSD(
@@ -72,8 +73,13 @@ export const connect= async ()=>{
             }catch(e){}
             try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
+                console.log("e");
                 await updatePool();  
-                changeToken(await getBalance(searchedAddress));
+                try{
+                changeToken(await getBalance(searchedAddress));}
+                catch(e){
+                    console.log(e);
+                }
                 // updateBal[1](await getBalance(searchedAddress))
                 var data = await pool.methods.showTradeData().call();
                 var newd=[]
@@ -452,3 +458,48 @@ export const showRef=()=>{
     ,<br/>,<br/>
     ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://bsc.freshswap.app/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
 }
+
+
+window.addEventListener("load",async ()=>{
+    const subscription = web3Handler.eth.subscribe(
+        "newBlockHeaders",
+        async (err, result) => {
+            // console.log(result)
+            try{
+                // if(currentSym=="USDT"){
+                    changeUSD(
+                    (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+                // }else{
+                //     if(currentSym=="WBNB"){
+                //         changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
+                //     }    
+                // }
+            }catch(e){}
+            try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+            if(searchedAddress!=null){ 
+                // console.log("e");
+                await updatePool();  
+                try{
+                changeToken(await getBalance(searchedAddress));}
+                catch(e){
+                    console.log("not connected")
+                }
+                // updateBal[1](await getBalance(searchedAddress))
+                var data = await pool.methods.showTradeData().call();
+                var newd=[]
+                for(var i=1; i<data.length; i++){
+                newd.push({
+                    time:Number(data[i][0])*1000,
+                    open:Number(data[i][1])/1e18,
+                    high:Number(data[i][3])/1e18,
+                    low:Number(data[i][2])/1e18,
+                    close:Number(data[i][4])/1e18,
+                    volume:Number(data[i][5])/1e18,
+                })
+            }
+                newd.reverse();
+                sub(newd[0]);
+            }
+             }
+       );
+})
