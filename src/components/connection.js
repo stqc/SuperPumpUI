@@ -25,8 +25,8 @@ const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
-var USD = new web3Handler.eth.Contract(IBEP20,"0x5a9A4FB36939A1dfF3C1EcaEDdDbc2424623382D");
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0xA313339bB53A63833e388b382721e00A7777358E");
+var USD = new web3Handler.eth.Contract(IBEP20,"0x3e5B586ccC23136BEba155B602075Ad3664dc6bF");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0x93b06fa10505727b6F10fbb466CA61B6FdF818bE");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -44,7 +44,8 @@ export const connect= async ()=>{
         // if(currentSym=="USDC.e"){
             
             changeUSD(
-            (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+                
+            (await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
         // }else{
         //     if(currentSym=="WBNB"){
         //          console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
@@ -52,7 +53,7 @@ export const connect= async ()=>{
         //     }    
         
     }catch(e){}
-    try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+    try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
     try{                updateBal[1](await getBalance(searchedAddress));
         changeToken(await getBalance(searchedAddress));
 
@@ -64,14 +65,14 @@ export const connect= async ()=>{
             try{
                 // if(currentSym=="USDT"){
                     changeUSD(
-                    (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+                    (await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
                 // }else{
                 //     if(currentSym=="WBNB"){
                 //         changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
                 //     }    
                 // }
             }catch(e){}
-            try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+            try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
                 console.log("e");
                 await updatePool();  
@@ -138,7 +139,7 @@ export const createToken = async(name,symbol,supply,buytax,selltax,LP)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x34FeFa818e3ee8Ae2304c5396a02E11aA27C610f");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x26Bc6Fa4B85340c44b7B317d51dA53AAEdDbEb41");
         // console.log(wallets,additionalTaxes,pair)
         // if(additionalTaxes.length>0){
         //     for(var i=0; i<additionalTaxes.length; i++){
@@ -151,7 +152,7 @@ export const createToken = async(name,symbol,supply,buytax,selltax,LP)=>{
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         // console.log(additionalTaxes,wallets,pair)
         
-        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,buytax*10,selltax*10,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0]});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,buytax*10,selltax*10,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
@@ -202,7 +203,7 @@ export const searchToken = async(address)=>{
             trade: await pool.methods.tradingEnabled().call(),
         }
         tokenName=data.name;
-        try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+        try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
         try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         updateTable(data);
         // tradeStatus(data.trade);
@@ -273,7 +274,7 @@ export const swapToken= async(amount,action)=>{
         // }else{
             console.log(connectedAccounts[0])
             
-            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
         // }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
@@ -311,7 +312,7 @@ export const createPool=async(token,additionalTaxes,wallets,LPtax,DAO,pair)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x874ad3aec847ff885ed46164c939416979456d1e");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x26Bc6Fa4B85340c44b7B317d51dA53AAEdDbEb41");
         console.log(wallets,additionalTaxes)
         var decimals=await new web3Handler.eth.Contract(IBEP20,token).methods.decimals().call();
         DAO = (DAO*10**decimals).toLocaleString("fullwide",{useGrouping:false});
@@ -410,7 +411,7 @@ export const f=()=>{
 
     const options={
             debug:false,
-            symbol: tokenName+"/"+currentSym,
+            symbol: tokenName+"/FTM",
             autosize:true,
             container_id:"chrt", 
             library_path: '/charting_library/',
@@ -468,14 +469,14 @@ window.addEventListener("load",async ()=>{
             try{
                 // if(currentSym=="USDT"){
                     changeUSD(
-                    (await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());
+                    (await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
                 // }else{
                 //     if(currentSym=="WBNB"){
                 //         changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
                 //     }    
                 // }
             }catch(e){}
-            try{updateBal[0]((await USD.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
+            try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
             if(searchedAddress!=null){ 
                 // console.log("e");
                 await updatePool();  

@@ -63,13 +63,13 @@ const Create = ()=>{
                         </div>
                         
                         <div className="confirmation" style={{marginTop:"auto"}}>
-                        <div onClick={()=>{
+                        {/* <div onClick={()=>{
                             let lpamount = Number(LP.current.value)
                             
                             ApproveUSD(1,"0x34FeFa818e3ee8Ae2304c5396a02E11aA27C610f",(lpamount+70).toString());
                         }}>
                             Approve
-                        </div>
+                        </div> */}
                         <div onClick={()=>{
                             console.log(wallets,Taxes)
                             createToken(tokenName.current.value,symbol.current.value,supply.current.value,BuyTax.current.value,SellTax.current.value,LP.current.value);

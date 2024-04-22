@@ -13,7 +13,8 @@ const Trade=()=>{
     const [usdBal,updateUSDbal]=React.useState("0");
     const [tokenBal,updateTokenBal]=React.useState("0");
     const [tableData,changeTableData] = React.useState(    {name:null,supply:null,tokenperusdc:null,usdcpertoken:null,usdinpool:null,tokeninpool:null,buytax:null,saletax:null,dao:null,trade:true, DAOSup:null, yes:null, no:null}     );
-    const [currentSymbol,updateSymbol] = React.useState('USDC.e');
+    const [currentSymbol,updateSymbol] = React.useState('FTM');
+    const [approveBTN,showApproveButton] = React.useState(false);
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
@@ -52,6 +53,7 @@ const Trade=()=>{
                    <div className="opt-parent"><div className="opt">Token In Pool</div><div className="ans">{tableData.tokeninpool}</div></div>
                    <div className="opt-parent"><div className="opt">Buy Tax</div><div className="ans">{tableData.buytax}%</div></div>
                    <div className="opt-parent"><div className="opt">Sale Tax</div><div className="ans">{tableData.saletax}%</div></div>
+                   <div className="opt-parent"><div className="opt">Market Cap (in FTM)</div><div className="ans">{Number(tableData.usdinpool)*(tableData.supply?Number(tableData.supply.replace(",","")).toLocaleString():0)}</div></div>
                 </div>
             </div>
             <div className="footer">
@@ -83,12 +85,14 @@ const Trade=()=>{
                     <div className={buyBtnClass} onClick={()=>{
                         changeBuyClass('selector-btn-buy');
                         changeSellClass('selector-btn')
+                        showApproveButton(false)
                     }}>
                         Buy
                     </div>
                     <div className={sellBtnClass} onClick={()=>{
                         changeBuyClass('selector-btn');
                         changeSellClass('selector-btn-sell')
+                        showApproveButton(true)
                     }}>
                         Sell
                     </div>
@@ -96,15 +100,15 @@ const Trade=()=>{
                 {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        {buyBtnClass==="selector-btn-buy"?<span id="balance">USDC.e Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
+                        {buyBtnClass==="selector-btn-buy"?<span id="balance">FTM Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">
-                    <div onClick={()=>{
-                        sellBtnClass!=="selector-btn"?ApproveToken(tableData.poolad,TradeAmount.current.value):ApproveUSD(0,tableData.poolad,TradeAmount.current.value);
+                    {approveBTN && <div onClick={()=>{
+                        ApproveToken(tableData.poolad,TradeAmount.current.value);
                     }}>
                         Approve
-                    </div>
+                    </div>}
                     <div onClick={()=>{
                         sellBtnClass!=="selector-btn"? swapToken(TradeAmount.current.value,1):swapToken(TradeAmount.current.value,0);
                     }}>
