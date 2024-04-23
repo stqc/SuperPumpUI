@@ -51,7 +51,7 @@ changeMobMen=changeMob;
                 <div>{btnName}</div>
             </div>
             <div style={{marginTop:"auto",marginBottom:"100px"}}>
-                <span id="heading" style={{ fontSize:"3rem"}} >
+                <span id="heading" style={{ fontSize:"2rem"}} >
                     <span style={{color:"#1969FF"}}>
                         Super
                     </span>
