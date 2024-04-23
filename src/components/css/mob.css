@@ -11,6 +11,7 @@
     display: flex;    
     top:-2000px;
     transition: top 0.5s ease-out;
+    font-family: punk2;
 }
 .mobile-menu>p{
     font-weight: 900;
@@ -24,10 +25,11 @@
     align-items: center;
     color: white;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 15px;
     background-color:  black;;
     cursor: pointer;
+    font-family: cyberPUNK;
 }
 @media (min-width:900px) {
     .mobile-menu{

@@ -26,7 +26,7 @@ const Create = ()=>{
     return (
         
             <div className="manage-slider" id="crt"style={{display:'grid'}}>
-                 <div style={{ display:"flex",justifyContent:"flex-start", padding:"0% 2% ",fontWeight:"900",fontSize:"1.5rem"}}><p style={{cursor:"pointer", marginLeft:"1%"}} onClick={()=>{
+                 <div style={{ display:"flex",justifyContent:"flex-start", fontFamily:"cyberPUNK", padding:"0% 2% ",fontWeight:"900",fontSize:"1rem"}}><p style={{cursor:"pointer", marginLeft:"1%"}} onClick={()=>{
                         updateAddtx([]);
                         addMoreTax([]);
                         addMoreWallets([]);

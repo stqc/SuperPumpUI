@@ -22,9 +22,9 @@
 }
 
 .title{
-    font-family: 'Roboto', sans-serif;
+    font-family: punk2;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 200;
     font-size: 1.5rem;
 }
 
@@ -57,7 +57,7 @@
     text-align: center;
     overflow-wrap: anywhere;
     font-size: 0.76rem;
-    
+    font-family: punk2;
     
 }
 .ans{
@@ -66,6 +66,8 @@
     font-size: 1.2rem;
     word-break: break-all;
     color: #0059ff;
+    font-family: punk2;
+
     
 }
 
@@ -76,6 +78,7 @@
     border-radius: 15px;
     padding: 3% 2%;
     margin-bottom: 3%;
+    font-family: punk2;
     /* width: 100%; */
 }
 
@@ -90,10 +93,10 @@
 
 .selector-btn,.selector-btn-buy,.selector-btn-sell{
     width: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: cyberPUNK;
     font-style: normal;
-    font-weight: 700;
-    font-size: 1.6rem;
+    font-weight: 400;
+    font-size: 1.2rem;
     line-height: 32px;
     border-radius: 10px;
     color: #808080;
@@ -103,7 +106,7 @@
 
 .selector-btn-buy{
     color: white;
-    background-color: #89da5e;
+    background-color: #629944;
 }
 .selector-btn-sell{
     color: white;
@@ -111,13 +114,20 @@
 }
 
 .buy-sell>input{
-    font-family: 'Roboto', sans-serif;
+    font-family: cyberPUNK;
     font-style: normal;
-    font-weight: 400;
-    font-size: 1.5rem;
+    font-weight: 100;
+    font-size: 1rem;
     background-color: transparent;
     border: 0px;
-    color:#808080
+    color:#808080aa;
+    border: 1px solid #808080;
+    padding:10px;
+    border-radius: 10px;
+}
+.buy-sell>input::placeholder{
+    color:#808080aa;
+
 }
 .buy-sell>input:focus{
     outline: none;
@@ -134,10 +144,12 @@
     display: flex;
     text-align: center;
     margin-top: 2%;
-    font-family: 'Roboto', sans-serif;
+    font-family: cyberPUNK;
     font-style: normal;
-    font-weight: 400;
-    font-size: 1.2rem;
+    font-weight: 100;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    
 }
 
 .confirmation>div{
@@ -155,11 +167,13 @@
     font-size: 1.8rem;
     font-weight: 900;
     width: 100%;
+    font-family: cyberPUNK;
 
 }
 #sub-heading{
     font-size: 1rem;
     width: 100%;
+    font-family: punk2;
 }
 .footer-content{
     color: #FFFFFF;
@@ -167,6 +181,11 @@
     border-bottom: 2px solid  #828282;
     height: max-content;
     font-weight: normal;
+    
+}
+
+.footer-content>p{
+    font-family: punk2;
 }
 .links{
     display: flex;
