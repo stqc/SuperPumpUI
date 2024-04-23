@@ -191,10 +191,11 @@
     display: flex;
     margin-top: 5%;
     flex-direction: row;
-    font-size: 0.8rem;
+    font-size: 0.5rem;
     justify-content: flex-start;
     margin-bottom: 3%;
     align-items: center;
+    
 }
 .links>a{
     margin-right: 2%;
