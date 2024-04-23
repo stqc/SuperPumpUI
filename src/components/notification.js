@@ -12,7 +12,7 @@ const Notifcation = ()=>{
                 <div className="title">
                     Notification
                 </div>
-                <div style={{marginTop:"9%"}}>
+                <div style={{marginTop:"9%", fontFamily:"punk2"}}>
                     {content}
                 </div>
             </div>

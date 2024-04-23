@@ -16,7 +16,7 @@ const DataNotifcation = ()=>{
                 <div className="title">
                     {heading}
                 </div>
-                <div style={{marginTop:"4%"}}>
+                <div style={{marginTop:"4%",fontFamily:"punk2"}}>
                     {content}
                 </div>
                 <div className="selector-btn-sell" style={{fontSize:"1.2rem", marginTop:"5%", padding:"0", background:"#1969FF"}}onClick={()=>{
