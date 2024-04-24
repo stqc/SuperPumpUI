@@ -2,6 +2,7 @@ import React from "react";
 import "./css/mob.css";
 import Wallet from "./images/wallet2.png";
 import { connect, showRef } from "./connection.js";
+import { updateHomePage } from "../App.js";
 
 export var changeMobMen;
 export var changeBTNameMob;
@@ -22,18 +23,20 @@ changeMobMen=changeMob;
                 changeMob('-2000px');
             }}>X</p>
             <div style={{margin:"5%", fontWeight:900,cursor:"pointer", color:"Black", fontSize:"1.8rem"}} onClick={()=>{
+                // s1();
+                updateHomePage(false);
+                changeMob('-2000px')
+                
+            }}>
+                Trade
+            </div>
+            <div style={{margin:"5%", fontWeight:900,cursor:"pointer", color:"Black", fontSize:"1.8rem"}} onClick={()=>{
                 s();
                 changeMob('-2000px')
             }}>
                 Create Token
             </div>
-            {/* <div style={{margin:"5%", fontWeight:900, color:"white", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
-                s1();
-                changeMob('-2000px')
-                
-            }}>
-                Manage Token
-            </div> */}
+            
             <div style={{margin:"5%", fontWeight:900, color:"black", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
                 // showRef();
                 changeMob('-2000px')
