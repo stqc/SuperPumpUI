@@ -149,14 +149,9 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "buytax",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "saletax",
-        "type": "uint256"
+        "internalType": "bool",
+        "name": "tax",
+        "type": "bool"
       },
       {
         "internalType": "address",

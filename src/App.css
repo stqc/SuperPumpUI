@@ -23,3 +23,141 @@ html,body{
     padding: 0% 0%;
   }
 }
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgb(211, 211, 211)  ;
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 99;
+}
+
+.heading-main{
+  font-size: 10rem;
+}
+.banner-main>p{
+
+  position: absolute;
+  /* font-family: cyberPUNK; */
+  /* font-size: 10rem; */
+  /* left:40vw */
+
+}
+.super{
+  top:-260px;left:0px; color:#1969FF;position: absolute;font-family: cyberPUNK;
+}
+.pump{left: 420px; top:-40px;font-family: cyberPUNK;}
+
+.memebetter{
+  top:250px; left:500px;font-size:5rem;font-family:punk2;position: absolute;
+  font-family: punk2;
+}
+
+.token-grid{
+  padding: 10px;
+  background-color: transparent;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+  /* height: 100vh; */
+  /* width: 100vw; */
+  overflow-x: hidden;
+  gap:20px
+}
+
+
+@media (max-width: 1024px) {
+  .banner-image {
+    left:200px
+  }
+  .super{
+    font-size: 4rem;
+    top:0px;
+    padding: 0;
+    left: -80px;    
+  }
+  .pump{
+    font-size: 4rem;
+    top:70px;
+
+    left: -80px;  
+  }
+  .memebetter{
+    left: -80px;
+    font-size: 2rem;
+    top:30vh
+  }
+}
+
+@media screen and (max-width:500px){
+  .banner-image{
+    left: -80px;
+    height: 50%;
+    width: 50%;
+    top:45vh
+  }
+  
+}
+
+
+.popular-token{
+  background-color: black;
+  padding: 10px;
+  border-radius: 20px;
+  color: #1969FF;
+  font-family: punk2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popular-token>button{
+  /* width: "100%"; */
+  align-self: stretch;
+}
+
+
+.sort{
+  margin: 20px 10px;
+  /* margin-bottom: 10px; */
+  display: flex;
+  min-height: 100px;
+  padding: 10px;
+  background-color: black;
+  border-radius: 20px;
+  color: #1969FF;
+  font-family: cyberPUNK;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  
+}
+.sort-options{
+  display: flex;
+  flex-direction: column;
+  gap:  10px;
+  
+}
+
+.sort-selector{
+  background-color: #1c1c1c;
+  color: white;
+  font-family: punk2;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.sort-selector>option{
+  /* padding: 10px; */
+  
+}

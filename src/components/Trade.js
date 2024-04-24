@@ -26,7 +26,7 @@ const Trade=()=>{
     },[])
     
     return(
-        <>
+        <div style={{marginTop:"4%"}}>
         <div className="search-bar-m">
                 <div style={{padding:"0% 5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                     console.log(searchBarRef.current.value)
@@ -140,7 +140,7 @@ const Trade=()=>{
             </div>
             
         </div>
-        </>
+        </div>
     )
 
 }

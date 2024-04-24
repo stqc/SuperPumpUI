@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/nav.css";
-import Logo from "./images/superpump.jpg";
+import Logo from "./images/logo.jpg";
 import Search from "./images/search.png"
 import Wallet from "./images/wallet1.png";
 import Menu from "./images/menu.png";
@@ -9,7 +9,7 @@ import { connect, showRef } from "./connection.js";
 import { searchToken, f } from "./connection.js";
 export var buttonName;
 
-const Nav=()=>{
+const Nav=(props)=>{
     var searchBarRef = React.createRef();
 
     const [conBTNtext,updateConBtnText] = React.useState('Connect Wallet');
@@ -24,9 +24,18 @@ const Nav=()=>{
 
     return(
        <nav>
-        <div style={{height:"100px", width:"100px"}}>
+        <div style={{height:"100px", width:"100px"}} onClick={()=>{
+            props.updateShowHome(true)
+        }}>
             <img src={Logo} alt="logo" height={"100%"} width={"100%"}/>
         </div>
+
+        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+            props.updateShowHome(false)
+        }}>
+            Trade
+        </div>
+
         <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
             s();
         }}>
@@ -42,14 +51,14 @@ const Nav=()=>{
         }}>
             SuperPump Referrals 
         </div>
-        <div className="search-bar">
+       { !props.showHome && <div className="search-bar">
             <div style={{padding:"5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
             }}>
                 <img src={Search}/>
             </div>
             <input style={{height:"48px" , width:"300px"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
-        </div>
+        </div>}
         <div className="connect-btn" onClick={()=>{
             connect();
         }

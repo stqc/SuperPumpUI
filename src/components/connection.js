@@ -5,6 +5,7 @@ import { tradeStatus,foundPool, updateBal, manageSymbol } from "./Manage";
 import { notifContent,notifDisplay } from "./notification";
 import { notifContentAd,notifDisplayAd, updateHeading } from "./dataNotif";
 import { changeBTNameMob } from "./MobMenu";
+import { updateHomePage } from "../App";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
@@ -25,8 +26,9 @@ const FactoryABI = require("./ABI/Factory.json");
 const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
-var USD = new web3Handler.eth.Contract(IBEP20,"0x3e5B586ccC23136BEba155B602075Ad3664dc6bF");
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0x93b06fa10505727b6F10fbb466CA61B6FdF818bE");
+
+var USD = new web3Handler.eth.Contract(IBEP20,"0x6D944283615aBc67DdB87AD717ECe44fb3eA5A3D");
+const Factory = new web3Handler.eth.Contract(FactoryABI,"0xBFa6f3EFbFed7045F69C807A8e7A9fe13c38999E");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -135,11 +137,11 @@ export const ApproveRouter = async(amount)=>{
     await token.methods.approve("0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6",Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
 }
 
-export const createToken = async(name,symbol,supply,buytax,selltax,LP)=>{
+export const createToken = async(name,symbol,supply,tax,LP,image)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x26Bc6Fa4B85340c44b7B317d51dA53AAEdDbEb41");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x22377ea95bda493a7a6920Ea6d06Ee26fB96C34F");
         // console.log(wallets,additionalTaxes,pair)
         // if(additionalTaxes.length>0){
         //     for(var i=0; i<additionalTaxes.length; i++){
@@ -152,13 +154,25 @@ export const createToken = async(name,symbol,supply,buytax,selltax,LP)=>{
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         // console.log(additionalTaxes,wallets,pair)
         
-        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,buytax*10,selltax*10,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         notifDisplayAd('flex');
         notifContentAd(`Token Created Successfully at Address: ${ad}`);
+        await updateHomePage(false)
         searchToken(ad);
+
+        const body = JSON.stringify({
+                                address:ad,
+                                image:image,
+                                name:name
+                            })
+        const options = {method:"POST",body:body,headers:{"Content-Type":"application/json"}}
+
+        await fetch("https://superpumpbackend.vercel.app/insert_new_token",options).then(async e=>{
+            e=await e.json()
+        })
     }
 
 }
@@ -295,6 +309,10 @@ export const swapToken= async(amount,action)=>{
         await new Promise(r => setTimeout(r, 2000));
         notifDisplay('none');
     }
+    const body = JSON.stringify({address:searchedAddress})
+    const options = {method:"POST",headers:{"Content-Type":"application/json"},body:body}
+
+    await fetch("https://superpumpbackend.vercel.app/new_trade",options)
 }
 
 export const claimBounty=async()=>{
@@ -504,3 +522,9 @@ window.addEventListener("load",async ()=>{
              }
        );
 })
+
+
+export const tradeFromHome = async (address)=>{
+    updateHomePage(false)
+    searchToken(address)
+}

@@ -13,14 +13,12 @@ const Create = ()=>{
     var LP = React.createRef();
     var SellTax = React.createRef();
     const [pairedWith,updatePair]=React.useState(null);
-
+    const [taxes,updateTax] = React.useState(false);
     function s(){
         document.getElementById("crt").style.width="0";
         tokenName.current.value=null;
         symbol.current.value=null;
         supply.current.value=null;
-        BuyTax.current.value=null;
-        SellTax.current.value=null;
         LP.current.value=null;
     }
     return (
@@ -44,24 +42,37 @@ const Create = ()=>{
                             <input  placeholder="Enter Token Symbol/Ticker" ref={symbol}></input>
                         </div>
                         <div className="form-options">
+                            <p>Token Image URL</p>
+                            <input  placeholder="Enter URL with Token Image" ref={BuyTax}></input>
+                        </div>
+                        <div className="form-options">
                             <p>Token Supply</p>
                             <input type="number" min="1" ref={supply} placeholder="Enter Max/Total Supply"></input>
                         </div>
                        
                         <div className="form-options">
-                            <p>Buy Tax</p> 
-                            <input type="number" ref={BuyTax} placeholder="Tax on buys has to be less than 30%" ></input>
+                            <p>Taxes (1% LP 1% Burn and 1% Marketing)</p> 
+                            {/* <input type="number" ref={BuyTax} placeholder="Tax on buys has to be less than 30%" ></input> */}
+                            <select style={{fontFamily:"punk2", fontSize:"1.2rem",padding:"5px 2px",borderRadius:"10px",backgroundColor:"#D3D3D3"}} onChange={(e)=>{
+                                e.currentTarget.value==="Enable"?updateTax(true):updateTax(false)
+                            }}>
+                                <option>Disable</option>
+                                <option>Enable</option>
+                            </select>
                         </div>
-                        <div className="form-options">
+                        {/* <div className="form-options">
                             <p>Sell Tax</p>
                             <input type="number" ref={SellTax}  placeholder="Tax on sells has to be less than 30%" min="0" ></input>
-                        </div>
+                        </div> */}
 
                         <div className="form-options">
                             <p>Initial LP</p>
-                            <input type="number" ref={LP}  placeholder="Amount of USDC.e to be added for LP" min="0" ></input>
+                            <input type="number" ref={LP}  placeholder="Amount of FTM to be added for LP" min="0" ></input>
                         </div>
-                        
+
+                        <div className="form-options">
+                            <p>*Token Creation has a fee of 1FTM (IN TESTING)</p>
+                        </div>
                         <div className="confirmation" style={{marginTop:"auto"}}>
                         {/* <div onClick={()=>{
                             let lpamount = Number(LP.current.value)
@@ -70,9 +81,14 @@ const Create = ()=>{
                         }}>
                             Approve
                         </div> */}
-                        <div onClick={()=>{
+
+    
+                        
+                        <div onClick={async ()=>{
                             console.log(wallets,Taxes)
-                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,BuyTax.current.value,SellTax.current.value,LP.current.value);
+                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,taxes,LP.current.value,BuyTax.current.value);
+                            
+                            
                         }}>
                             Create Token
                         </div>

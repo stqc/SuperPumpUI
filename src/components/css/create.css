@@ -8,7 +8,7 @@
     grid-template-columns: 1fr;
     color: white;
     position: fixed;
-    z-index: 5;
+    z-index: 102;
     align-items: stretch;
     justify-items: stretch; 
     right: 0;

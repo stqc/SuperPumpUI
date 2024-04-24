@@ -11,8 +11,8 @@ const DataNotifcation = ()=>{
     notifContentAd=updateContent;
     updateHeading=setHeading;
     return(
-        <div className="notif" style={{display:display}}>
-            <div id="main-notif-cls" style={{color:"white", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 100px 10px #1969FF"}}>
+        <div className="notif" style={{display:display,zIndex:"105"}}>
+            <div id="main-notif-cls" style={{color:"white", padding:"4%", borderRadius:"15px", boxShadow:"0px 0px 100px 10px #1969FF",zIndex:"105"}}>
                 <div className="title">
                     {heading}
                 </div>
