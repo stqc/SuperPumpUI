@@ -7,6 +7,7 @@ import Menu from "./images/menu.png";
 import { changeMobMen } from "./MobMenu";
 import { connect, showRef } from "./connection.js";
 import { searchToken, f } from "./connection.js";
+import { notifContentAd, notifDisplayAd, updateHeading } from "./dataNotif.js";
 export var buttonName;
 
 const Nav=(props)=>{
@@ -30,23 +31,33 @@ const Nav=(props)=>{
             <img src={Logo} alt="logo" height={"100%"} width={"100%"}/>
         </div>
 
-        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+        <div className="option"  onClick={()=>{
             props.updateShowHome(false)
         }}>
             Trade
         </div>
 
-        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+        <div className="option"  onClick={()=>{
             s();
         }}>
             Create Token
         </div>
-        {/* <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
-            s1();
+        <div className="option"  onClick={()=>{
+            notifDisplayAd("flex");
+            updateHeading("Guide")
+            notifContentAd(<ul style={{textAlign:"left"}}>
+                <li>Connect Your Wallet</li>
+                <li>Click on Create Token</li>
+                <li>Fill In The Information</li>
+                <li>Click Create Token</li>
+                <li>Confirm The Transaction and Grow Your Meme!</li>
+                <li>40% liquidity will be allocated to your preferred DEX upon reaching a 50,000 FTM market cap.</li>
+
+            </ul>)
         }}>
-            Manage Token
-        </div> */}
-        <div className="option" style={{marginLeft:"2%"}} onClick={()=>{
+            How To Guide
+        </div>
+        <div className="option"  onClick={()=>{
             // showRef();
         }}>
             SuperPump Referrals 
@@ -57,9 +68,9 @@ const Nav=(props)=>{
             }}>
                 <img src={Search}/>
             </div>
-            <input style={{height:"48px" , width:"300px"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
+            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
         </div>}
-        <div className="connect-btn" onClick={()=>{
+        <div className="connect-btn" style={{width:"200px"}} onClick={()=>{
             connect();
         }
         }>
@@ -69,7 +80,8 @@ const Nav=(props)=>{
         <div className="menu-btn" onClick={()=>{
             changeMobMen("0");
         }}>
-            <img src={Menu} alt="menu"/>
+            <img width="50" height="50" src="https://img.icons8.com/ios-filled/100/FAB005/menu--v1.png" alt="menu--v1"/>
+            
         </div>
        </nav>
     )

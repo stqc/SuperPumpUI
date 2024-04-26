@@ -14,7 +14,7 @@ export var pool;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
-const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://rpc.testnet.fantom.network")
+export const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://rpc.testnet.fantom.network")
 
 var connectedAccounts;
 var poolAddress;
@@ -28,7 +28,7 @@ const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
 
 var USD = new web3Handler.eth.Contract(IBEP20,"0x6D944283615aBc67DdB87AD717ECe44fb3eA5A3D");
-const Factory = new web3Handler.eth.Contract(FactoryABI,"0xBFa6f3EFbFed7045F69C807A8e7A9fe13c38999E");
+export const Factory = new web3Handler.eth.Contract(FactoryABI,"0xBFa6f3EFbFed7045F69C807A8e7A9fe13c38999E");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{

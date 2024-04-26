@@ -1,13 +1,12 @@
 import React from "react";
 import TokenGrid from "./tokenGrid";
-
+import { Factory, web3Handler } from "./connection";
 
 
 export default function HomePage(){
     const [mainPageData,updateMainPageData] = React.useState([]);
     const [reveresData,updateReversedData] = React.useState([]);
     const [currentName,updateName] = React.useState("Popular token")
-
 
 
     React.useEffect(
@@ -19,7 +18,7 @@ export default function HomePage(){
     
       )
     
-      const getTopTokens=  ()=>{
+      const getTopTokens=()=>{
     
         fetch('https://superpumpbackend.vercel.app/top_addresses_last_7_days')
         .then(response => {
@@ -31,9 +30,12 @@ export default function HomePage(){
         .then(async data => {
           // Update state with the fetched data
           let newData=[]
-          data.forEach(element => {
+          data.forEach(async element => {
+
+          
+            // console.log(price)
             newData.push(
-              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image}/>
+              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} />
             )
           });
     

@@ -53,7 +53,7 @@ const Trade=()=>{
                    <div className="opt-parent"><div className="opt">Token In Pool</div><div className="ans">{tableData.tokeninpool}</div></div>
                    <div className="opt-parent"><div className="opt">Buy Tax</div><div className="ans">{tableData.buytax}%</div></div>
                    <div className="opt-parent"><div className="opt">Sale Tax</div><div className="ans">{tableData.saletax}%</div></div>
-                   <div className="opt-parent"><div className="opt">Market Cap (in FTM)</div><div className="ans">{Number(tableData.usdinpool)*(tableData.supply?Number(tableData.supply.replace(",","")):0)}</div></div>
+                   <div className="opt-parent"><div className="opt">Market Cap (in FTM)</div><div className="ans">{Number(tableData.usdcpertoken)*(tableData.supply?Number(tableData.supply.replace(",","")):0)}</div></div>
                 </div>
             </div>
             <div className="footer">

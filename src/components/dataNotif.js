@@ -2,6 +2,7 @@ import React from "react";
 export var notifDisplayAd;
 export var notifContentAd;
 export var updateHeading;
+
 const DataNotifcation = ()=>{
     const [display, updateDisplay] = React.useState('none');
     const [content, updateContent] = React.useState('Notification Content');
