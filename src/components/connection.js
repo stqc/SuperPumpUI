@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { buttonName } from "./Nav";
-import { updateTable,changeToken,changeUSD, setCurrentSym } from "./Trade";
+import { updateTable,changeToken,changeUSD, setCurrentSym, externalChangeDisplayDEX } from "./Trade";
 import { tradeStatus,foundPool, updateBal, manageSymbol } from "./Manage";
 import { notifContent,notifDisplay } from "./notification";
 import { notifContentAd,notifDisplayAd, updateHeading } from "./dataNotif";
@@ -27,8 +27,8 @@ const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
 
-var USD = new web3Handler.eth.Contract(IBEP20,"0x6D944283615aBc67DdB87AD717ECe44fb3eA5A3D");
-export const Factory = new web3Handler.eth.Contract(FactoryABI,"0xBFa6f3EFbFed7045F69C807A8e7A9fe13c38999E");
+var USD = new web3Handler.eth.Contract(IBEP20,"0xebbD2d79e857CA521293802427B334C08E44b84e");
+export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x72BE71d60876a25Baa4b81e679508D217E3f012D");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -137,11 +137,17 @@ export const ApproveRouter = async(amount)=>{
     await token.methods.approve("0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6",Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
 }
 
+
+export const splitLP = async(dex)=>{
+    await pool.methods.addLPToExternalDEX(dex).send({from:connectedAccounts[0]});
+}
+
+
 export const createToken = async(name,symbol,supply,tax,LP,image)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x22377ea95bda493a7a6920Ea6d06Ee26fB96C34F");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5a4c1B3956f482a0d890A9c524570E92C66dD1E2");
         // console.log(wallets,additionalTaxes,pair)
         // if(additionalTaxes.length>0){
         //     for(var i=0; i<additionalTaxes.length; i++){
@@ -217,11 +223,15 @@ export const searchToken = async(address)=>{
             trade: await pool.methods.tradingEnabled().call(),
         }
         tokenName=data.name;
+       
         try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
         try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
         updateTable(data);
         // tradeStatus(data.trade);
         await f();
+        let ben = await token.methods.getOwner().call();
+        console.log(ben)
+        ben==connectedAccounts[0]?externalChangeDisplayDEX(true):externalChangeDisplayDEX(false);
 }
 
 
@@ -433,8 +443,8 @@ export const f=()=>{
             autosize:true,
             container_id:"chrt", 
             library_path: '/charting_library/',
-            client_id:"FreshSwap",
-            user_id:"FreshSwap",
+            client_id:"SUPERPUMP",
+            user_id:"SUPERPUMP",
             datafeed:Datafeed,
             disabled_features: ['use_localstorage_for_settings'],
             interval:"1",
@@ -528,3 +538,16 @@ export const tradeFromHome = async (address)=>{
     updateHomePage(false)
     searchToken(address)
 }
+
+
+let tokens;
+
+window.addEventListener("load",async ()=>{
+
+    fetch("https://superpumpbackend.vercel.app/get_all_tokens").then(async e=>{
+        tokens = await e.json()
+
+        console.log(tokens)
+    })
+
+})

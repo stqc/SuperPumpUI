@@ -32,9 +32,9 @@
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-    padding: 20% 4%;
+    padding: 4%;
     grid-gap: 6%;
-    margin-bottom: 10%;
+    /* margin-bottom: 10%; */
     gap:10px;
     
 }

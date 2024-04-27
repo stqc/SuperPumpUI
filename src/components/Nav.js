@@ -57,18 +57,19 @@ const Nav=(props)=>{
         }}>
             How To Guide
         </div>
-        <div className="option"  onClick={()=>{
+        {/* <div className="option"  onClick={()=>{
             // showRef();
         }}>
             SuperPump Referrals 
-        </div>
+        </div> */}
        { !props.showHome && <div className="search-bar">
             <div style={{padding:"5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
             }}>
                 <img src={Search}/>
             </div>
-            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
+            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address"></input> 
+            {/* <div style={{position:"absolute", height:"300px", background:"white", width:"100%",top:"10%", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}></div> */}
         </div>}
         <div className="connect-btn" style={{width:"200px"}} onClick={()=>{
             connect();
@@ -80,7 +81,7 @@ const Nav=(props)=>{
         <div className="menu-btn" onClick={()=>{
             changeMobMen("0");
         }}>
-            <img width="50" height="50" src="https://img.icons8.com/ios-filled/100/FAB005/menu--v1.png" alt="menu--v1"/>
+           <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/dada47/menu--v6.png" alt="menu--v6"/>
             
         </div>
        </nav>

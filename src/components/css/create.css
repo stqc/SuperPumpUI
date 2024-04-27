@@ -35,7 +35,7 @@
   flex-direction: column;
   font-family: punk2;
 }
-.form-options>input{
+.form-options>input,.form-options>div>input{
     flex-basis: 100%;
     background-color: #D3D3D3;
     border: 0px;
@@ -48,13 +48,15 @@
     max-width: inherit;
     min-width: 0;
 }
-.form-options>input::placeholder{
+
+
+.form-options>input::placeholder,.form-options>div>input::placeholder{
   font-family: cyberPUNK;
   font-size: 0.8rem;
   color: #828282;
 
 }
-.form-options>input:focus{
+.form-options>input:focus,.form-options>div>input:focus{
     outline: none;
 }
 

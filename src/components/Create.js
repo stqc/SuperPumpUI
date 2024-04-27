@@ -14,6 +14,7 @@ const Create = ()=>{
     var SellTax = React.createRef();
     const [pairedWith,updatePair]=React.useState(null);
     const [taxes,updateTax] = React.useState(false);
+    const [previewImage,SetPreviewImage] = React.useState("");
     function s(){
         document.getElementById("crt").style.width="0";
         tokenName.current.value=null;
@@ -41,9 +42,13 @@ const Create = ()=>{
                             <p>Token Symbol/Ticker</p>
                             <input  placeholder="Enter Token Symbol/Ticker" ref={symbol}></input>
                         </div>
-                        <div className="form-options">
+                        <div className="form-options" style={{display:"flex", flexDirection:"row", gap:"50px"}}>
+                            <div  style={{width:"100%"}}>
                             <p>Token Image URL</p>
-                            <input  placeholder="Enter URL with Token Image" ref={BuyTax}></input>
+                            <input  placeholder="Enter URL with Token Image" onChange={(e)=>{
+                                    SetPreviewImage(e.target.value);
+                            }} style={{width:"100%"}} ref={BuyTax}></input></div>
+                            <div style={{height:"100px",width:"100px", marginTop:"20px"}}><img height={"100%"} width={"100%"} src={previewImage}></img></div>
                         </div>
                         <div className="form-options">
                             <p>Token Supply</p>
