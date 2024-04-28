@@ -1,7 +1,8 @@
 import React from "react";
 import "./css/trade.css";
-import { ApproveToken, ApproveRouter, ApproveUSD, swapToken, searchToken,f,castVote, splitLP } from "./connection.js";
+import { ApproveToken, ApproveRouter, ApproveUSD, swapToken, searchToken,f,castVote, splitLP,tokens } from "./connection.js";
 import Search from "./images/search.png"
+import SearchElement from "./searchElement.js";
 
 export var changeUSD;
 export var changeToken;
@@ -19,6 +20,8 @@ const Trade=()=>{
     const [approveBTN,showApproveButton] = React.useState(false);
     const [selectedDEX,changeSelectedDEX]= React.useState();
     const [displayDEX,changeDisplayDEX] = React.useState(false);
+    const [SearchBarOptions,showSearchBarOptions] = React.useState("none");
+    const [SearchItems,SetSearchItems] = React.useState([]);
 
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
@@ -41,7 +44,22 @@ const Trade=()=>{
                 }}>
                     <img style={{margin:"100% 0%"}} src={Search}/>
             </div>
-            <input style={{height:"48px" ,width:"100%"}} ref={searchBarRef} placeholder="Enter Token Address"></input>
+            <input style={{height:"48px" ,width:"100%"}} ref={searchBarRef} placeholder="Enter Token Address" onChange={(e)=>{
+                showSearchBarOptions("initial");
+                let tokenItem =[];
+                tokens.forEach(element => {
+                    if(element.name.toLowerCase().includes(e.target.value)){
+                        tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
+                    }
+                });
+                SetSearchItems(tokenItem);
+                if(e.target.value.length===0){
+                    showSearchBarOptions("none");
+                }
+            }}></input>
+            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"white", width:"95%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
+                {SearchItems}
+            </div>
         </div>
         <div className="trade-main">
             
@@ -93,9 +111,8 @@ const Trade=()=>{
                             All Information is general in nature and is not specific to you the User or anyone else. </p>
                             <div className="links">
                                 <a href="#" target="_blank">Documentation</a>|
-                                <a href="#" target="_blank">Discord</a>|
-                                <a href="#" target="_blank">Twitter</a>|
-                                <a href="#" target="_blank">Telegram</a>
+                                <a href="https://twitter.com/SuperPumpFun" target="_blank">Twitter</a>|
+                                <a href="https://t.me/SuperPumpOfficial" target="_blank">Telegram</a>
                             </div>
                             <p style={{margin:"auto", justifySelf:"flex-end", fontSize:"0.8rem"}}> &copy; SuperPump 2024 | All rights reserved</p>
                     </div>

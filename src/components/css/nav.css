@@ -25,6 +25,7 @@ nav{
 .search-bar,.search-bar-m{
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 .search-bar{
     margin-left: auto;

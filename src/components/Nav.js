@@ -5,15 +5,19 @@ import Search from "./images/search.png"
 import Wallet from "./images/wallet1.png";
 import Menu from "./images/menu.png";
 import { changeMobMen } from "./MobMenu";
-import { connect, showRef } from "./connection.js";
+import { connect, showRef, tokens } from "./connection.js";
 import { searchToken, f } from "./connection.js";
 import { notifContentAd, notifDisplayAd, updateHeading } from "./dataNotif.js";
+import SearchElement from "./searchElement.js";
 export var buttonName;
 
 const Nav=(props)=>{
     var searchBarRef = React.createRef();
 
     const [conBTNtext,updateConBtnText] = React.useState('Connect Wallet');
+    const [SearchBarOptions,showSearchBarOptions] = React.useState("none");
+    const [SearchItems,SetSearchItems] = React.useState([]);
+
     buttonName = updateConBtnText;
 
     function s(){
@@ -68,8 +72,22 @@ const Nav=(props)=>{
             }}>
                 <img src={Search}/>
             </div>
-            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address"></input> 
-            {/* <div style={{position:"absolute", height:"300px", background:"white", width:"100%",top:"10%", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}></div> */}
+            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address" onChange={(e)=>{
+                showSearchBarOptions("initial");
+                let tokenItem =[];
+                tokens.forEach(element => {
+                    if(element.name.toLowerCase().includes(e.target.value)){
+                        tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
+                    }
+                });
+                SetSearchItems(tokenItem);
+                if(e.target.value.length===0){
+                    showSearchBarOptions("none");
+                }
+            }}></input> 
+            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"white", width:"250px",top:"50px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
+                {SearchItems}
+            </div>
         </div>}
         <div className="connect-btn" style={{width:"200px"}} onClick={()=>{
             connect();

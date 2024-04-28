@@ -540,7 +540,7 @@ export const tradeFromHome = async (address)=>{
 }
 
 
-let tokens;
+export let tokens;
 
 window.addEventListener("load",async ()=>{
 
