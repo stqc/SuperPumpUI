@@ -30,7 +30,8 @@
     border-radius: 15px;
     background-color:  black;;
     cursor: pointer;
-    font-family: cyberPUNK;
+    font-family: punk2;
+    font-weight: 900;
 }
 @media (min-width:900px) {
     .mobile-menu{

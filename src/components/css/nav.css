@@ -49,10 +49,11 @@ nav{
 .search-bar-m>input{
     background-color: #000000;
     color: #828282;
+    font-family: punk2;
 }
 .search-bar-m>input,.search-bar>input::placeholder{
     color:#828282;
-    font-family: cyberPUNK;
+    font-family: punk2;
     font-size: 0.86rem;
 }
 .search-bar-m>input,.search-bar>input:focus{
@@ -77,7 +78,8 @@ nav{
     display: flex;
     gap: 10px;
     cursor: pointer;
-    font-family: cyberPUNK;
+    font-family: punk2;
+    font-weight: 900;
 }
 .notif{
     width: 100%;
