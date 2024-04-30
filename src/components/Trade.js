@@ -55,7 +55,8 @@ const Trade=()=>{
                     SetSearchItems(tokenItem);
 
             }} onChange={(e)=>{
-                showSearchBarOptions("initial");
+                
+
                 let tokenItem =[];
                 tokens.forEach(element => {
                     if(element.name.toLowerCase().includes(e.target.value)){
@@ -63,9 +64,14 @@ const Trade=()=>{
                     }
                 });
                 SetSearchItems(tokenItem);
-                if(e.target.value.length===0){
+
+                if(e.target.value.length===0 || e.target.value.length===42){
                     showSearchBarOptions("none");
+                }else{
+                    showSearchBarOptions("initial");
                 }
+                
+                
             }}></input>
             <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"white", width:"95%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
                 {SearchItems}
