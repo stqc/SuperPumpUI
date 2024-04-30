@@ -46,20 +46,12 @@ const Trade=()=>{
                 }}>
                     <img style={{margin:"100% 0%"}} src={Search}/>
             </div>
-            <input style={{height:"48px" ,width:"100%", fontFamily:"punk2"}} ref={searchBarRef} placeholder="Enter Token Address" onClick={()=>{
-                    showSearchBarOptions("initial");
-                    let tokenItem =[];
-                    tokens.forEach(element=>{
-                        tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
-                    })
-                    SetSearchItems(tokenItem);
-
-            }} onChange={(e)=>{
+            <input style={{height:"48px" ,width:"100%", fontFamily:"punk2"}} ref={searchBarRef} placeholder="Enter Token Address" onChange={(e)=>{
                 
 
                 let tokenItem =[];
                 tokens.forEach(element => {
-                    if(element.name.toLowerCase().includes(e.target.value)){
+                    if(element.name.toLowerCase().includes(e.target.value.toLocaleLowerCase())){
                         tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
                     }
                 });
