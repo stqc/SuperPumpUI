@@ -9,6 +9,7 @@ export var changeToken;
 export var updateTable;
 export var setCurrentSym;
 export var externalChangeDisplayDEX;
+export var currentTableData;
 
 const Trade=()=>{
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
@@ -28,6 +29,7 @@ const Trade=()=>{
     changeToken=updateTokenBal;
     setCurrentSym=updateSymbol;
     externalChangeDisplayDEX=changeDisplayDEX;
+    currentTableData=tableData;
     var TradeAmount = React.createRef();
     var searchBarRef = React.createRef();
 

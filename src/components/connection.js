@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { buttonName } from "./Nav";
-import { updateTable,changeToken,changeUSD, setCurrentSym, externalChangeDisplayDEX } from "./Trade";
+import { updateTable,changeToken,changeUSD, setCurrentSym, externalChangeDisplayDEX, currentTableData } from "./Trade";
 import { tradeStatus,foundPool, updateBal, manageSymbol } from "./Manage";
 import { notifContent,notifDisplay } from "./notification";
 import { notifContentAd,notifDisplayAd, updateHeading } from "./dataNotif";
@@ -296,7 +296,28 @@ export const swapToken= async(amount,action)=>{
         // if(currentSym!="USDT"){
         //     await router.methods.wrapAndBuy(pool._address,searchedAddress).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
         // }else{
+            var tok = new web3Handler.eth.Contract(IBEP20,searchedAddress);
+            let userBalance = await tok.methods.balanceOf(connectedAccounts[0]).call()/1e18;
+            let number = parseFloat(currentTableData.supply.replace(/,/g, ''));
             console.log(connectedAccounts[0])
+            let newusdc = parseFloat(currentTableData.usdinpool.replace(/,/g,""))+Number(amount);
+            console.log(newusdc)
+            let newPrice = parseFloat(currentTableData.tokeninpool,/,/g,"")/newusdc;
+            console.log(newPrice*amount,number)
+            console.log(userBalance,userBalance+newPrice*amount)
+            
+            if(newPrice*amount>(0.2*number)){
+
+                notifDisplayAd("flex")
+                notifContentAd("Transaction Might Fail as You Maybe Trying to Purchase more than 20% of the total supply (try a lower amount)");
+
+            }
+            else if(userBalance>(0.2*number) || userBalance+newPrice*amount>(0.2*number)){
+                notifDisplayAd("flex")
+                notifContentAd("Transaction Might Fail as You may already own 20% of the supply or will after the transaction (try a lower amount)");
+            }
+           
+
             
             await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
         // }
