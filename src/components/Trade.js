@@ -32,6 +32,8 @@ const Trade=()=>{
     var searchBarRef = React.createRef();
 
     React.useEffect(()=>{
+
+
     },[])
     
     return(
@@ -44,7 +46,15 @@ const Trade=()=>{
                 }}>
                     <img style={{margin:"100% 0%"}} src={Search}/>
             </div>
-            <input style={{height:"48px" ,width:"100%", fontFamily:"punk2"}} ref={searchBarRef} placeholder="Enter Token Address" onChange={(e)=>{
+            <input style={{height:"48px" ,width:"100%", fontFamily:"punk2"}} ref={searchBarRef} placeholder="Enter Token Address" onClick={()=>{
+                    showSearchBarOptions("initial");
+                    let tokenItem =[];
+                    tokens.forEach(element=>{
+                        tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
+                    })
+                    SetSearchItems(tokenItem);
+
+            }} onChange={(e)=>{
                 showSearchBarOptions("initial");
                 let tokenItem =[];
                 tokens.forEach(element => {

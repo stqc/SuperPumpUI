@@ -76,7 +76,6 @@ const Nav=(props)=>{
                 showSearchBarOptions("initial");
                 let tokenItem =[];
                 tokens.forEach(element => {
-                    console.log(element)
                     if(element.name.toLowerCase().includes(e.target.value)){
                         tokenItem.push(<SearchElement address={element.address} key={element.address} name={element.name} hideMain={showSearchBarOptions}/>)
                     }
