@@ -164,21 +164,23 @@ export const createToken = async(name,symbol,supply,tax,LP,image)=>{
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
-        notifDisplayAd('flex');
-        notifContentAd(`Token Created Successfully at Address: ${ad}`);
-        await updateHomePage(false)
-        searchToken(ad);
-
         const body = JSON.stringify({
-                                address:ad,
-                                image:image,
-                                name:name
-                            })
+            address:ad,
+            image:image,
+            name:name
+        })
         const options = {method:"POST",body:body,headers:{"Content-Type":"application/json"}}
 
         await fetch("https://superpumpbackend.vercel.app/insert_new_token",options).then(async e=>{
             e=await e.json()
         })
+
+        notifDisplayAd('flex');
+        notifContentAd(`Token Created Successfully at Address: ${ad}`);
+        await updateHomePage(false)
+        searchToken(ad);
+
+       
     }
 
 }
@@ -210,6 +212,8 @@ export const searchToken = async(address)=>{
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
+        let mc =  (await token.methods.totalSupply().call()/1e18* await pool.methods.USDPerToken().call()/1e18);
+
         var data = {
             poolad:pool._address,
             name: await token.methods.name().call(),
@@ -221,6 +225,8 @@ export const searchToken = async(address)=>{
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
             trade: await pool.methods.tradingEnabled().call(),
+            mc:mc
+
         }
         tokenName=data.name;
        
@@ -250,6 +256,8 @@ const updatePool=async()=>{
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
         var tkinpool= (Number(await token.methods.balanceOf(pool._address).call())/10**await(token.methods.decimals().call())).toLocaleString();
         var USDinpool = (Number(await(USD.methods.balanceOf(pool._address).call()))/1e18).toLocaleString(); 
+        let mc =  (await token.methods.totalSupply().call()/1e18* await pool.methods.USDPerToken().call()/1e18);
+
         var data = {
             poolad:pool._address,
             name: await token.methods.name().call(),
@@ -261,7 +269,7 @@ const updatePool=async()=>{
             buytax:await pool.methods.viewBuyTax().call()/10,
             saletax:await pool.methods.viewSellTax().call()/10,
             trade: await pool.methods.tradingEnabled().call(),
-      
+            mc:mc
         }
         tokenName=data.name;
         updateTable(data);
@@ -468,7 +476,7 @@ export const f=()=>{
             user_id:"SUPERPUMP",
             datafeed:Datafeed,
             disabled_features: ['use_localstorage_for_settings'],
-            interval:"1",
+            interval:"60",
             overrides: {
                 "paneProperties.background": "#000000",
                 "paneProperties.vertGridProperties.color": "#363c4e",

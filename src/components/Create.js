@@ -71,7 +71,7 @@ const Create = ()=>{
                         </div> */}
 
                         <div className="form-options">
-                            <p>Initial LP (>=1 FTM)</p>
+                            <p>Initial LP ({">"}=1 FTM)</p>
                             <input type="number" ref={LP}  placeholder="Amount of FTM to be added for LP" min="0" ></input>
                         </div>
 
