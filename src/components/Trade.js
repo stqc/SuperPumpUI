@@ -120,7 +120,7 @@ const Trade=()=>{
                             particular purpose. They are not intended to be and does not constitute financial advice, investment advice, trading advice or any other advice.
                             All Information is general in nature and is not specific to you the User or anyone else. </p>
                             <div className="links">
-                                <a href="#" target="_blank">Documentation</a>|
+                                <a href="https://superpump-fun.gitbook.io/superpump.fun/" target="_blank">Documentation</a>|
                                 <a href="https://twitter.com/SuperPumpFun" target="_blank">Twitter</a>|
                                 <a href="https://t.me/SuperPumpOfficial" target="_blank">Telegram</a>
                             </div>
