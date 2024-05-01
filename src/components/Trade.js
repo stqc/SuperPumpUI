@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/trade.css";
-import { ApproveToken, ApproveRouter, ApproveUSD, swapToken, searchToken,f,castVote, splitLP,tokens } from "./connection.js";
+import { ApproveToken, ApproveRouter, ApproveUSD, swapToken, searchToken,f,castVote, splitLP,tokens, getBalanceNoStr, searchedAddress, getBalanceETHnoSTR } from "./connection.js";
 import Search from "./images/search.png"
 import SearchElement from "./searchElement.js";
 
@@ -148,7 +148,10 @@ const Trade=()=>{
                 {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
                     <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
-                        {buyBtnClass==="selector-btn-buy"?<span id="balance">FTM Wallet Balance:{usdBal}</span> :<span id="balance">Token Wallet Balance:{tokenBal}</span> }
+                        {buyBtnClass==="selector-btn-buy"?<span id="balance">FTM Wallet Balance: {usdBal}</span> :<span id="balance">Token Wallet Balance: {tokenBal}</span> }
+                        <span style={{cursor:"pointer"}} id="balance" onClick={async()=>{
+                            buyBtnClass==="selector-btn-buy"?TradeAmount.current.value=await getBalanceETHnoSTR():TradeAmount.current.value=await getBalanceNoStr(searchedAddress);
+                        }}>MAX</span>
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">

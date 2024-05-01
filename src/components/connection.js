@@ -192,6 +192,15 @@ export const getBalance = async(address)=>{
     return (Number(await token.methods.balanceOf(connectedAccounts[0]).call())/10**await token.methods.decimals().call()).toLocaleString();
 }
 
+export const getBalanceNoStr = async(address)=>{
+    var token = new web3Handler.eth.Contract(IBEP20,address);
+    return (Number(await token.methods.balanceOf(connectedAccounts[0]).call())/10**await token.methods.decimals().call());
+}
+
+export const getBalanceETHnoSTR = async()=>{
+    return (Number(await web3Handler.eth.getBalance(connectedAccounts[0]))/10**18);
+}
+
 export const searchToken = async(address)=>{
     searchedAddress = address;
     try{changeToken(await getBalance(searchedAddress));}catch(e){}
