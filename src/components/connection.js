@@ -593,10 +593,38 @@ export let tokens;
 
 window.addEventListener("load",async ()=>{
 
+    const chainId = 250 // Polygon Mainnet
+
+   if (window.ethereum.networkVersion !== chainId) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: web3Handler.utils.toHex(chainId) }]
+        });
+        
+      } catch (err) {
+          // This error code indicates that the chain has not been added to MetaMask
+        if (err.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainName: 'Fantom Mainnet',
+                chainId: web3Handler.utils.toHex(chainId),
+                nativeCurrency: { name: 'FTM', decimals: 18, symbol: 'FTM' },
+                rpcUrls: ['https://rpc.ftm.tools']
+              }
+            ]
+          });
+        }
+      }
+    }
+
     fetch("https://superpumpbackend.vercel.app/get_all_tokens").then(async e=>{
         tokens = await e.json()
 
         console.log(tokens)
     })
+
 
 })
