@@ -48,6 +48,8 @@ export const connect= async ()=>{
             changeUSD(
                 
             (await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
+            changeToken(await getBalance(searchedAddress));
+
         // }else{
         //     if(currentSym=="WBNB"){
         //          console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
@@ -275,6 +277,15 @@ const updatePool=async()=>{
         updateTable(data);
         // tradeStatus(data.trade);
 
+        try{
+
+            changeUSD((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
+            changeToken(await getBalance(searchedAddress));
+            
+        }
+        catch(e){
+
+        }
     }
 }
 
