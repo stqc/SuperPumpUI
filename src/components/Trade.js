@@ -23,6 +23,8 @@ const Trade=()=>{
     const [displayDEX,changeDisplayDEX] = React.useState(false);
     const [SearchBarOptions,showSearchBarOptions] = React.useState("none");
     const [SearchItems,SetSearchItems] = React.useState([]);
+    const [estimatedToken,updateEstimatedTokens] = React.useState(0);
+    const [estimatedFTM,updateEstimatedFTM] = React.useState(0);
 
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
@@ -146,12 +148,20 @@ const Trade=()=>{
                     </div>
                 </div>}
                 {tableData.trade && <div className="buy-sell" style={{flexDirection:"column", marginTop:"2%"}}>
-                    <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0"></input>
+                    <input placeholder="Enter Amount" ref={TradeAmount} type="number" min="0" onChange={()=>{
+                        buyBtnClass==="selector-btn-buy"?
+                        updateEstimatedTokens(TradeAmount.current.value*tableData.tokenperusdc):
+                        updateEstimatedFTM(TradeAmount.current.value*tableData.usdcpertoken)
+                    }}></input>
                     <div style={{display:"flex", justifyContent:"space-between"}}>
                         {buyBtnClass==="selector-btn-buy"?<span id="balance">FTM Wallet Balance: {usdBal}</span> :<span id="balance">Token Wallet Balance: {tokenBal}</span> }
                         <span style={{cursor:"pointer"}} id="balance" onClick={async()=>{
                             buyBtnClass==="selector-btn-buy"?TradeAmount.current.value=await getBalanceETHnoSTR():TradeAmount.current.value=await getBalanceNoStr(searchedAddress);
                         }}>MAX</span>
+                    </div>
+                    <div style={{display:"flex", justifyContent:"space-between"}}>
+                        {buyBtnClass==="selector-btn-buy"?<span id="balance">Estimated Tokens Received: {estimatedToken}</span> :<span id="balance">Estimated FTM Received: {estimatedFTM}</span> }
+                        
                     </div>
                 </div>}
                 {tableData.trade && <div className="confirmation">

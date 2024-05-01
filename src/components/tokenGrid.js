@@ -51,12 +51,12 @@ export default function TokenGrid(props){
         overflow: "hidden",
         outline: "none",
         zIndex: "0",
-        transform: "skewX(-30deg)",
+        // transform: "skewX(-30deg)",
         fontFamily:"punk2",
-        textShadow:"-5px 2px black",
+        // textShadow:"-5px 2px black",
         fontWeight:"500",
         
-        boxShadow:"8px 8px white",
+        // boxShadow:"8px 8px white",
         marginBottom:"10px"
     }}
 >
