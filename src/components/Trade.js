@@ -91,7 +91,7 @@ const Trade=()=>{
                 </div>
 
                     {displayDEX && <>
-                   <p style={{fontSize:"0.8rem",fontFamily:"punk2", color:"green"}}> *Once the value of a token hits a market cap of 10 FTM, you may split the LP (allowed once).</p>
+                   <p style={{fontSize:"0.8rem",fontFamily:"punk2", color:"green"}}> *Once the value of a token hits a market cap of 50,000 FTM, you may split the LP (allowed once).</p>
                     <select className="sort-selector" onChange={(e)=>{
                         changeSelectedDEX(e.target.value==="SpookySwap"?0:1);
                     }}>

@@ -76,7 +76,7 @@ const Create = ()=>{
                         </div>
 
                         <div className="form-options">
-                            <p>*Token Creation has a fee of 1FTM (IN TESTING)</p>
+                            <p>*Token Creation has a fee of 10FTM</p>
                         </div>
                         <div className="confirmation" style={{marginTop:"auto"}}>
                         {/* <div onClick={()=>{

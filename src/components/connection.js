@@ -14,7 +14,7 @@ export var pool;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
-export const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://rpc.testnet.fantom.network")
+export const web3Handler = window.ethereum?new Web3(window.ethereum):new Web3("https://rpc.ftm.tools")
 
 var connectedAccounts;
 var poolAddress;
@@ -27,8 +27,8 @@ const PoolABI = require("./ABI/Pool.json");
 const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
 
-var USD = new web3Handler.eth.Contract(IBEP20,"0xebbD2d79e857CA521293802427B334C08E44b84e");
-export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x72BE71d60876a25Baa4b81e679508D217E3f012D");
+var USD = new web3Handler.eth.Contract(IBEP20,"0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83");
+export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051");
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -147,7 +147,7 @@ export const createToken = async(name,symbol,supply,tax,LP,image)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x5a4c1B3956f482a0d890A9c524570E92C66dD1E2");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x61469077Bd214FC0818B11182506F0E78c3efE8B");
         // console.log(wallets,additionalTaxes,pair)
         // if(additionalTaxes.length>0){
         //     for(var i=0; i<additionalTaxes.length; i++){
@@ -160,7 +160,7 @@ export const createToken = async(name,symbol,supply,tax,LP,image)=>{
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         // console.log(additionalTaxes,wallets,pair)
         
-        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+10).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
@@ -229,7 +229,7 @@ export const searchToken = async(address)=>{
         updateTable(data);
         // tradeStatus(data.trade);
         await f();
-        let ben = await token.methods.getOwner().call();
+        let ben = await pool.methods.beneficieryAddress().call();
         console.log(ben)
         ben==connectedAccounts[0]?externalChangeDisplayDEX(true):externalChangeDisplayDEX(false);
 }
