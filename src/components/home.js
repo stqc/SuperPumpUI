@@ -80,7 +80,7 @@ export default function HomePage(){
 
     return(
         <>
-        <div>
+        {/* <div>
           <div className="banner">
             <div className='banner-main' style={{height:"1000px", width:"500px", position:"absolute", marginTop:"10%", zIndex:"99", marginLeft:"100px"}}>
           <img height={"100%"} width={"100%"}
@@ -96,7 +96,7 @@ export default function HomePage(){
           <div className="banner-content">
           </div>
         </div>
-      </div>
+      </div> */}
       <div className='sort'>
           <div>
             <h3>{currentName}</h3>
