@@ -76,7 +76,7 @@ export default function HomePage(){
           let newData=[]
           data.forEach(element => {
             newData.push(
-              <TokenGrid key={element.address} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter}/>
+              <TokenGrid key={element.address} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter} ftm={ftmPrice}/>
             )
           });
     
