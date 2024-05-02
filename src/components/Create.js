@@ -15,6 +15,9 @@ const Create = ()=>{
     const [pairedWith,updatePair]=React.useState(null);
     const [taxes,updateTax] = React.useState(false);
     const [previewImage,SetPreviewImage] = React.useState("");
+    const [twitter,setTwitter] = React.useState();
+    const [telegram,setTelegram] = React.useState();
+
     function s(){
         document.getElementById("crt").style.width="0";
         tokenName.current.value=null;
@@ -41,6 +44,18 @@ const Create = ()=>{
                         <div className="form-options">
                             <p>Token Symbol/Ticker</p>
                             <input  placeholder="Enter Token Symbol/Ticker" ref={symbol}></input>
+                        </div>
+                        <div className="form-options">
+                            <p>X (Twitter)</p>
+                            <input  placeholder="Enter Your X Profile Handle" onChange={(e)=>{
+                                setTwitter(e.target.value);
+                            }}></input>
+                        </div>
+                        <div className="form-options">
+                            <p>Telegram</p>
+                            <input  placeholder="Enter Your X Profile Handle" onChange={(e)=>{
+                                setTelegram(e.target.value);
+                            }}></input>
                         </div>
                         <div className="form-options" style={{display:"flex", flexDirection:"row", gap:"50px"}}>
                             <div  style={{width:"100%"}}>
@@ -91,7 +106,7 @@ const Create = ()=>{
                         
                         <div onClick={async ()=>{
                             console.log(wallets,Taxes)
-                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,taxes,LP.current.value,BuyTax.current.value);
+                            createToken(tokenName.current.value,symbol.current.value,supply.current.value,taxes,LP.current.value,BuyTax.current.value,telegram,twitter);
                             
                             
                         }}>

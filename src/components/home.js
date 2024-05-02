@@ -35,7 +35,7 @@ export default function HomePage(){
           
             // console.log(price)
             newData.push(
-              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} />
+              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter} />
             )
           });
     
@@ -63,7 +63,7 @@ export default function HomePage(){
           let newData=[]
           data.forEach(element => {
             newData.push(
-              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image}/>
+              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter}/>
             )
           });
     

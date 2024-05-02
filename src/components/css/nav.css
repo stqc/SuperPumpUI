@@ -9,17 +9,16 @@ nav{
 }
 
 .option{
-    color: #828282;
+    color: white;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
+    font-weight: 800;
+    font-size: 1rem;
     line-height: 24px;
     text-align: center;
     /* margin-left: 1%; */
     cursor: pointer;
-    font-family: cyberPUNK;
-    font-size: 0.85rem;
+    font-family: punk2;
 }
 
 .search-bar,.search-bar-m{

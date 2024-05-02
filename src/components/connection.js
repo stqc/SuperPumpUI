@@ -145,7 +145,7 @@ export const splitLP = async(dex)=>{
 }
 
 
-export const createToken = async(name,symbol,supply,tax,LP,image)=>{
+export const createToken = async(name,symbol,supply,tax,LP,image,telegram,twitter)=>{
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
@@ -169,7 +169,9 @@ export const createToken = async(name,symbol,supply,tax,LP,image)=>{
         const body = JSON.stringify({
             address:ad,
             image:image,
-            name:name
+            name:name,
+            telegram:telegram,
+            twitter:twitter
         })
         const options = {method:"POST",body:body,headers:{"Content-Type":"application/json"}}
 
