@@ -42,18 +42,18 @@ export default function TokenGrid(props){
                 window.open("https://ftmscan.com/address/"+owner)
             }}>{owner}.....  </h5>
 
-            <div style={{display:"flex"}}>
+            <div style={{display:"flex",gap:"20px",width:"100%",justifyContent:"center"}}>
                {props.tg && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
                     window.open(props.tg)
                 }}>
                     <img width="100%" height="100%" src="https://img.icons8.com/color/48/telegram-app--v1.png" alt="telegram-app--v1"/>
                 </div>}
-               {props.twitter && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
+               {props.twitter && <div style={{height:"25px", width:"25px"}} onClick={()=>{
                     window.open("https://twitter.com/"+props.twitter)
                 }}>
                     <img width="100%" height="100%" src="https://img.icons8.com/fluency/48/twitterx--v1.png" alt="twitterx--v1"/>
                 </div>}
-                {props.address && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
+                {props.address && <div style={{height:"25px", width:"25px"}} onClick={()=>{
                     window.open("https://ftmscan.com/token/"+props.address)
                 }}>
                     <img width="100%" height="100%" src="https://cryptologos.cc/logos/fantom-ftm-logo.png?v=032" alt="ftm--v1"/>
