@@ -35,16 +35,16 @@ export default function TokenGrid(props){
             <h5 style={{margin:0}}>Market Cap</h5>
             <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{(currentPrice*currentSupply).toLocaleString()} FTM</h5>
             <div style={{display:"flex"}}>
-                <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
+               {props.tg && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
                     window.open(props.tg)
                 }}>
                     <img width="100%" height="100%" src="https://img.icons8.com/color/48/telegram-app--v1.png" alt="telegram-app--v1"/>
-                </div>
-                <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
+                </div>}
+               {props.twitter && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
                     window.open("https://twitter.com/"+props.twitter)
                 }}>
                     <img width="100%" height="100%" src="https://img.icons8.com/fluency/48/twitterx--v1.png" alt="twitterx--v1"/>
-                </div>
+                </div>}
                 
             </div>
 
