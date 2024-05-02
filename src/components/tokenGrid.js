@@ -24,10 +24,14 @@ export default function TokenGrid(props){
 
     return(
         <div className="popular-token">
-            <div style={{height:"100px", width:"100px"}}>
+            <div style={{height:"100px", width:"100px"}} onClick={()=>{
+                tradeFromHome(props.address);
+            }}>
                 <img src={props.image} alt="token-image" height={"100%"} width={"100%"}/>
             </div>
-            <h4>{props.name}</h4>
+            <h4 onClick={()=>{
+                tradeFromHome(props.address);
+            }}>{props.name}</h4>
             <h5 style={{margin:0}}>Total Supply</h5>
             <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{currentSupply.toLocaleString()}</h5>
             <h5 style={{margin:0}}>Current Price:</h5>
