@@ -53,13 +53,13 @@ changeMobMen=changeMob;
                 Create Token
             </div>
             
-            {/* <div style={{margin:"5%", fontWeight:900, color:"black", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
-                // showRef();
+            <div style={{margin:"5%", fontWeight:900, color:"black", fontSize:"1.8rem", cursor:"pointer"}} onClick={()=>{
+                showRef();
                 changeMob('-2000px')
                 
             }}>
                 <span style={{color:"#1969FF"}}>Super</span>Pump Referrals
-            </div> */}
+            </div>
             <div className="connect-btn-mob" onClick={()=>{
                 connect();
                 changeMob('-2000px')

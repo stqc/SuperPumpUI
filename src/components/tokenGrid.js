@@ -7,6 +7,7 @@ export default function TokenGrid(props){
 
     const [currentPrice,updatePrice] = React.useState(0);
     const [currentSupply,updateSupply] =React.useState(0);
+    const [owner,updateOwner] = React.useState();
 
     React.useEffect(()=>{
         const x = async()=>{
@@ -16,8 +17,10 @@ export default function TokenGrid(props){
             let price = await pool_.methods.USDPerToken().call()/1e18 ;
             let token = new web3Handler.eth.Contract(IBEP20,props.address);
             let supply = await token.methods.totalSupply().call()/1e18;
+            let owner = await pool_.methods.beneficieryAddress().call();
             updatePrice(price);
             updateSupply(supply);
+            updateOwner(owner);
         }
         x();
     })
@@ -32,12 +35,13 @@ export default function TokenGrid(props){
             <h4 onClick={()=>{
                 tradeFromHome(props.address);
             }}>{props.name}</h4>
-            <h5 style={{margin:0}}>Total Supply</h5>
-            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{currentSupply.toLocaleString()}</h5>
-            <h5 style={{margin:0}}>Current Price:</h5>
-            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{currentPrice} FTM</h5>
             <h5 style={{margin:0}}>Market Cap</h5>
-            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{(currentPrice*currentSupply).toLocaleString()} FTM</h5>
+            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>$ {(currentPrice*currentSupply*props.ftm).toLocaleString()}</h5>
+            <h5 style={{margin:0}}>Creator Wallet</h5>
+            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)", maxWidth:"100px",overflowX:"hidden", boxShadow:" 0px 0px 10px 1px white", cursor:"pointer", clipPath:"inset(0px -10px 0px -10px)", borderRadius:"10px"}} onClick={()=>{
+                window.open("https://ftmscan.com/address/"+owner)
+            }}>{owner}.....  </h5>
+
             <div style={{display:"flex"}}>
                {props.tg && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
                     window.open(props.tg)
@@ -48,6 +52,11 @@ export default function TokenGrid(props){
                     window.open("https://twitter.com/"+props.twitter)
                 }}>
                     <img width="100%" height="100%" src="https://img.icons8.com/fluency/48/twitterx--v1.png" alt="twitterx--v1"/>
+                </div>}
+                {props.address && <div style={{height:"25px", widoth:"25px"}} onClick={()=>{
+                    window.open("https://ftmscan.com/token/"+props.address)
+                }}>
+                    <img width="100%" height="100%" src="https://cryptologos.cc/logos/fantom-ftm-logo.png?v=032" alt="ftm--v1"/>
                 </div>}
                 
             </div>

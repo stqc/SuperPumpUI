@@ -7,14 +7,27 @@ export default function HomePage(){
     const [mainPageData,updateMainPageData] = React.useState([]);
     const [reveresData,updateReversedData] = React.useState([]);
     const [currentName,updateName] = React.useState("Popular Tokens")
-
+    const [ftmPrice,updateFTMPrice] = React.useState(0);
 
     React.useEffect(
         ()=>{
+
+          fetch("https://api.binance.com/api/v3/ticker/price?symbol=FTMUSDT").then(async e=>{
+          e =await e.json()
+          console.log(e.price)
+          await updateFTMPrice(e.price);
+          console.log(ftmPrice)
+          getTopTokens();
+            
+        }
+          )
+         
     
-         getTopTokens();
     
-        },[]
+        
+
+         
+        },[ftmPrice]
     
       )
     
@@ -35,7 +48,7 @@ export default function HomePage(){
           
             // console.log(price)
             newData.push(
-              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter} />
+              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter} ftm={ftmPrice}/>
             )
           });
     
@@ -63,7 +76,7 @@ export default function HomePage(){
           let newData=[]
           data.forEach(element => {
             newData.push(
-              <TokenGrid key={element.address_} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter}/>
+              <TokenGrid key={element.address} name={element.name} address={element.address} image={element.image} tg={element.telegram} twitter={element.twitter}/>
             )
           });
     

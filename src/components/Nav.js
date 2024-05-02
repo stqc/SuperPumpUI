@@ -61,11 +61,11 @@ const Nav=(props)=>{
         }}>
             How To Guide
         </div>
-        {/* <div className="option"  onClick={()=>{
+        <div className="option"  onClick={()=>{
             showRef();
         }}>
             SuperPump Referrals 
-        </div> */}
+        </div>
        { <div className="search-bar">
             <div style={{padding:"5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
