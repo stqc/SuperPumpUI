@@ -62,7 +62,7 @@ const Nav=(props)=>{
             How To Guide
         </div>
         {/* <div className="option"  onClick={()=>{
-            // showRef();
+            showRef();
         }}>
             SuperPump Referrals 
         </div> */}
@@ -72,7 +72,7 @@ const Nav=(props)=>{
             }}>
                 <img src={Search}/>
             </div>
-            <input style={{height:"48px" , width:"200px"}} ref={searchBarRef} placeholder="Enter Token Address" onChange={(e)=>{
+            <input style={{height:"48px" , width:"250px"}} ref={searchBarRef} placeholder="Enter Token Address or Name" onChange={(e)=>{
                 showSearchBarOptions("initial");
                 let tokenItem =[];
                 tokens.forEach(element => {
