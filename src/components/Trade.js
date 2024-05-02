@@ -69,7 +69,7 @@ const Trade=()=>{
                 
                 
             }}></input>
-            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"white", width:"95%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
+            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"#3a3a3a", borderRadius:"20px", border:"1px solid white", padding:"5px" ,  fontFamily:"punk2", width:"95%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
                 {SearchItems}
             </div>
         </div>
@@ -157,6 +157,9 @@ const Trade=()=>{
                         {buyBtnClass==="selector-btn-buy"?<span id="balance">FTM Wallet Balance: {usdBal}</span> :<span id="balance">Token Wallet Balance: {tokenBal}</span> }
                         <span style={{cursor:"pointer"}} id="balance" onClick={async()=>{
                             buyBtnClass==="selector-btn-buy"?TradeAmount.current.value=await getBalanceETHnoSTR():TradeAmount.current.value=await getBalanceNoStr(searchedAddress);
+                            buyBtnClass==="selector-btn-buy"?
+                            updateEstimatedTokens(TradeAmount.current.value*tableData.tokenperusdc):
+                            updateEstimatedFTM(TradeAmount.current.value*tableData.usdcpertoken)
                         }}>MAX</span>
                     </div>
                     <div style={{display:"flex", justifyContent:"space-between"}}>

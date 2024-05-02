@@ -53,7 +53,7 @@ const Create = ()=>{
                         </div>
                         <div className="form-options">
                             <p>Telegram</p>
-                            <input  placeholder="Enter Your X Profile Handle" onChange={(e)=>{
+                            <input  placeholder="Enter Your Telegram group URL" onChange={(e)=>{
                                 setTelegram(e.target.value);
                             }}></input>
                         </div>

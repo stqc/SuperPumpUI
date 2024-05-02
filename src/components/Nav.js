@@ -66,7 +66,7 @@ const Nav=(props)=>{
         }}>
             SuperPump Referrals 
         </div> */}
-       { !props.showHome && <div className="search-bar">
+       { <div className="search-bar">
             <div style={{padding:"5%", background:"#1969FF",cursor:"pointer", borderRadius:"15px 0px 0px 15px"}} onClick={async ()=>{
                 await searchToken(searchBarRef.current.value);
             }}>
@@ -85,7 +85,7 @@ const Nav=(props)=>{
                     showSearchBarOptions("none");
                 }
             }}></input> 
-            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"white", width:"250px",top:"50px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
+            <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"#3a3a3a",borderRadius:"20px", border:"1px solid white", padding:"5px" ,  fontFamily:"punk2", width:"100%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
                 {SearchItems}
             </div>
         </div>}

@@ -35,8 +35,8 @@ export const connect= async ()=>{
     
     await window.ethereum.request({method:"eth_requestAccounts"});
     connectedAccounts =await web3Handler.eth.getAccounts();
-    buttonName(connectedAccounts[0].slice(0,10)+"...");
-    changeBTNameMob(connectedAccounts[0].slice(0,10)+"...");
+    buttonName(connectedAccounts[0].slice(0,15)+"...");
+    changeBTNameMob(connectedAccounts[0].slice(0,15)+"...");
     notifDisplay('flex');
         notifContent(`Connected to ${connectedAccounts[0]}`);
         await new Promise(r => setTimeout(r, 2000));
@@ -628,5 +628,6 @@ window.addEventListener("load",async ()=>{
         console.log(tokens)
     })
 
+    connect();
 
 })

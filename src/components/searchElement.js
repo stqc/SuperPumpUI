@@ -4,12 +4,12 @@ import { searchToken } from "./connection";
 export default function SearchElement(props){
 
 return(
-    <div style={{display:"flex",borderBottom:"1px solid black", flexDirection:"column", cursor:"pointer"}} onClick={()=>{
+    <div style={{display:"flex",borderBottom:"1px solid white", flexDirection:"column", cursor:"pointer", color:"white",padding:"2px"}} onClick={()=>{
         searchToken(props.address);
         props.hideMain("none");
     }}>
-        <h4 style={{margin:"2px"}}>{props.name}</h4>
-        <h6 style={{margin:"2px"}}>{props.address}</h6>
+        <p style={{margin:"2px", fontWeight:"600", fontSize:"0.8rem"}}>{props.name}</p>
+        <p style={{margin:"2px", fontWeight:"600", fontSize:"0.8rem"}}>{props.address}</p>
     </div>
 )
 

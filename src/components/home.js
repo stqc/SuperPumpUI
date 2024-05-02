@@ -6,7 +6,7 @@ import { Factory, web3Handler } from "./connection";
 export default function HomePage(){
     const [mainPageData,updateMainPageData] = React.useState([]);
     const [reveresData,updateReversedData] = React.useState([]);
-    const [currentName,updateName] = React.useState("Popular token")
+    const [currentName,updateName] = React.useState("Popular Tokens")
 
 
     React.useEffect(
@@ -99,13 +99,13 @@ export default function HomePage(){
       </div> */}
       <div className='sort'>
           <div>
-            <h3>{currentName}</h3>
+            <h2 style={{fontFamily:"punk2"}}>{currentName}</h2>
           </div>
           <div style={{display:"flex", gap:"20px"}}>
               <div className='sort-options'>
-                <label>View By</label>
+                <label style={{fontFamily:"punk2", fontWeight:"700"}}>View By</label>
                 <select className='sort-selector' onChange={(e)=>{
-                  if(e.target.value=="New"){getNewTokens(); updateName("New tokens")}else{getTopTokens(); updateName("Popular tokens")}
+                  if(e.target.value=="New"){getNewTokens(); updateName("New Tokens")}else{getTopTokens(); updateName("Popular Tokens")}
                 }}>
                   <option>
                     Most Popular
@@ -116,7 +116,7 @@ export default function HomePage(){
                 </select>
               </div>
               <div className='sort-options'>
-                <label>Sort By</label>
+                <label style={{fontFamily:"punk2", fontWeight:"700"}}>Sort By</label>
                 <select className='sort-selector' onChange={(e)=>{
                     const dec = mainPageData;
                     const rev = reveresData;
