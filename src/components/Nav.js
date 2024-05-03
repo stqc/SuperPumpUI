@@ -81,7 +81,7 @@ const Nav=(props)=>{
                     }
                 });
                 SetSearchItems(tokenItem);
-                if(e.target.value.length===0){
+                if(e.target.value.length===0 || e.target.value.length===42){
                     showSearchBarOptions("none");
                 }
             }}></input> 

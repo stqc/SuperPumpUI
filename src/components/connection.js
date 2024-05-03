@@ -188,7 +188,6 @@ export const getBalanceETHnoSTR = async()=>{
 }
 
 export const searchToken = async(address)=>{
-    td=[]
     searchedAddress = address;
     try{changeToken(await getBalance(searchedAddress));}catch(e){}
     poolAddress=null;
@@ -444,6 +443,35 @@ export const f=()=>{
                 })
             }
 
+            let td=[]
+                // if(externalTradeData().length==0){
+                    for(let i=0; i<newd.length; i++){
+                        let time = new Date(newd[i].time);
+                        if(td.length===0){
+                            td.push(
+                                
+                                <div style={{color:"green"}}>
+                                    <p>{time.getDate()+"/"+time.getMonth()+"/"+time.getFullYear()+" "+time.getHours()+":"+time.getMinutes()}</p>
+                                    <p>{newd[i].close}</p>
+                                    <p>Buy</p>
+                                </div>
+                            )
+                    }
+                    else{
+                        td.push(
+                                
+                            <div style={{color:newd[i-1].close>newd[i].close?"red":"green"}}>
+                                <p>{time.getDate()+"/"+time.getMonth()+"/"+time.getFullYear()+" "+time.getHours()+":"+time.getMinutes()}</p>
+                                <p>{newd[i].close}</p>
+                                <p>{newd[i-1].close>newd[i].close?"Sell":"Buy"}</p>
+                            </div>
+                        )
+                    }
+                        
+                    }
+
+                    await externalUpdateTradeData(td.reverse())
+
          if(newd.length===periodParams.countBack){
             onHistoryCallback(newd,{noData:false});
            }else{
@@ -514,7 +542,6 @@ export const showRef=()=>{
     ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://superpump.fun/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
 }
 
-let td=[];
 window.addEventListener("load",async ()=>{
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",

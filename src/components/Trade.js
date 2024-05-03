@@ -58,7 +58,7 @@ const Trade=()=>{
                     <img style={{margin:"100% 0%"}} src={Search}/>
             </div>
             <input style={{height:"48px" ,width:"100%", fontFamily:"punk2"}} ref={searchBarRef} placeholder="Enter Token Address or Name" onChange={(e)=>{
-                
+                showSearchBarOptions("initial");
 
                 let tokenItem =[];
                 tokens.forEach(element => {
@@ -70,10 +70,7 @@ const Trade=()=>{
 
                 if(e.target.value.length===0 || e.target.value.length===42){
                     showSearchBarOptions("none");
-                }else{
-                    showSearchBarOptions("initial");
                 }
-                
                 
             }}></input>
             <div style={{display:SearchBarOptions,position:"absolute", height:"300px", background:"#3a3a3a", borderRadius:"20px", border:"1px solid white", padding:"5px" ,  fontFamily:"punk2", width:"95%",top:"70px", LEFT:"0", overflowY:"scroll",overflowX:"hidden"}}>
