@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { buttonName } from "./Nav";
-import { updateTable,changeToken,changeUSD, setCurrentSym, externalChangeDisplayDEX, currentTableData } from "./Trade";
+import { updateTable,changeToken,changeUSD, setCurrentSym, externalChangeDisplayDEX, currentTableData, externalTradeData, externalUpdateTradeData } from "./Trade";
 import { tradeStatus,foundPool, updateBal, manageSymbol } from "./Manage";
 import { notifContent,notifDisplay } from "./notification";
 import { notifContentAd,notifDisplayAd, updateHeading } from "./dataNotif";
@@ -42,19 +42,12 @@ export const connect= async ()=>{
         await new Promise(r => setTimeout(r, 2000));
         notifDisplay('none');
     console.log(connectedAccounts);
-    try{
-        // if(currentSym=="USDC.e"){
-            
+    try{            
             changeUSD(
                 
             (await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
             changeToken(await getBalance(searchedAddress));
 
-        // }else{
-        //     if(currentSym=="WBNB"){
-        //          console.log(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
-        //     changeUSD(await web3Handler.eth.getBalance(connectedAccounts[0])/1e18);
-        //     }    
         
     }catch(e){}
     try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
@@ -77,30 +70,31 @@ export const connect= async ()=>{
                 // }
             }catch(e){}
             try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
-            if(searchedAddress!=null){ 
-                console.log("e");
-                await updatePool();  
-                try{
-                changeToken(await getBalance(searchedAddress));}
-                catch(e){
-                    console.log(e);
-                }
-                // updateBal[1](await getBalance(searchedAddress))
-                var data = await pool.methods.showTradeData().call();
-                var newd=[]
-                for(var i=1; i<data.length; i++){
-                newd.push({
-                    time:Number(data[i][0])*1000,
-                    open:Number(data[i][1])/1e18,
-                    high:Number(data[i][3])/1e18,
-                    low:Number(data[i][2])/1e18,
-                    close:Number(data[i][4])/1e18,
-                    volume:Number(data[i][5])/1e18,
-                })
-            }
-                newd.reverse();
-                sub(newd[0]);
-            }
+            // if(searchedAddress!=null){ 
+            //     console.log("e");
+            //     await updatePool();  
+            //     try{
+            //     changeToken(await getBalance(searchedAddress));}
+            //     catch(e){
+            //         console.log(e);
+            //     }
+            //     // updateBal[1](await getBalance(searchedAddress))
+            //     var data = await pool.methods.showTradeData().call();
+            //     var newd=[]
+            //     for(var i=1; i<data.length; i++){
+            //     newd.push({
+            //         time:Number(data[i][0])*1000,
+            //         open:Number(data[i][1])/1e18,
+            //         high:Number(data[i][3])/1e18,
+            //         low:Number(data[i][2])/1e18,
+            //         close:Number(data[i][4])/1e18,
+            //         volume:Number(data[i][5])/1e18,
+            //     })
+                
+            // }   
+                // newd.reverse();
+            //     sub(newd[0]);
+            // }
              }
        );
     
@@ -150,21 +144,11 @@ export const createToken = async(name,symbol,supply,tax,LP,image,telegram,twitte
         alert("Please Connect Your Wallet First!");
     }else{
         var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x61469077Bd214FC0818B11182506F0E78c3efE8B");
-        // console.log(wallets,additionalTaxes,pair)
-        // if(additionalTaxes.length>0){
-        //     for(var i=0; i<additionalTaxes.length; i++){
-        //         try{
-        //         additionalTaxes[i]=Number(additionalTaxes[i].current.value)*10;}catch(e){}
-        //         try{wallets[i]=wallets[i].current.value;}catch(e){}
-        //     }
-        // }
         
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
-        // console.log(additionalTaxes,wallets,pair)
         
         await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+10).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
-        // console.log(additionalTaxes)
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         const body = JSON.stringify({
             address:ad,
@@ -204,6 +188,7 @@ export const getBalanceETHnoSTR = async()=>{
 }
 
 export const searchToken = async(address)=>{
+    td=[]
     searchedAddress = address;
     try{changeToken(await getBalance(searchedAddress));}catch(e){}
     poolAddress=null;
@@ -211,7 +196,6 @@ export const searchToken = async(address)=>{
     pool=null;
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         alert("Token Pool Doesn't Exist Yet");
-        // foundPool(false);
     }
     else{
         // foundPool(true);
@@ -251,6 +235,7 @@ export const searchToken = async(address)=>{
         let ben = await pool.methods.beneficieryAddress().call();
         console.log(ben)
         ben==connectedAccounts[0]?externalChangeDisplayDEX(true):externalChangeDisplayDEX(false);
+        // getLast20Tx();
 }
 
 
@@ -287,7 +272,7 @@ const updatePool=async()=>{
         tokenName=data.name;
         updateTable(data);
         // tradeStatus(data.trade);
-
+        // getLast20Tx();
         try{
 
             changeUSD((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());
@@ -529,7 +514,7 @@ export const showRef=()=>{
     ,connectedAccounts?<span style={{fontSize:"1.2rem"}}>You referral link is: <span style={{color:"#91E564",overflowWrap:"break-word"}}>https://superpump.fun/?ref={connectedAccounts[0]}</span></span>:<span>Please connect your wallet to find your referral link!</span>])
 }
 
-
+let td=[];
 window.addEventListener("load",async ()=>{
     const subscription = web3Handler.eth.subscribe(
         "newBlockHeaders",
@@ -557,8 +542,9 @@ window.addEventListener("load",async ()=>{
                 // updateBal[1](await getBalance(searchedAddress))
                 var data = await pool.methods.showTradeData().call();
                 var newd=[]
+
                 for(var i=1; i<data.length; i++){
-                newd.push({
+                await newd.push({
                     time:Number(data[i][0])*1000,
                     open:Number(data[i][1])/1e18,
                     high:Number(data[i][3])/1e18,
@@ -567,8 +553,41 @@ window.addEventListener("load",async ()=>{
                     volume:Number(data[i][5])/1e18,
                 })
             }
-                newd.reverse();
-                sub(newd[0]);
+                let td=[]
+                // if(externalTradeData().length==0){
+                    for(let i=0; i<newd.length; i++){
+                        let time = new Date(newd[i].time);
+                        if(td.length===0){
+                            td.push(
+                                
+                                <div style={{color:"green"}}>
+                                    <p>{time.getDate()+"/"+time.getMonth()+"/"+time.getFullYear()+" "+time.getHours()+":"+time.getMinutes()}</p>
+                                    <p>{newd[i].close}</p>
+                                    <p>Buy</p>
+                                </div>
+                            )
+                    }
+                    else{
+                        td.push(
+                                
+                            <div style={{color:newd[i-1].close>newd[i].close?"red":"green"}}>
+                                <p>{time.getDate()+"/"+time.getMonth()+"/"+time.getFullYear()+" "+time.getHours()+":"+time.getMinutes()}</p>
+                                <p>{newd[i].close}</p>
+                                <p>{newd[i-1].close>newd[i].close?"Sell":"Buy"}</p>
+                            </div>
+                        )
+                    }
+                        
+                    }
+
+                    await externalUpdateTradeData(td.reverse())
+
+
+            // }
+    
+            newd.reverse();
+            sub(newd[0]);
+
             }
              }
        );

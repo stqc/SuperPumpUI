@@ -10,6 +10,8 @@ export var updateTable;
 export var setCurrentSym;
 export var externalChangeDisplayDEX;
 export var currentTableData;
+export var externalTradeData;
+export var externalUpdateTradeData;
 
 const Trade=()=>{
     const [buyBtnClass,changeBuyClass]=React.useState('selector-btn-buy');
@@ -25,6 +27,7 @@ const Trade=()=>{
     const [SearchItems,SetSearchItems] = React.useState([]);
     const [estimatedToken,updateEstimatedTokens] = React.useState(0);
     const [estimatedFTM,updateEstimatedFTM] = React.useState(0);
+    const [tradeData,updateTradeData] = React.useState([])
 
     updateTable = changeTableData;
     changeUSD=updateUSDbal;
@@ -32,6 +35,10 @@ const Trade=()=>{
     setCurrentSym=updateSymbol;
     externalChangeDisplayDEX=changeDisplayDEX;
     currentTableData=tableData;
+    externalTradeData=()=>{
+        return tradeData
+    };
+    externalUpdateTradeData=updateTradeData;
     var TradeAmount = React.createRef();
     var searchBarRef = React.createRef();
 
@@ -75,8 +82,15 @@ const Trade=()=>{
         </div>
         <div className="trade-main">
             
-            <div className="chart" id="chrt">
+            <div className="latest-tx">
+                <div className="chart" id="chrt">
 
+                </div>
+                <div className="tx-data">
+                    <div style={{display:"flex",flexDirection:"column",maxHeight:"400px", overflowY:"scroll"}}>
+                        {tradeData}
+                    </div>
+                </div>
             </div>
             <div className="token-info">
                 <span className="title">Token Information Summary</span>
@@ -90,6 +104,7 @@ const Trade=()=>{
                    <div className="opt-parent"><div className="opt">Buy Tax</div><div className="ans">{tableData.buytax}%</div></div>
                    <div className="opt-parent"><div className="opt">Sale Tax</div><div className="ans">{tableData.saletax}%</div></div>
                    <div className="opt-parent"><div className="opt">Market Cap (in FTM)</div><div className="ans">{tableData.mc}</div></div>
+                   {/* <div className="opt-parent"><div className="opt">Links</div><div className="ans">{tableData.mc}</div></div> */}
                 </div>
 
                     {displayDEX && <>
