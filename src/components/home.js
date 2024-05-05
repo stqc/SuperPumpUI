@@ -12,6 +12,7 @@ export default function HomePage(){
     React.useEffect(
         ()=>{
 
+          try{
           fetch("https://api.binance.com/api/v3/ticker/price?symbol=FTMUSDT").then(async e=>{
           e =await e.json()
           console.log(e.price)
@@ -20,7 +21,10 @@ export default function HomePage(){
           getTopTokens();
             
         }
-          )
+          )}
+          catch(e){
+            getTopTokens();
+          }
          
     
     
