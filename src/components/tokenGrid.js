@@ -36,7 +36,7 @@ export default function TokenGrid(props){
                 tradeFromHome(props.address);
             }}>{props.name}</h4>
             <h5 style={{margin:0}}>Market Cap</h5>
-            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{props.ftm>0?"$":"FTM"} {(currentPrice*currentSupply*(props.ftm>0?props.ftm:1)).toLocaleString()}</h5>
+            <h5 style={{margin:"10px", color:"rgb(211, 211, 211)"}}>{"FTM"} {(currentPrice*currentSupply).toLocaleString()}</h5>
             <h5 style={{margin:0}}>Creator Wallet</h5>
             <h5 style={{margin:"10px", color:"rgb(211, 211, 211)", maxWidth:"100px",overflowX:"hidden", boxShadow:" 0px 0px 10px 1px white", cursor:"pointer", clipPath:"inset(0px -10px 0px -10px)", borderRadius:"10px"}} onClick={()=>{
                 window.open("https://ftmscan.com/address/"+owner)
