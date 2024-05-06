@@ -13,7 +13,7 @@ export default function HomePage(){
         ()=>{
 
           try{
-          fetch("https://api.binance.com/api/v3/ticker/price?symbol=FTMUSDT").then(async e=>{
+          fetch("https://api-gcp.binance.com/api/v3/ticker/price?symbol=FTMUSDT").then(async e=>{
           e =await e.json()
           console.log(e.price)
           await updateFTMPrice(e.price);

@@ -28,7 +28,7 @@ const BountyABI = require("./ABI/Bounty.json");
 const RouterABI = require("./ABI/router.json");
 
 var USD = new web3Handler.eth.Contract(IBEP20,"0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83");
-export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051");
+export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051"); //0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -143,11 +143,11 @@ export const createToken = async(name,symbol,supply,tax,LP,image,telegram,twitte
     if(!connectedAccounts){
         alert("Please Connect Your Wallet First!");
     }else{
-        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x61469077Bd214FC0818B11182506F0E78c3efE8B");
+        var TokenCr = new web3Handler.eth.Contract(TokenCreator,"0x61469077Bd214FC0818B11182506F0E78c3efE8B"); //0x61469077Bd214FC0818B11182506F0E78c3efE8B
         
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         
-        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+10).toString())});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         const body = JSON.stringify({
