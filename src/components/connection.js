@@ -147,7 +147,7 @@ export const createToken = async(name,symbol,supply,tax,LP,image,telegram,twitte
         
         ref===null?ref="0x0000000000000000000000000000000000000000":ref=ref;
         
-        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+1).toString())});
+        await TokenCr.methods.createSimpleToken(name,symbol,0,supply,tax,ref,Web3.utils.toWei(LP)).send({from:connectedAccounts[0],value:Web3.utils.toWei((Number(LP)+10).toString())});
         var ad=await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call();
         console.log(await TokenCr.methods.lastTkCreated(connectedAccounts[0]).call());
         const body = JSON.stringify({
