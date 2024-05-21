@@ -261,7 +261,7 @@ const updatePool=async()=>{
         let mc =  (await token.methods.totalSupply().call()/1e18* await pool.methods.USDPerToken().call()/1e18);
 
         var data = {
-            poolad:pool._address,
+            poolad:poolExec._address,
             name: await token.methods.name().call(),
             supply: (Number(await token.methods.totalSupply().call())/10**await token.methods.decimals().call()).toLocaleString(),
             tokeninpool: tkinpool,
