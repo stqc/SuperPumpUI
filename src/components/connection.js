@@ -11,6 +11,7 @@ const urlParams = new URLSearchParams(queryString);
 
 export let ref= urlParams.get('ref');
 export var pool;
+export var poolExec;
 export var searchedAddress;
 var tokenName;
 var Datafeed;
@@ -29,6 +30,7 @@ const RouterABI = require("./ABI/router.json");
 
 var USD = new web3Handler.eth.Contract(IBEP20,"0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83");
 export const Factory = new web3Handler.eth.Contract(FactoryABI,"0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051"); //0x1AcfB7a6abe647E9fCD0d2A1783a4C0c920E4051
+export const Factory2 =  new web3Handler.eth.Contract(FactoryABI,"0x6d0bF0FD7C5b902DC6b02508AdeFC31cA927858D"); 
 const router = new web3Handler.eth.Contract(RouterABI,"0x0B327771A7B85Ec4E2Ed78a8A09f6021891fAdf6")
 
 export const connect= async ()=>{
@@ -120,7 +122,7 @@ export const ApproveToken = async(addressToApprove,amount)=>{
         alert("Please Connect Your Wallet First!");
     }else{
         var token = new web3Handler.eth.Contract(IBEP20,searchedAddress);
-        await token.methods.approve(addressToApprove,Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
+        await token.methods.approve(poolExec._address,Web3.utils.toWei(amount)).send({from:connectedAccounts[0]});
         notifDisplay('flex');
         notifContent('Approval Successful!');
         await new Promise(r => setTimeout(r, 2000));
@@ -193,12 +195,15 @@ export const searchToken = async(address)=>{
     poolAddress=null;
     poolAddress = await Factory.methods.showPoolAddress(address).call();
     pool=null;
+    poolExec=null;
     if(poolAddress==="0x0000000000000000000000000000000000000000"){
         alert("Token Pool Doesn't Exist Yet");
     }
     else{
         // foundPool(true);
         pool = new web3Handler.eth.Contract(PoolABI,poolAddress);
+        let executionerAddress = await Factory2.methods.TokenToPool(searchedAddress).call();
+        poolExec = new web3Handler.eth.Contract(PoolABI,executionerAddress);
         var pairWith = await pool.methods.BaseAddress().call();
         console.log(pairWith);
         USD=new web3Handler.eth.Contract(IBEP20,pairWith);
@@ -211,7 +216,7 @@ export const searchToken = async(address)=>{
         let mc =  (await token.methods.totalSupply().call()/1e18* await pool.methods.USDPerToken().call()/1e18);
 
         var data = {
-            poolad:pool._address,
+            poolad:poolExec._address,
             name: await token.methods.name().call(),
             supply: (Number(await token.methods.totalSupply().call())/10**await token.methods.decimals().call()).toLocaleString(),
             tokeninpool: tkinpool,
@@ -333,7 +338,7 @@ export const swapToken= async(amount,action)=>{
            
 
             
-            await pool.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
+            await poolExec.methods.buyToken_Qdy(Web3.utils.toWei(amount)).send({from:connectedAccounts[0],value:Web3.utils.toWei(amount)});
         // }
         notifDisplay('flex');
         notifContent('Transaction Successful!');
@@ -347,7 +352,7 @@ export const swapToken= async(amount,action)=>{
         // if(currentSym!=="USDT"){
         //     await router.methods.sellAndUnwrap(pool._address,searchedAddress,amount).send({from:connectedAccounts[0]});
         // }else{
-            await pool.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
+            await poolExec.methods.sellToken_qLx(amount).send({from:connectedAccounts[0]});
         // }
         notifDisplay('flex');
         notifContent('Transaction Successful!');

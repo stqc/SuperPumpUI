@@ -83,11 +83,11 @@ const Trade=()=>{
                 <div className="chart" id="chrt">
 
                 </div>
-                <div className="tx-data">
+                {/* <div className="tx-data">
                     <div style={{display:"flex",flexDirection:"column",maxHeight:"400px", overflowY:"scroll"}}>
                         {tradeData}
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="token-info">
                 <span className="title">Token Information Summary</span>
@@ -101,6 +101,13 @@ const Trade=()=>{
                    <div className="opt-parent"><div className="opt">Buy Tax</div><div className="ans">{tableData.buytax}%</div></div>
                    <div className="opt-parent"><div className="opt">Sale Tax</div><div className="ans">{tableData.saletax}%</div></div>
                    <div className="opt-parent"><div className="opt">Market Cap (in FTM)</div><div className="ans">{tableData.mc}</div></div>
+                   <div className="opt-parent" style={{cursor:"pointer"}} onClick={()=>{
+                    window.open("https://dexscreener.com/fantom/"+tableData.poolad)
+                   }}><div className="opt">View On</div><div className="ans">
+                        <div style={{height:"70px",marginTop:"10px"}}>
+                            <img height={"100%"} src="https://d1k8z2xrei817b.cloudfront.net/images/logo/dex-screener-ai-4f0aca60.png"/>
+                        </div>
+                    </div></div>
                    {/* <div className="opt-parent"><div className="opt">Links</div><div className="ans">{tableData.mc}</div></div> */}
                 </div>
 
