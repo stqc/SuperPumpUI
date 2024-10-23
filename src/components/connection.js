@@ -233,12 +233,13 @@ export const searchToken = async(address)=>{
        
         try{updateBal[0]((await web3Handler.eth.getBalance(connectedAccounts[0])/1e18).toLocaleString());}catch(e){}
         try{updateBal[1]((await token.methods.balanceOf(connectedAccounts[0]).call()/1e18).toLocaleString());}catch(e){}
-        updateTable(data);
+        
         // tradeStatus(data.trade);
         await f();
         let ben = await pool.methods.beneficieryAddress().call();
         console.log(ben)
         ben==connectedAccounts[0]?externalChangeDisplayDEX(true):externalChangeDisplayDEX(false);
+        updateTable(data);
         // getLast20Tx();
 }
 

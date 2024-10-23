@@ -29,7 +29,7 @@ const Trade=()=>{
     const [estimatedFTM,updateEstimatedFTM] = React.useState(0);
     const [tradeData,updateTradeData] = React.useState([])
 
-    updateTable = changeTableData;
+    updateTable = changeTableData();
     changeUSD=updateUSDbal;
     changeToken=updateTokenBal;
     setCurrentSym=updateSymbol;
